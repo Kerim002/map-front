@@ -4,6 +4,7 @@ import { CreateAuthorityDialog } from "@/features/authority/dialog/create-author
 import { EditAuthorityDialog } from "@/features/authority/dialog/edit-authority-dialog";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
+import { SearchInput } from "@/shared/ui/search-input";
 import { TablePagination } from "@/shared/ui/table-pagination";
 import { useQuery } from "@tanstack/react-query";
 
@@ -21,13 +22,16 @@ export const AuthorityTable = () => {
     limit: 12,
   });
   return (
-    <div className="w-full p-2 rounded-md  border  overflow-auto scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-200 dark:scrollbar-track-neutral-800">
-      <div className="flex justify-end">
-        <CreateAuthorityDialog />
+    <div className="p-3">
+      <div className="w-full p-3 bg-white/5 space-y-2 rounded-2xl  border  overflow-auto scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-200 dark:scrollbar-track-neutral-800">
+        <div className="flex justify-between">
+          <SearchInput containerClassName="" />
+          <CreateAuthorityDialog />
+        </div>
+        <DataTable table={table} />
+        <TablePagination table={table} isFetching={isFetching} />
+        <EditAuthorityDialog />
       </div>
-      <DataTable table={table} />
-      <TablePagination table={table} isFetching={isFetching} />
-      <EditAuthorityDialog />
     </div>
   );
 };

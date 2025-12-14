@@ -19,3 +19,8 @@ interface PageBaseQuery {
   page: number;
   search?: string;
 }
+
+interface Geom {
+  lat: number;
+  lng: number;
+}

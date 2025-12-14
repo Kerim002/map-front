@@ -1,86 +1,95 @@
+import { useTheme } from "@/app/provider/theme-provider";
 import { Button } from "@/shared/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/shared/ui/sheet";
+import { Sheet, SheetContent, SheetFooter } from "@/shared/ui/sheet";
 
-import { Home, LandPlot, Map, Menu } from "lucide-react";
+import {
+  BadgeCheck,
+  Building,
+  Building2,
+  Home,
+  IdCard,
+  LandPlot,
+  Map,
+  Shield,
+} from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { SidebarSheetHeader } from "./sidebar-header";
+import { useTranslation } from "react-i18next";
 
 const routes = [
   {
     path: "/",
     icon: Home,
-    name: "Home",
+    name: "home",
   },
   {
     path: "/map",
     icon: Map,
-    name: "Map",
+    name: "map",
   },
   {
     path: "/company/1",
-    icon: LandPlot,
-    name: "Company",
+    icon: Building2,
+    name: "company",
   },
   {
     path: "/authority/1",
-    icon: LandPlot,
-    name: "Authority",
+    icon: IdCard,
+    name: "authority",
   },
   {
     path: "/building/1",
-    icon: LandPlot,
-    name: "Building",
+    icon: Building,
+    name: "building",
   },
   {
     path: "/ownership/1",
-    icon: LandPlot,
-    name: "Ownership",
+    icon: Shield,
+    name: "ownership",
   },
   {
     path: "/performance/1",
-    icon: LandPlot,
-    name: "Performance",
+    icon: BadgeCheck,
+    name: "performance",
   },
   {
     path: "/region/1",
     icon: LandPlot,
-    name: "Region",
+    name: "region",
   },
 ];
 
 export const SidebarSheet = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { isSidebarOpen, openSidebar } = useTheme();
+  const { t } = useTranslation();
+
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">
-          <Menu />
-        </Button>
-      </SheetTrigger>
+    <Sheet open={isSidebarOpen} onOpenChange={openSidebar}>
       <SheetContent className="w-80" side="left">
-        <SheetHeader>
-          <SheetTitle>Sidebar</SheetTitle>
-        </SheetHeader>
-        <div className="space-y-1 px-3">
-          {routes.map((item) => (
-            <Button
-              onClick={() => navigate(item.path)}
-              variant="ghost"
-              className={`w-full justify-start ${
-                pathname === item.path ? "bg-primary/10" : ""
-              }`}
-            >
-              <item.icon />
-              <p>{item.name}</p>
-            </Button>
-          ))}
+        <SidebarSheetHeader />
+        <div className="p-3">
+          <div className="space-y-1 p-3 rounded-2xl dark:bg-gray-800 border bg-white border-gray-200 dark:border-gray-700">
+            {routes.map((item) => (
+              <Button
+                onClick={() => {
+                  navigate(item.path);
+                  openSidebar(false);
+                }}
+                variant={pathname === item.path ? "soft" : "ghost"}
+                className={`w-full justify-start h-11 [&_svg:not([class*='size-'])]:size-5 ${
+                  pathname === item.path ? "" : ""
+                }`}
+              >
+                <item.icon size={20} />
+                <p>{t(item.name)}</p>
+              </Button>
+            ))}
+          </div>
         </div>
+
+        <SheetFooter className=""></SheetFooter>
       </SheetContent>
     </Sheet>
   );

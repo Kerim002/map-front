@@ -20,6 +20,14 @@ export type CompanyDto = {
   } | null;
   created_at: string;
   updated_at: null | string;
+  images: CompanyImageDto[] | null;
+};
+
+export type CompanyImageDto = {
+  id: string;
+  object_path: string;
+  bucket_name: string;
+  created_at: string;
 };
 
 export type CompanyPaginationDto = {

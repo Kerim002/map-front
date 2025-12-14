@@ -20,9 +20,17 @@ export type Company = {
   };
   createdAt: string;
   updatedAt: null | string;
+  images: CompanyImage[];
 };
 
 export type CompanyPagination = {
   data: Company[];
   pageInfo: PageInfo;
+};
+
+export type CompanyImage = {
+  id: string;
+  objectPath: string;
+  bucketName: string;
+  createdAt: string;
 };

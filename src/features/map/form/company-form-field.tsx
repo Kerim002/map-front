@@ -1,8 +1,11 @@
+import { companyApi } from "@/entities/company/api/company.api";
 import {} from "@/entities/region";
 import { useClickOutside } from "@/shared/hooks/use-click-outside";
+import { useDebounce } from "@/shared/hooks/use-debouncer";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
+import { useQuery } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useRef, useState } from "react";
 import { useEffect } from "react";
@@ -29,10 +32,10 @@ export const CompanyFormField = <T extends FieldValues>({
   const boxRef = useRef<HTMLInputElement>(null);
   const dropDownRef = useRef<HTMLDivElement>(null);
   useClickOutside([boxRef, dropDownRef], () => setIsOpen(false));
-  // const debounceText = useDebounce(search, 300);
-  // const { data: companyList } = useQuery(
-  //   companyApi.list({ limit: 10, page: 1, search: debounceText })
-  // );
+  const debounceText = useDebounce(search, 300);
+  const { data: companyList } = useQuery(
+    companyApi.list({ limit: 10, page: 1, search: debounceText })
+  );
 
   const selectedItem = form.watch(name);
   const handleSelect = ({
@@ -42,7 +45,6 @@ export const CompanyFormField = <T extends FieldValues>({
     id: string;
     companyName: string;
   }) => {
-    console.log(id, companyName);
     form.setValue(name, { id, name: companyName } as PathValue<T, Path<T>>);
     setSearch(companyName);
     setIsOpen(false);
@@ -68,7 +70,7 @@ export const CompanyFormField = <T extends FieldValues>({
         onClick={() => setIsOpen((prev) => !prev)}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="h-10"
+        className="h-10 bg-white"
       />
       <Button
         onClick={handleRemove}
@@ -90,10 +92,10 @@ export const CompanyFormField = <T extends FieldValues>({
           ref={dropDownRef}
           className="max-h-72  overflow-auto space-y-2 absolute left-0 right-0 top-16 border rounded-lg p-2 bg-white dark:bg-zinc-900 z-10"
         >
-          {/* {companyList?.list?.map((item) => (
+          {companyList?.data?.map((item) => (
             <p
               onClick={() =>
-                handleSelect({ id: item.id, companyName: item.type })
+                handleSelect({ id: item.id, companyName: item.name })
               }
               key={item.id}
               className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${
@@ -102,9 +104,9 @@ export const CompanyFormField = <T extends FieldValues>({
                   : ""
               }`}
             >
-              {item.type}
+              {item.name}
             </p>
-          ))} */}
+          ))}
         </div>
       )}
     </div>

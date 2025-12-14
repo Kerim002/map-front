@@ -2,8 +2,11 @@ import { useMapStore } from "@/entities/store/use-map-store";
 import { Input } from "@/shared/ui/input";
 import { Switch } from "@/shared/ui/switch";
 import { useEffect, useRef, useState } from "react";
+import { ToggleSidebar } from "../sidebar/toggle-sidebar";
+import { useTranslation } from "react-i18next";
 
 export const MapNavbar = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState<string>("");
   const [results, setResults] = useState<string[]>([]);
@@ -36,15 +39,16 @@ export const MapNavbar = () => {
   }, []);
 
   return (
-    <div className="w-full flex items-center justify-between">
+    <div className="fixed z-10 flex  gap-3 items-center px-3 left-0 right-0 top-0 justify-between h-14  backdrop-blur-md shadow-sm">
       <div className="flex items-center gap-2">
+        <ToggleSidebar />
         <div className="relative" ref={inputRef}>
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setOpen(true)}
             onBlur={() => setOpen(false)}
-            placeholder="Search..."
+            placeholder={t("search")}
             className="bg-white w-80 rounded-full"
           />
 
@@ -56,7 +60,7 @@ export const MapNavbar = () => {
                 : "opacity-0 -translate-y-2 invisible"
             }`}
           >
-            <div className="rounded-xl bg-white shadow-lg ring-1 ring-black/5 overflow-hidden">
+            <div className="rounded-xl bg-white dark:bg-background shadow-lg ring-1 ring-black/5 overflow-hidden">
               {results.length === 0 ? (
                 <div className="p-3 text-sm text-gray-400">No results</div>
               ) : (
@@ -64,7 +68,7 @@ export const MapNavbar = () => {
                   {results.map((item, i) => (
                     <li
                       key={i}
-                      className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-50 border-b last:border-b-0"
+                      className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 border-b last:border-b-0"
                       onMouseDown={() => {
                         setQuery(item);
                         setOpen(false);
@@ -80,9 +84,6 @@ export const MapNavbar = () => {
         </div>
       </div>
 
-      {/* <Button className="shadow-md shadow-neutral-500" variant="secondary">
-        Ammar
-      </Button> */}
       <Switch checked={isEditMap} onCheckedChange={toggleCursor} />
     </div>
   );

@@ -7,13 +7,18 @@ export const FacilityContract = z.object({
       name: z.string(),
       id: z.string(),
     })
-    .nullable(),
-
-  category: z
+    .optional(),
+  address: z.string().optional(),
+  company: z
     .object({
       name: z.string(),
       id: z.string(),
     })
-    .nullable(),
-  address: z.string().nullable(),
+    .optional(),
+  building: z
+    .object({
+      name: z.string(),
+      id: z.string(),
+    })
+    .optional(),
 });

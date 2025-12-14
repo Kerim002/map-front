@@ -70,7 +70,7 @@ export const RegionFormField = <T extends FieldValues>({
         onClick={() => setIsOpen((prev) => !prev)}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="h-10"
+        className="h-10 bg-white"
       />
       <Button
         onClick={handleRemove}

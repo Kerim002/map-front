@@ -1,5 +1,5 @@
-import type { Company } from "../../model/company";
-import type { CompanyDto } from "../dto/company-dto";
+import type { Company, CompanyImage } from "../../model/company";
+import type { CompanyDto, CompanyImageDto } from "../dto/company-dto";
 
 export const mapCompany = (dto: CompanyDto): Company => {
   return {
@@ -32,5 +32,16 @@ export const mapCompany = (dto: CompanyDto): Company => {
           type: "",
         },
     updatedAt: dto.updated_at,
+    images: dto.images?.map(mapCompanyImage) ?? [],
+  };
+};
+
+export const mapCompanyImage = (dto: CompanyImageDto): CompanyImage => {
+  const { bucket_name, created_at, id, object_path } = dto;
+  return {
+    bucketName: bucket_name,
+    createdAt: created_at,
+    id,
+    objectPath: object_path,
   };
 };

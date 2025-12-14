@@ -22,5 +22,7 @@ export default defineConfig({
             },
           }
         : undefined,
+
+    host: true,
   },
 });

@@ -43,16 +43,16 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0.98 0 248);
   --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
+  --card: oklch(0.98 0 248);
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.98 0 248);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --primary: oklch(70.5% 0.213 47.604);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.97 0 265);
+  --secondary-foreground: oklch(0.45 0.04 257);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
@@ -77,19 +77,19 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.21 0.03 265);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --primary: oklch(70.5% 0.213 47.604);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.37 0.03 260);
+  --secondary-foreground: oklch(0.87 0.01 258);
+  --muted: oklch(0.37 0.03 260);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.37 0.03 260);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
@@ -126,3 +126,22 @@
 .leaflet-container {
   z-index: 0 !important;
 }
+
+.dark .map-container-reverter .leaflet-tile {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3)
+    brightness(0.7);
+}
+
+.dark .leaflet-popup-content-wrapper,
+.dark .leaflet-popup-tip {
+  background: var(--background);
+}
+
+/* .map-container-default {
+  @apply filter brightness-[0] invert contrast-[0] hue-rotate-[0] saturate-[0] brightness-[0];
+} */
+
+/* .image-dark-inevert {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3)
+    brightness(0.7);
+} */

@@ -26,7 +26,7 @@ export const NameFormField = <T extends FieldValues>({
         <FormItem className="flex-1">
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} placeholder={`${name}`} />
+            <Input className="bg-white" {...field} placeholder={`${name}`} />
           </FormControl>
           <FormMessage />
         </FormItem>

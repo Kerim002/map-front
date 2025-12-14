@@ -10,10 +10,14 @@ import "leaflet/dist/leaflet.css";
 import { useMapStore } from "@/entities/store/use-map-store";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import L from "leaflet";
-import { AddFacility } from "@/features/map/sheet/add-facility";
+import { CreateFacilitySheet } from "@/features/map/sheet/create-facility-sheet";
 import { useQuery } from "@tanstack/react-query";
 import { locationQueries } from "../api/location.queries";
 import type { Location } from "../model/location";
+import useQueryParam from "@/shared/hooks/use-query-param";
+import { Button } from "@/shared/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   className?: string;
@@ -106,11 +110,17 @@ const MapFetcher = ({
 
 export const MapView = ({ className }: Props) => {
   const { isEditMap } = useMapStore();
+  const { t } = useTranslation();
+  const { setQuery } = useQueryParam();
+  const navigate = useNavigate();
   const [markerPos, setMarkerPos] = useState<L.LatLng | null>(null);
   const [fetchedMarkers, setFetchedMarkers] = useState<Location[]>([]);
-
   const handleMapClick = (pos: L.LatLng) => {
     setMarkerPos(pos);
+    setQuery([
+      { key: "lat", value: pos.lat },
+      { key: "lng", value: pos.lng },
+    ]);
   };
 
   return (
@@ -119,7 +129,7 @@ export const MapView = ({ className }: Props) => {
         center={[37.95, 58.38]}
         zoom={13}
         minZoom={7}
-        className="h-full w-full cursor-pointer"
+        className="h-full w-full cursor-pointer map-container-reverter"
         boxZoom={false}
         zoomControl={false}
         style={{ cursor: isEditMap ? "default" : "grab" }}
@@ -138,8 +148,24 @@ export const MapView = ({ className }: Props) => {
           <Marker key={item.id} position={[item.geom.lat, item.geom.lng]}>
             <Popup>
               <div>
-                <p>Company ID: {item.updatedAt}</p>
-                <p>Created at</p>
+                <p className="dark:text-gray-200">
+                  {t("name")}: {item.name}
+                </p>
+                <Button
+                  onClick={() =>
+                    setQuery([{ key: "location-id", value: item.id }])
+                  }
+                  className="w-full mb-3"
+                >
+                  {t("edit-location")}
+                </Button>
+                <Button
+                  // onClick={() => setQuery([{ key: "id", value: item.id }])}
+                  onClick={() => navigate(`/map/${item.id}`)}
+                  className="w-full"
+                >
+                  {t("view-detail")}
+                </Button>
               </div>
             </Popup>
           </Marker>
@@ -150,8 +176,10 @@ export const MapView = ({ className }: Props) => {
           <Marker icon={editMarkerIcon} position={markerPos}>
             <Popup>
               <div className="flex flex-col items-center gap-2">
-                <p className="text-sm">Add location here?</p>
-                <AddFacility />
+                <p className="dark:text-gray-200 text-sm">
+                  {t("add-location-here")}
+                </p>
+                <CreateFacilitySheet />
               </div>
             </Popup>
           </Marker>

@@ -20,6 +20,7 @@ export const BuildingTable = () => {
     hasPrevPage: data?.pageInfo.hasPreviousPage ?? false,
     limit: 12,
   });
+
   return (
     <div className="w-full p-2 rounded-md  border  overflow-auto scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-200 dark:scrollbar-track-neutral-800">
       <div className="flex justify-end">

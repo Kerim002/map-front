@@ -5,11 +5,13 @@ import { Form } from "@/shared/ui/form";
 import { Button } from "@/shared/ui/button";
 import { DialogClose } from "@/shared/ui/dialog";
 import { useRef } from "react";
-import { TypeFormField } from "./type-form-field";
 import { OwnershipContract } from "@/entities/ownership/contract/ownership.contract";
 import { useCreateRegion } from "../hooks/use-create-region";
+import { useTranslation } from "react-i18next";
+import { TypeFormField } from "@/shared/ui/type-form-field";
 
 export const CreateRegionForm = () => {
+  const { t } = useTranslation();
   const closeRef = useRef<HTMLButtonElement>(null);
   const form = useForm({
     resolver: zodResolver(OwnershipContract),
@@ -30,7 +32,7 @@ export const CreateRegionForm = () => {
           <TypeFormField form={form} name="type" />
         </div>
         <DialogClose ref={closeRef} />
-        <Button className="w-full mt-3">Create</Button>
+        <Button className="w-full mt-3">{t("create")}</Button>
       </form>
     </Form>
   );

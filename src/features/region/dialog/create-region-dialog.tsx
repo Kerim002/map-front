@@ -7,12 +7,14 @@ import {
   DialogTrigger,
 } from "@/shared/ui/dialog";
 import { CreateRegionForm } from "../form/create-region-form";
+import { useTranslation } from "react-i18next";
 
 export const CreateRegionDialog = () => {
+  const { t } = useTranslation();
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Create</Button>
+        <Button>{t("create")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogDescription hidden />

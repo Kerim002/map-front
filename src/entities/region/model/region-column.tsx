@@ -2,11 +2,17 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { Region } from "./region";
 
 import { RegionActionCell } from "@/features/region/ui/region-action-cell";
+import { useTranslation } from "react-i18next";
+import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 
 export const regionColumn: ColumnDef<Region>[] = [
   {
     accessorKey: "",
-    header: "Number",
+    id: "number",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("number")}</p>;
+    },
     cell: ({ row, table }) => {
       const { pageIndex, pageSize } = table.getState().pagination;
       return (
@@ -18,7 +24,10 @@ export const regionColumn: ColumnDef<Region>[] = [
   },
   {
     accessorKey: "type",
-    header: "Type",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("type")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
@@ -29,29 +38,42 @@ export const regionColumn: ColumnDef<Region>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Created at",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("created-at")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
-          <p>{row.original.createdAt}</p>
+          <p>{formatToDDMMYYYY(row.original.createdAt)}</p>
         </div>
       );
     },
   },
   {
     accessorKey: "updatedAt",
-    header: "Updated at",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("updated-at")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
-          <p>{row.original.updatedAt || "Not updated yet"}</p>
+          <p>
+            {row.original.updatedAt
+              ? formatToDDMMYYYY(row.original.updatedAt)
+              : "Not updated yet"}
+          </p>
         </div>
       );
     },
   },
   {
     accessorKey: "id",
-    header: "Action",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("action")}</p>;
+    },
     cell: ({ row }) => {
       return <RegionActionCell id={row.original.id} />;
     },

@@ -8,13 +8,15 @@ import { CreateCompanyContract } from "@/entities/company/contract/company.contr
 // import { useCreateCompany } from "../hooks/use-create-company";
 import type { CreateCompanyMutation } from "@/entities/company/contract";
 import { NameFormField } from "./name-form-field";
-import { RegionFormField } from "@/features/map/form/region-form-field";
+import { RegionFormField } from "@/features/facility/form/region-form-field";
 import { PerformanceFormField } from "./performance-form-field";
 import { OwnershipFormField } from "./ownership-form-field";
 import { AuthorityFormField } from "./authority-form-field";
 import { useCreateCompany } from "../hooks/use-create-company";
+import { useTranslation } from "react-i18next";
 
 export const CreateCompanyForm = () => {
+  const { t } = useTranslation();
   const closeRef = useRef<HTMLButtonElement>(null);
   const form = useForm({
     resolver: zodResolver(CreateCompanyContract),
@@ -49,7 +51,7 @@ export const CreateCompanyForm = () => {
           <AuthorityFormField form={form} label="Authority" name="authority" />
         </div>
         <DialogClose ref={closeRef} />
-        <Button className="w-full mt-3">Create</Button>
+        <Button className="w-full mt-3">{t("create")}</Button>
       </form>
     </Form>
   );

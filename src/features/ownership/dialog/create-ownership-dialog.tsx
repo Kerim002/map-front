@@ -7,12 +7,14 @@ import {
   DialogTrigger,
 } from "@/shared/ui/dialog";
 import { CreateOwnershipForm } from "../form/create-ownership-form";
+import { useTranslation } from "react-i18next";
 
 export const CreateOwnershipDialog = () => {
+  const { t } = useTranslation();
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>Create</Button>
+        <Button>{t("create")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogDescription hidden />

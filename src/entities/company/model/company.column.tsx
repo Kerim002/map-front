@@ -1,11 +1,16 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Company } from "./company";
 import { CompanyActionCell } from "@/features/company/ui/company-action-cell";
+import { useTranslation } from "react-i18next";
 
 export const companyColumn: ColumnDef<Company>[] = [
   {
     accessorKey: "",
-    header: "Number",
+    id: "index",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("number")}</p>;
+    },
     cell: ({ row, table }) => {
       const { pageIndex, pageSize } = table.getState().pagination;
       return (
@@ -18,7 +23,10 @@ export const companyColumn: ColumnDef<Company>[] = [
 
   {
     accessorKey: "name",
-    header: "Company name",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("name")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
@@ -29,7 +37,10 @@ export const companyColumn: ColumnDef<Company>[] = [
   },
   {
     accessorKey: "ownership",
-    header: "Company ownership",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("ownership")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
@@ -40,7 +51,10 @@ export const companyColumn: ColumnDef<Company>[] = [
   },
   {
     accessorKey: "region",
-    header: "Company region",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("region")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
@@ -51,7 +65,10 @@ export const companyColumn: ColumnDef<Company>[] = [
   },
   {
     accessorKey: "id",
-    header: "Action",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("action")}</p>;
+    },
     cell: ({ row }) => {
       return <CompanyActionCell id={row.original.id} />;
     },

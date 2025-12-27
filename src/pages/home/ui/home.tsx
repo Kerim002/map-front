@@ -147,7 +147,7 @@ export function Home() {
   const { t } = useTranslation();
 
   return (
-    <div className="pt-20 p-10 space-y-8 bg-background ">
+    <div className="p-10 space-y-8 bg-background ">
       <h1 className="text-4xl font-extrabold tracking-tight text-slate-50 flex items-center gap-3">
         <LayoutGrid className="h-8 w-8 text-blue-600" />
         {t("turkmenistan-cadastre-dashboard")}

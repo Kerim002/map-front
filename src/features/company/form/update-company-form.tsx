@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { companyApi } from "@/entities/company/api/company.api";
 import useQueryParam from "@/shared/hooks/use-query-param";
 import { NameFormField } from "./name-form-field";
-import { RegionFormField } from "@/features/map/form/region-form-field";
+import { RegionFormField } from "@/features/facility/form/region-form-field";
 import { PerformanceFormField } from "./performance-form-field";
 import { OwnershipFormField } from "./ownership-form-field";
 import { AuthorityFormField } from "./authority-form-field";

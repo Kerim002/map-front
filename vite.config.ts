@@ -24,5 +24,6 @@ export default defineConfig({
         : undefined,
 
     host: true,
+    port:5175
   },
 });

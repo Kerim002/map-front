@@ -2,7 +2,6 @@ import { useMapStore } from "@/entities/store/use-map-store";
 import { Input } from "@/shared/ui/input";
 import { Switch } from "@/shared/ui/switch";
 import { useEffect, useRef, useState } from "react";
-import { ToggleSidebar } from "../sidebar/toggle-sidebar";
 import { useTranslation } from "react-i18next";
 
 export const MapNavbar = () => {
@@ -39,9 +38,9 @@ export const MapNavbar = () => {
   }, []);
 
   return (
-    <div className="fixed z-10 flex  gap-3 items-center px-3 left-0 right-0 top-0 justify-between h-14  backdrop-blur-md shadow-sm">
+    <div className="sticky z-10 flex  gap-3 items-center px-3 left-0 right-0 top-0 justify-between h-14  backdrop-blur-md shadow-sm">
       <div className="flex items-center gap-2">
-        <ToggleSidebar />
+        {/* <SidebarTrigger/> */}
         <div className="relative" ref={inputRef}>
           <Input
             value={query}

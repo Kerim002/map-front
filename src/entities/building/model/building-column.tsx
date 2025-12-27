@@ -2,11 +2,16 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import type { Building } from "./building";
 import { BuildingActionCell } from "@/features/building/ui/building-action-cell";
+import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
+import { useTranslation } from "react-i18next";
 
 export const buildingColumn: ColumnDef<Building>[] = [
   {
-    accessorKey: "",
-    header: "Number",
+    id: "number",
+    header: () => {
+      const { t } = useTranslation();
+      return <div>{t("number")}</div>;
+    },
     cell: ({ row, table }) => {
       const { pageIndex, pageSize } = table.getState().pagination;
       return (
@@ -18,7 +23,11 @@ export const buildingColumn: ColumnDef<Building>[] = [
   },
   {
     accessorKey: "type",
-    header: "Type",
+    header: () => {
+      const { t } = useTranslation();
+
+      return <p>{t("type")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
@@ -29,18 +38,26 @@ export const buildingColumn: ColumnDef<Building>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Created at",
+    header: () => {
+      const { t } = useTranslation();
+
+      return <p>{t("created-at")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
-          <p>{row.original.createdAt}</p>
+          <p>{formatToDDMMYYYY(row.original.createdAt)}</p>
         </div>
       );
     },
   },
   {
     accessorKey: "updatedAt",
-    header: "Updated at",
+    header: () => {
+      const { t } = useTranslation();
+
+      return <p>{t("updated-at")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
@@ -51,7 +68,10 @@ export const buildingColumn: ColumnDef<Building>[] = [
   },
   {
     accessorKey: "id",
-    header: "Action",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("action")}</p>;
+    },
     cell: ({ row }) => {
       return <BuildingActionCell id={row.original.id} />;
     },

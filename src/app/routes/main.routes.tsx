@@ -10,13 +10,13 @@ import { Performance } from "@/pages/performance";
 import { Ownership } from "@/pages/ownership";
 import { Building } from "@/pages/building";
 import { Company } from "@/pages/company";
-import { SidebarProvider } from "../provider/sidebar-provider";
 import { FacilityPage } from "@/pages/facility";
+import { SidebarLayout } from "../layouts/sidebar-layout";
 
 const mainRoutes = createBrowserRouter([
   {
     path: "/",
-    element: <SidebarProvider />,
+    element: <SidebarLayout />,
     children: [
       {
         path: "/map",

@@ -28,7 +28,7 @@ export const DataTable = <T,>({
   const rowLength = table?.getAllColumns()?.length ?? 0;
 
   return (
-    <div className="bg-white dark:bg-white/10 p-3 rounded-2xl ">
+    <div className="bg-white mt-2 dark:bg-white/10 p-3 rounded-2xl ">
       <Table className="w-full  h-full relative">
         <TableHeader>
           {table.getHeaderGroups().map((hg) => (

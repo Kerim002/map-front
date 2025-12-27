@@ -2,11 +2,16 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import type { Performance } from "./performance";
 import { PerformanceActionCell } from "@/features/performance/ui/performance-action-cell";
+import { useTranslation } from "react-i18next";
+import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 
 export const performanceColumn: ColumnDef<Performance>[] = [
   {
-    accessorKey: "",
-    header: "Number",
+    id: "number",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("number")}</p>;
+    },
     cell: ({ row, table }) => {
       const { pageIndex, pageSize } = table.getState().pagination;
       return (
@@ -18,7 +23,10 @@ export const performanceColumn: ColumnDef<Performance>[] = [
   },
   {
     accessorKey: "type",
-    header: "Type",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("type")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
@@ -29,29 +37,42 @@ export const performanceColumn: ColumnDef<Performance>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Created at",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("created-at")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
-          <p>{row.original.createdAt}</p>
+          <p>{formatToDDMMYYYY(row.original.createdAt)}</p>
         </div>
       );
     },
   },
   {
     accessorKey: "updatedAt",
-    header: "Updated at",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("updated-at")}</p>;
+    },
     cell: ({ row }) => {
       return (
         <div>
-          <p>{row.original.updatedAt || "Not updated yet"}</p>
+          <p>
+            {row.original.updatedAt
+              ? formatToDDMMYYYY(row.original.updatedAt)
+              : "Not updated yet"}
+          </p>
         </div>
       );
     },
   },
   {
     accessorKey: "id",
-    header: "Action",
+    header: () => {
+      const { t } = useTranslation();
+      return <p>{t("action")}</p>;
+    },
     cell: ({ row }) => {
       return <PerformanceActionCell id={row.original.id} />;
     },

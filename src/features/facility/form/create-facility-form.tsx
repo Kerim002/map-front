@@ -39,16 +39,31 @@ export const CreateFacilityForm = () => {
   };
   return (
     <Form {...form}>
-      <form className="p-4 pt-10" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="space-y-4">
-          <NameFormField form={form} label="Location name" name="name" />
-          <CompanyFormField form={form} label="Company" name="company" />
-          <BuildingpFormField form={form} label="Building" name="building" />
-          <RegionFormField form={form} label="Region" name="region" />
-          <TextAreaFormField form={form} label="Adress" name="address" />
-          <Button>Create</Button>
-          <SheetClose ref={closeRef} />
+      <form
+        className="flex flex-col h-full"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <div className="flex-1 space-y-6 p-6">
+          <div className="space-y-2 border-b pb-4 mb-4">
+            <h2 className="text-xl font-bold tracking-tight">Create Facility</h2>
+            <p className="text-sm text-muted-foreground">Fill in the details below to add a new facility to the system.</p>
+          </div>
+
+          <div className="space-y-4">
+            <NameFormField form={form} label="Location name" name="name" />
+            <CompanyFormField form={form} label="Company" name="company" />
+            <BuildingpFormField form={form} label="Building" name="building" />
+            <RegionFormField form={form} label="Region" name="region" />
+            <TextAreaFormField form={form} label="Address" name="address" />
+          </div>
         </div>
+
+        <div className="p-6 border-t bg-muted/30">
+          <Button className="w-full h-11 font-bold shadow-sm" type="submit">
+            Create Facility
+          </Button>
+        </div>
+        <SheetClose ref={closeRef} className="hidden" />
       </form>
     </Form>
   );

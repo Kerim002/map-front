@@ -123,7 +123,7 @@ export const MapView = ({ className }: Props) => {
   };
 
   return (
-    <div className={`w-full h-[calc(100dvh-56px)]  cursor-pointer z-0 ${className}`}>
+    <div className={`w-full h-full relative z-0 ${className}`}>
       <MapContainer
         center={[37.95, 58.38]}
         zoom={13}
@@ -134,9 +134,8 @@ export const MapView = ({ className }: Props) => {
         style={{ cursor: isEditMap ? "default" : "grab" }}
       >
         <TileLayer
-          url={`${
-            import.meta.env.VITE_MAP_URL
-          }/styles/test-style/{z}/{x}/{y}.png`}
+          url={`${import.meta.env.VITE_MAP_URL
+            }/styles/test-style/{z}/{x}/{y}.png`}
         />
         <ResizeMap />
         <MapInteractionController isEditMap={isEditMap} />
@@ -145,7 +144,7 @@ export const MapView = ({ className }: Props) => {
 
         {/* Markers from API */}
         {fetchedMarkers?.map((item) => (
-          <MapMarker  item={item} />
+          <MapMarker item={item} />
         ))}
 
         {/* Add new marker (edit mode) */}

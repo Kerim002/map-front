@@ -2,8 +2,6 @@ import { Button } from "@/shared/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogTitle,
   DialogTrigger,
 } from "@/shared/ui/dialog";
 import { CreateBuildingForm } from "../form/create-building-form";
@@ -16,9 +14,7 @@ export const CreateBuildingDialog = () => {
       <DialogTrigger>
         <Button className="mb-2">{t("create")}</Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogDescription hidden />
-        <DialogTitle hidden />
+      <DialogContent className="p-0 overflow-hidden sm:max-w-md">
         <CreateBuildingForm />
       </DialogContent>
     </Dialog>

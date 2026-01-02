@@ -25,12 +25,27 @@ export const CreateBuildingForm = () => {
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div>
-          <TypeFormField form={form} name="type" />
+      <form
+        className="flex flex-col"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <div className="space-y-6 p-6">
+          <div className="space-y-1 border-b pb-4 mb-4">
+            <h2 className="text-xl font-bold tracking-tight">Create Building</h2>
+            <p className="text-sm text-muted-foreground">Specify the building type to register a new structure.</p>
+          </div>
+
+          <div className="space-y-4">
+            <TypeFormField form={form} name="type" />
+          </div>
         </div>
-        <DialogClose ref={closeRef} />
-        <Button className="w-full mt-3">Create</Button>
+
+        <div className="p-6 border-t bg-muted/30">
+          <Button className="w-full h-11 font-bold shadow-sm" type="submit">
+            Create Building
+          </Button>
+        </div>
+        <DialogClose ref={closeRef} className="hidden" />
       </form>
     </Form>
   );

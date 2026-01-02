@@ -45,16 +45,16 @@ export const RegionFormField = <T extends FieldValues>({
     regionName: string;
   }) => {
     console.log(id, regionName);
-    form.setValue(name, { id, name: regionName } as PathValue<T, Path<T>>);
+    form.setValue(name, { id, type: regionName } as PathValue<T, Path<T>>);
     setSearch(regionName);
     setIsOpen(false);
   };
 
   useEffect(() => {
-    if (selectedItem) {
-      setSearch(selectedItem.name);
+    if (selectedItem?.id) {
+      setSearch(selectedItem.type);
     }
-  }, [selectedItem]);
+  }, [selectedItem?.id]);
 
   const handleRemove = () => {
     handleSelect({ regionName: "", id: "" });

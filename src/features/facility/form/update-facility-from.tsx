@@ -8,34 +8,61 @@ import { CompanyFormField } from "./company-form-field";
 import { BuildingpFormField } from "./building-form-field";
 import { TextAreaFormField } from "./textarea-form-field";
 import { NameFormField } from "@/features/company/form/name-form-field";
-import { useCreateFacility } from "../hook/use-create-facility";
 import useQueryParam from "@/shared/hooks/use-query-param";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Button } from "@/shared/ui/button";
 import { SheetClose } from "@/shared/ui/sheet";
+import { useQuery } from "@tanstack/react-query";
+import { facilityApi } from "@/entities/facility/api/facility.api";
+import { useUpdateFacilityPatch } from "../hook/use-update-facility-patch";
 export const UpdateFacilityForm = () => {
   const form = useForm({
     resolver: zodResolver(FacilityContract),
+    defaultValues: {
+      name: "",
+      address: "",
+      region: undefined,
+      company: undefined,
+      building: undefined,
+    },
   });
   const closeRef = useRef<HTMLButtonElement>(null);
-  const { getQuery, deleteQuery } = useQueryParam();
-  const { mutate } = useCreateFacility();
+  const { getQuery, } = useQueryParam();
+  const { mutate } = useUpdateFacilityPatch()
+  const { data } = useQuery(facilityApi.detail(getQuery("location-id")))
+
+  useEffect(() => {
+    if (data) {
+      console.log(data.building)
+      form.reset({
+        name: data.name || "",
+        address: data.address || "",
+        region: data.region,
+        company: data.company,
+        building: data.building,
+      });
+    }
+  }, [data, form])
+
 
   const onSubmit: SubmitHandler<FaciltyMutation> = (body) => {
-    // console.log(body);
+    mutate({
+      body,
+      id: getQuery("location-id") ?? ""
+    })
 
-    mutate(
-      {
-        ...body,
-        geom: { lat: Number(getQuery("lat")), lng: Number(getQuery("lng")) },
-      },
-      {
-        onSuccess: () => {
-          closeRef.current?.click();
-          deleteQuery(["lat", "lng"]);
-        },
-      }
-    );
+    // mutate(
+    //   {
+    //     ...body,
+    //     geom: { lat: Number(getQuery("lat")), lng: Number(getQuery("lng")) },
+    //   },
+    //   {
+    //     onSuccess: () => {
+    //       closeRef.current?.click();
+    //       deleteQuery(["lat", "lng"]);
+    //     },
+    //   }
+    // );
   };
   return (
     <Form {...form}>
@@ -46,7 +73,7 @@ export const UpdateFacilityForm = () => {
           <BuildingpFormField form={form} label="Building" name="building" />
           <RegionFormField form={form} label="Region" name="region" />
           <TextAreaFormField form={form} label="Adress" name="address" />
-          <Button>Create</Button>
+          <Button>Update</Button>
           <SheetClose ref={closeRef} />
         </div>
       </form>

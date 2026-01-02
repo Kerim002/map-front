@@ -8,6 +8,8 @@ export type CreateBody = {
   address?: string;
   company_id?: string;
   building_id?: string;
+  region_id?: string
+
 };
 
 export const createFacility = async (
@@ -16,6 +18,7 @@ export const createFacility = async (
   const companyId = payload.company?.id;
   const building_id = payload.building?.id;
   const address = payload.address;
+  const region_id = payload.region?.id
 
   const json: CreateBody = {
     name: payload.name,
@@ -24,6 +27,7 @@ export const createFacility = async (
     ...(address && { address: address }),
     ...(building_id && { building_id: building_id }),
     ...(companyId && { company_id: companyId }),
+    ...(region_id && { region_id: region_id })
   };
   await apiInstance("/location/", { json, method: "POST" });
 };

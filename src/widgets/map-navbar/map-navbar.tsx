@@ -3,6 +3,7 @@ import { Input } from "@/shared/ui/input";
 import { Switch } from "@/shared/ui/switch";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { MapFilters } from "./map-filters";
 
 export const MapNavbar = () => {
   const { t } = useTranslation();
@@ -39,7 +40,7 @@ export const MapNavbar = () => {
 
   return (
     <div className="sticky z-10 flex  gap-3 items-center px-3 left-0 right-0 top-0 justify-between h-14  backdrop-blur-md shadow-sm">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 ">
         {/* <SidebarTrigger/> */}
         <div className="relative" ref={inputRef}>
           <Input
@@ -53,11 +54,10 @@ export const MapNavbar = () => {
 
           {/* Dropdown under the input */}
           <div
-            className={`absolute left-0 right-0 mt-2 transition-all duration-200 ${
-              open
+            className={`absolute left-0 right-0 mt-2 transition-all duration-200 ${open
                 ? "opacity-100 translate-y-0 visible"
                 : "opacity-0 -translate-y-2 invisible"
-            }`}
+              }`}
           >
             <div className="rounded-xl bg-white dark:bg-background shadow-lg ring-1 ring-black/5 overflow-hidden">
               {results.length === 0 ? (
@@ -83,7 +83,11 @@ export const MapNavbar = () => {
         </div>
       </div>
 
-      <Switch checked={isEditMap} onCheckedChange={toggleCursor} />
+      <div className="flex items-center gap-2 ">
+        <MapFilters />
+        <Switch checked={isEditMap} onCheckedChange={toggleCursor} />
+      </div>
+
     </div>
   );
 };

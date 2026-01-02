@@ -11,8 +11,9 @@ export const mapFacility = (dto: FacilityDto): Facility => {
     id: dto.id,
     updatedAt: dto.updated_at ?? "",
     address: dto.address,
-    building: dto.building,
-    company: dto.company,
+    building: dto.building ?? undefined,
+    company: dto.company ?? undefined,
     name: dto.name,
+    region: dto.region ?? undefined
   };
 };

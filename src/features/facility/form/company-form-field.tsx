@@ -34,7 +34,7 @@ export const CompanyFormField = <T extends FieldValues>({
   useClickOutside([boxRef, dropDownRef], () => setIsOpen(false));
   const debounceText = useDebounce(search, 300);
   const { data: companyList } = useQuery(
-    companyApi.list({ limit: 10, page: 1, search: debounceText })
+    companyApi.list({ limit: 20, page: 1, search: debounceText })
   );
 
   const selectedItem = form.watch(name);
@@ -51,10 +51,10 @@ export const CompanyFormField = <T extends FieldValues>({
   };
 
   useEffect(() => {
-    if (selectedItem) {
-      setSearch(selectedItem.fullname);
+    if (selectedItem?.id) {
+      setSearch(selectedItem.name);
     }
-  }, [selectedItem]);
+  }, [selectedItem?.id]);
 
   const handleRemove = () => {
     handleSelect({ companyName: "", id: "" });

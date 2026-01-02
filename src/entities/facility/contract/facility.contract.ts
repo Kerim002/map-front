@@ -4,7 +4,7 @@ export const FacilityContract = z.object({
   name: z.string(),
   region: z
     .object({
-      name: z.string(),
+      type: z.string(),
       id: z.string(),
     })
     .optional(),
@@ -17,7 +17,7 @@ export const FacilityContract = z.object({
     .optional(),
   building: z
     .object({
-      name: z.string(),
+      type: z.string(),
       id: z.string(),
     })
     .optional(),

@@ -10,7 +10,14 @@ export type Facility = {
   address: null | string;
   company: {
     id: string;
-    name: string;
-  } | null;
-  building: null | string;
+    type: string;
+  } | undefined;
+  building: {
+    id:string,
+    type:string
+  } | undefined,
+  region:{
+    type:string,
+    id:string
+  } | undefined
 };

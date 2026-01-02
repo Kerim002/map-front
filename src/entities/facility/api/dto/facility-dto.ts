@@ -10,7 +10,14 @@ export type FacilityDto = {
   address: null | string;
   company: {
     id: string;
-    name: string;
+    type: string;
   } | null;
-  building: null | string;
+  building: {
+    type:string,
+    id:string
+  } | null;
+  region:{
+    type:string,
+    id:string
+  } | null
 };

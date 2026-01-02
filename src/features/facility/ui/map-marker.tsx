@@ -18,20 +18,16 @@ export const MapMarker = ({ item }: Props) => {
   const { setQuery } = useQueryParam();
   const navigate = useNavigate();
   
-  // Track if popup is open to trigger the fetch
   const [isOpen, setIsOpen] = useState(false);
 
-  // Pass the second argument to enable query only when popup opens
   const { data, isLoading } = useQuery({
     ...facilityApi.facilityImages(item.id as string),
     enabled: isOpen, 
   });
 
-  // Get the first image URL if data exists
   const firstImage = data?.[0];
-  const imageUrl = firstImage 
-    ? `https://216.250.12.42/api/v1/buckets/location-image/objects/download?preview=true&prefix=${firstImage.id}%2Fmd.webp&version_id=null`
-    : null;
+  const imageUrl = firstImage ? `http://216.250.12.42:9000/location-image/${firstImage.id}/md.webp` : null
+
 
   return (
     <Marker 

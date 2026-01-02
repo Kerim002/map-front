@@ -44,7 +44,7 @@ export const FacilityImageCarusel = () => {
   };
 
   const getImageUrl = (id: string) =>
-    `https://216.250.12.42/api/v1/buckets/location-image/objects/download?preview=true&prefix=${id}%2Fmd.webp&version_id=null`;
+    `http://216.250.12.42:9000/location-image/${id}/md.webp`;
 
   // 1. Handle Loading State
   if (isLoading) {

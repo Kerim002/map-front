@@ -3,4 +3,8 @@ export type FacilityQuery = {
   maxLat: number;
   minLng: number;
   maxLng: number;
+  companyId?: string;
+  regionId?: string;
+  buildingId?: string;
+  
 };

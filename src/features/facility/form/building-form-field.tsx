@@ -37,6 +37,8 @@ export const BuildingpFormField = <T extends FieldValues>({
   );
 
   const selectedItem = form.watch(name);
+    console.log(selectedItem)
+
   const handleSelect = ({
     id,
     valueName,
@@ -44,16 +46,16 @@ export const BuildingpFormField = <T extends FieldValues>({
     id: string;
     valueName: string;
   }) => {
-    form.setValue(name, { id, name: valueName } as PathValue<T, Path<T>>);
+    form.setValue(name, { id, type: valueName } as PathValue<T, Path<T>>);
     setSearch(valueName);
     setIsOpen(false);
   };
 
   useEffect(() => {
-    if (selectedItem) {
-      setSearch(selectedItem.name);
+    if (selectedItem?.id) {
+      setSearch(selectedItem.type);
     }
-  }, [selectedItem]);
+  }, [selectedItem?.id]);
 
   const handleRemove = () => {
     handleSelect({ valueName: "", id: "" });

@@ -81,6 +81,8 @@ const MapFetcher = ({
     zoomend: handleFetch,
   });
 
+  const { getQuery } = useQueryParam();
+
   const [bounds, setBounds] = useState(() => map.getBounds());
 
   function handleFetch() {
@@ -98,6 +100,9 @@ const MapFetcher = ({
       maxLng: max_lon,
       minLat: min_lat,
       minLng: min_lon,
+      regionId: getQuery("regionId") || undefined,
+      buildingId: getQuery("buildingId") || undefined,
+      companyId:getQuery("companyId") || undefined
     })
   );
 
@@ -145,7 +150,7 @@ export const MapView = ({ className }: Props) => {
 
         {/* Markers from API */}
         {fetchedMarkers?.map((item) => (
-          <MapMarker  item={item} />
+          <MapMarker key={item.id} item={item} />
         ))}
 
         {/* Add new marker (edit mode) */}

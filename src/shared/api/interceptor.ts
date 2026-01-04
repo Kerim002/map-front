@@ -58,7 +58,10 @@ export const apiInstance = async <T>(
   //     };
   //   }
 
-  const fullUrl = `${API_URL}${API_VERSION}${url}`;
+  const baseUrl = API_URL?.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+  const version = API_VERSION?.startsWith('/') ? API_VERSION : `/${API_VERSION}`;
+  const path = url?.startsWith('/') ? url : `/${url}`;
+  const fullUrl = `${baseUrl}${version}${path}`;
 
   const result = await fetch(fullUrl, {
     ...init,

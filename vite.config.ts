@@ -15,15 +15,15 @@ export default defineConfig({
     proxy:
       process.env.NODE_ENV === "development"
         ? {
-            "/api": {
-              target: "http://192.168.100.217:8000",
-              changeOrigin: true,
-              secure: false,
-            },
-          }
+          "/api": {
+            target: "http://192.168.100.217:8000",
+            changeOrigin: true,
+            secure: false,
+          },
+        }
         : undefined,
 
     host: true,
-    port:5175
+    port: 3000
   },
 });

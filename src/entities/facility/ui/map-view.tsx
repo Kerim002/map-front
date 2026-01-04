@@ -8,7 +8,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useMapStore } from "@/entities/store/use-map-store";
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import L from "leaflet";
 import { CreateFacilitySheet } from "@/features/facility/sheet/create-facility-sheet";
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +22,48 @@ import { MapMarker } from "@/features/facility/ui/map-marker";
 type Props = {
   className?: string;
 };
+
+const SearchResultController = () => {
+  const map = useMap();
+  const { selectedFacility, setPendingPopupId } = useMapStore();
+
+  const flyRequestId = useRef(0);
+
+  useEffect(() => {
+    if (!selectedFacility) return;
+
+    // 🔴 HARD CLOSE any currently open popup
+    map.closePopup();
+
+    // 🔴 cancel previous popup intent
+    setPendingPopupId(null);
+
+    flyRequestId.current += 1;
+    const currentId = flyRequestId.current;
+
+    map.flyTo(
+      [selectedFacility.geom.lat, selectedFacility.geom.lng],
+      16,
+      { animate: true }
+    );
+
+    const onMoveEnd = () => {
+      if (flyRequestId.current !== currentId) return;
+
+      setPendingPopupId(selectedFacility.id);
+      map.off("moveend", onMoveEnd);
+    };
+
+    map.on("moveend", onMoveEnd);
+
+    return () => {
+      map.off("moveend", onMoveEnd);
+    };
+  }, [selectedFacility, map, setPendingPopupId]);
+
+  return null;
+};
+
 
 const editMarkerIcon = new L.Icon({
   iconUrl: "/add-location.png",
@@ -102,7 +144,7 @@ const MapFetcher = ({
       minLng: min_lon,
       regionId: getQuery("regionId") || undefined,
       buildingId: getQuery("buildingId") || undefined,
-      companyId:getQuery("companyId") || undefined
+      companyId: getQuery("companyId") || undefined
     })
   );
 
@@ -128,7 +170,7 @@ export const MapView = ({ className }: Props) => {
   };
 
   return (
-    <div className={`w-full h-[calc(100dvh-56px)]  cursor-pointer z-0 ${className}`}>
+    <div className={`w-full h-full relative z-0 ${className}`}>
       <MapContainer
         center={[37.95, 58.38]}
         zoom={13}
@@ -139,11 +181,11 @@ export const MapView = ({ className }: Props) => {
         style={{ cursor: isEditMap ? "default" : "grab" }}
       >
         <TileLayer
-          url={`${
-            import.meta.env.VITE_MAP_URL
-          }/styles/test-style/{z}/{x}/{y}.png`}
+          url={`${import.meta.env.VITE_MAP_URL
+            }/styles/test-style/{z}/{x}/{y}.png`}
         />
         <ResizeMap />
+        <SearchResultController />
         <MapInteractionController isEditMap={isEditMap} />
         <MapFetcher onDataLoaded={setFetchedMarkers} />
         <ClickHandler isEditMap={isEditMap} onMapClick={handleMapClick} />

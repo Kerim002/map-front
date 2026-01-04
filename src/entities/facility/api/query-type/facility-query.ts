@@ -8,3 +8,13 @@ export type FacilityQuery = {
   buildingId?: string;
   
 };
+
+
+export type FacilitySearchQuery ={
+  q:string,
+  company_id?:string,
+  region_id?:string,
+  building_id?:string,
+  page:number,
+  limit:number
+}

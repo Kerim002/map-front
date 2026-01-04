@@ -71,21 +71,33 @@ export const SidebarSheet = () => {
         <SidebarSheetHeader />
         <div className="p-3">
           <div className="space-y-1 p-3 rounded-2xl dark:bg-gray-800 border bg-white border-gray-200 dark:border-gray-700">
-            {routes.map((item) => (
-              <Button
-                onClick={() => {
-                  navigate(item.path);
-                  openSidebar(false);
-                }}
-                variant={pathname === item.path ? "soft" : "ghost"}
-                className={`w-full justify-start h-11 [&_svg:not([class*='size-'])]:size-5 ${
-                  pathname === item.path ? "" : ""
-                }`}
-              >
-                <item.icon size={20} />
-                <p>{t(item.name)}</p>
-              </Button>
-            ))}
+            {routes.map((item) => {
+              const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
+
+              return (
+                <Button
+                  key={item.path}
+                  onClick={() => {
+                    navigate(item.path);
+                    openSidebar(false);
+                  }}
+                  variant={isActive ? "soft" : "ghost"}
+                  className={`w-full justify-start h-12 transition-all duration-300 rounded-xl px-2 ${isActive
+                      ? "!bg-primary !text-white font-black shadow-[0_8px_20px_-4px_rgba(var(--primary),0.4)]"
+                      : "hover:bg-primary/5 text-primary/70 hover:text-primary"
+                    }`}
+                >
+                  <div className={`p-2 rounded-lg transition-all ${isActive ? "bg-white/10" : "bg-transparent"}`}>
+                    <item.icon className={`size-5 transition-transform ${isActive ? "!text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" : "text-primary/40"}`} />
+                  </div>
+                  <span className="ml-2 text-[11px] font-black tracking-[0.05em] uppercase">{t(item.name)}</span>
+
+                  {isActive && (
+                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+                  )}
+                </Button>
+              );
+            })}
           </div>
         </div>
 

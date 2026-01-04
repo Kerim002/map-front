@@ -38,21 +38,46 @@ export const FacilityNavbar = () => {
     };
 
     return (
-        <div className="flex items-start justify-between">
-            <div className="space-y-1">
+        <div className="flex flex-col xl:flex-row items-start xl:items-end justify-between gap-8 pb-10 border-b border-border/30">
+            <div className="space-y-4 max-w-4xl">
                 <div className="flex items-center gap-3">
-                    <h1 className="text-3xl font-bold tracking-tight">
-                        {facilityData.name}
-                    </h1>
+                    <div className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest leading-none">
+                        Asset Registry
+                    </div>
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest leading-none">
+                        <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        Operational
+                    </div>
                 </div>
-                <p className="flex items-center text-slate-500">
-                    <MapPin className="mr-1 h-4 w-4" />
-                    {facilityData.address} • {facilityData.region}
-                </p>
+
+                <h1 className="text-4xl lg:text-5xl font-black tracking-tight text-foreground leading-[1.1]">
+                    {facilityData.name}
+                </h1>
+
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground/60 text-sm font-semibold italic">
+                    <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-primary" />
+                        <span className="not-italic text-foreground/80">{facilityData.address}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-border">/</span>
+                        <span className="not-italic text-foreground/80">{facilityData.region}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-border">/</span>
+                        <span className="not-italic font-black text-primary/60 uppercase tracking-widest text-[10px]">{facilityData.id}</span>
+                    </div>
+                </div>
             </div>
-            <div className="flex gap-2">
-                {/* <Button variant="outline">{t("edit-facility")}</Button> */}
-                <Button onClick={handleButtonClick} variant="outline">Upload facility image</Button>
+
+            <div className="flex items-center gap-4 pt-4 xl:pt-0">
+                <Button
+                    onClick={handleButtonClick}
+                    variant="outline"
+                    className="h-12 px-6 font-black uppercase tracking-widest text-[11px] rounded-2xl border-border/50 hover:bg-muted/50 transition-all shadow-sm"
+                >
+                    {t("upload-photo")}
+                </Button>
                 <input
                     type="file"
                     multiple
@@ -61,7 +86,12 @@ export const FacilityNavbar = () => {
                     ref={fileInputRef}
                     onChange={handleFileChange}
                 />
-                <Button onClick={() => navigate("/map")}>{t("view-on-map")}</Button>
+                <Button
+                    onClick={() => navigate("/map")}
+                    className="h-12 px-8 font-black uppercase tracking-widest text-[11px] rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all"
+                >
+                    {t("view-on-map")}
+                </Button>
             </div>
         </div>
     )

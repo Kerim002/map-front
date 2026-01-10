@@ -11,7 +11,7 @@ export const CreateBuildingDialog = () => {
   const { t } = useTranslation();
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button className="mb-2">{t("create")}</Button>
       </DialogTrigger>
       <DialogContent className="p-0 overflow-hidden sm:max-w-md">

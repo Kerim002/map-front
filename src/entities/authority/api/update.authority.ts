@@ -4,10 +4,9 @@ import type { AuthorityMutation } from "../contract";
 export const updateAuthority = async (
   body: AuthorityMutation & { id: string }
 ) => {
-  await apiInstance(`/authority/${body.id}`, {
+  const {id, ...rest} = body
+  await apiInstance(`/authority/${id}`, {
     method: "PATCH",
-    json: {
-      type: body.type,
-    },
+    json: rest,
   });
 };

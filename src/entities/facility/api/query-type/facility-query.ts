@@ -18,3 +18,14 @@ export type FacilitySearchQuery ={
   page:number,
   limit:number
 }
+
+
+
+export type FacilityZoomQuery = {
+  lat:number;
+  lng:number;
+  zoom:number;
+  company_id?:string,
+  region_id?:string,
+  building_id?:string,
+}

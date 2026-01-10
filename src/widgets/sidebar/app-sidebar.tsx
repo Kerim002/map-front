@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import {
   BadgeCheck,
   Building,
-  Building2,
   Home,
   IdCard,
   LandPlot,
@@ -29,12 +28,12 @@ import {
 import { Button } from "@/shared/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 import { useTheme } from "@/app/provider/theme-provider";
+import { useQueryClient } from "@tanstack/react-query";
 
-// 1. Integrated the detailed routes from your Sheet Sidebar
 const routes = [
   { path: "/", icon: Home, name: "home" },
   { path: "/map", icon: Map, name: "map" },
-  { path: "/company/1", icon: Building2, name: "company" },
+  // { path: "/company/1", icon: Building2, name: "company" },
   { path: "/authority/1", icon: IdCard, name: "authority" },
   { path: "/building/1", icon: Building, name: "building" },
   { path: "/ownership/1", icon: Shield, name: "ownership" },
@@ -43,12 +42,21 @@ const routes = [
 ];
 
 export function AppSidebar() {
+  const queryClient = useQueryClient()
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { t, i18n } = useTranslation();
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
+
+  const handleLanguageChange = async (newLang: string) => {
+  await i18n.changeLanguage(newLang);
+  // This tells TanStack Query to mark all queries as "stale" and refetch active ones
+  queryClient.invalidateQueries(); 
+};
+
+console.log(i18n.language)
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border/50 bg-background/60 backdrop-blur-xl">
@@ -63,8 +71,8 @@ export function AppSidebar() {
             </div>
             {!isCollapsed && (
               <div className="flex flex-col">
-                <span className="font-extrabold text-base tracking-tight text-foreground leading-none">Cadastre</span>
-                <span className="text-[10px] font-bold text-primary tracking-widest uppercase mt-0.5 opacity-80">Premium v2</span>
+                <span className="font-extrabold text-base tracking-tight text-foreground leading-none">Cadastr</span>
+                {/* <span className="text-[10px] font-bold text-primary tracking-widest uppercase mt-0.5 opacity-80">Premium v2</span> */}
               </div>
             )}
           </div>
@@ -133,15 +141,15 @@ export function AppSidebar() {
             {!isCollapsed ? (
               <Select
                 value={i18n.language}
-                onValueChange={(e) => i18n.changeLanguage(e)}
+                onValueChange={handleLanguageChange}
               >
-                <SelectTrigger className="h-9 w-full bg-background/50 border-border/50 text-xs font-bold rounded-lg shadow-sm">
+                <SelectTrigger value={i18n.language} className="h-9 w-full bg-background/50 border-border/50 text-xs font-bold rounded-lg shadow-sm">
                   <SelectValue placeholder="Language" />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-border/50 shadow-2xl backdrop-blur-xl">
-                  <SelectItem value="tk" className="font-bold">Turkmen</SelectItem>
-                  <SelectItem value="ru" className="font-bold">Russian</SelectItem>
-                  <SelectItem value="en" className="font-bold">English</SelectItem>
+                  <SelectItem value="tk" className="font-bold">{t("turkmen")}</SelectItem>
+                  <SelectItem value="ru" className="font-bold">{t("russian")}</SelectItem>
+                  <SelectItem value="en" className="font-bold">{t("english")}</SelectItem>
                 </SelectContent>
               </Select>
             ) : (

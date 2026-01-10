@@ -2,14 +2,13 @@
 import { FacilityNavbar } from "@/widgets/facility/facility-navbar";
 import { FacilityCard } from "@/widgets/facility/facility-card";
 import { FacilityTabs } from "@/widgets/facility/facility-tabs";
-
-// Mock Data (Replace this with data from your API)
-
+import { UpdateFacilitySheet } from "@/features/facility/sheet/update-facility-sheet";
 
 
 export function FacilityPage() {
   return (
     <div className="min-h-full bg-background/50 p-8 lg:p-12 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <UpdateFacilitySheet />
       {/* --- HEADER SECTION --- */}
       <FacilityNavbar />
 

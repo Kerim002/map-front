@@ -14,6 +14,16 @@ export const mapFacility = (dto: FacilityDto): Facility => {
     building: dto.building ?? undefined,
     company: dto.company ?? undefined,
     name: dto.name,
-    region: dto.region ?? undefined
+    region: dto.region ?? undefined,
+    area:dto.area,
+    cadaster:dto.cadaster,
+    fireInspectionAt:dto.fire_inspection_at ? dto.fire_inspection_at.split('T')[0] : null,
+    floor:dto.floor,
+    note:dto.note,
+    parking:dto.parking,
+    authority:dto.authority,
+    ownership:dto.ownership ?? undefined,
+    performance:dto.performance ?? undefined
+    
   };
 };

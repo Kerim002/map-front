@@ -48,7 +48,7 @@ export const MapMarker = ({ item }: Props) => {
 
   const firstImage = images?.[0];
   const imageUrl = firstImage
-    ? `http://216.250.12.42:9000/location-image/${firstImage.id}/md.webp`
+    ? `http://216.250.12.42:9000/location-image/${firstImage.objectPath}/md.webp`
     : null;
 
 

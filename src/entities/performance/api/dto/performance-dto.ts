@@ -3,6 +3,9 @@ export type PerformanceDto = {
   type: string;
   created_at: string;
   updated_at: string | null;
+    en:string,
+  ru:string,
+  tk:string
 };
 
 export type PerformancePaginationDto = {

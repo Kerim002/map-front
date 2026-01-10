@@ -3,6 +3,9 @@ export type Region = {
   type: string;
   createdAt: string;
   updatedAt: string;
+  en: string,
+  ru: string,
+  tk: string
 };
 
 export type RegionPagination = {

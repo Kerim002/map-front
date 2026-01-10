@@ -1,9 +1,12 @@
 import { keepPreviousData, queryOptions } from "@tanstack/react-query";
-import type { FacilityQuery, FacilitySearchQuery } from "./query-type/facility-query";
+import type { FacilityQuery, FacilitySearchQuery, FacilityZoomQuery } from "./query-type/facility-query";
 import { getFacility } from "./query/get-facilities";
 import { getDetailFacility } from "./query/get.detail.facility";
 import { getFacilityImages } from "./query/get.facility-images";
 import { getFacilitiesSearch } from "./query/get-facilities-search";
+import { getFacilitiesByZoom } from "./query/get-facilities-by-zoom";
+import type { FacilityFolderQuery } from "./query-type/facility-folder-query";
+import { getFacilityFolders } from "./query/get-locations-folder";
 
 export const facilityApi = {
   all: ["locations"],
@@ -12,6 +15,12 @@ export const facilityApi = {
     queryOptions({
       queryKey: facilityApi.listKey(params),
       queryFn: () => getFacility(params),
+      placeholderData: keepPreviousData,
+    }),
+  facilityZoom: (params: FacilityZoomQuery) =>
+    queryOptions({
+      queryKey: [...facilityApi.all, params],
+      queryFn: () => getFacilitiesByZoom(params),
       placeholderData: keepPreviousData,
     }),
 
@@ -28,10 +37,20 @@ export const facilityApi = {
     placeholderData: keepPreviousData,
     enabled: !!id && enabled
   }),
-  facilitySearch: (params: FacilitySearchQuery) => queryOptions({
-    queryKey: ["facility-search", params],
-    queryFn: () => getFacilitiesSearch(params),
+  facilitySearch: (params: FacilitySearchQuery & { enabled: boolean }) => {
+    const {enabled, ...rest} = params
+    return queryOptions({
+      queryKey: ["facility-search", rest],
+      queryFn: () => getFacilitiesSearch(rest),
+      placeholderData: keepPreviousData,
+      enabled: enabled
+    })
+  },
+  folders: (params: FacilityFolderQuery) => queryOptions({
+    queryKey: ["facility-folders", params],
+    queryFn: () => getFacilityFolders(params),
     placeholderData: keepPreviousData,
-    enabled: params.q.length >= 1
+    enabled: !!params.location_id
+
   })
 };

@@ -14,6 +14,7 @@ import { facilityApi } from "@/entities/facility/api/facility.api";
 import { Button } from "@/shared/ui/button";
 import { Trash, ImageIcon, Loader2 } from "lucide-react";
 import { useDeleteFacilityImage } from "../hook/use-delete-facility-image";
+import { ImageOrderDialog } from "./image-order-dialog";
 
 export const FacilityImageCarusel = () => {
   const { facilityId } = useParams();
@@ -44,7 +45,7 @@ export const FacilityImageCarusel = () => {
   };
 
   const getImageUrl = (id: string) =>
-    `http://216.250.12.42:9000/location-image/${id}/md.webp`;
+    `http://216.250.12.42:9000/location-image/${id}/xmd.webp`;
 
   // 1. Handle Loading State
   if (isLoading) {
@@ -75,7 +76,7 @@ export const FacilityImageCarusel = () => {
                 <DialogTrigger asChild>
                   <div className="cursor-zoom-in overflow-hidden aspect-video relative bg-muted">
                     <img
-                      src={getImageUrl(item.id)}
+                      src={getImageUrl(item.objectPath)}
                       alt={`Facility ${index}`}
                       className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
@@ -108,7 +109,7 @@ export const FacilityImageCarusel = () => {
               {data.map((item) => (
                 <CarouselItem key={item.id} className="flex items-center w-full justify-center h-[85vh]">
                   <img
-                    src={getImageUrl(item.id)}
+                    src={getImageUrl(item.objectPath)}
                     className="max-h-full w-full h-full max-w-full object-contain"
                   />
                 </CarouselItem>
@@ -116,8 +117,8 @@ export const FacilityImageCarusel = () => {
             </CarouselContent>
             {count > 1 && (
               <>
-                <CarouselPrevious className="left-4 text-white bg-white/10 hover:bg-white/20 border-white/20" />
-                <CarouselNext className="right-4 text-white bg-white/10 hover:bg-white/20 border-white/20" />
+                <CarouselPrevious style={{ scale: "1.3" }} className="-left-14 text-white  bg-white/10 hover:bg-white/20 border-white/20" />
+                <CarouselNext style={{ scale: "1.3" }} className="-right-14 text-white bg-white/10 hover:bg-white/20 border-white/20" />
               </>
             )}
           </Carousel>
@@ -126,13 +127,17 @@ export const FacilityImageCarusel = () => {
 
       {/* Slide Counter and Delete Button */}
       <div className="absolute bottom-4 right-4 flex items-center gap-2">
+
+        {data && facilityId && (
+          <ImageOrderDialog images={data} facilityId={facilityId} />
+        )}
         <div className="bg-black/60 text-white px-2 py-1 rounded-md text-[10px] backdrop-blur-sm h-8 flex items-center">
           {current} / {count}
         </div>
-        
-        <Button 
-          size="icon" 
-          variant="destructive" 
+
+        <Button
+          size="icon"
+          variant="destructive"
           className="h-8 w-8 shadow-lg"
           onClick={handleDelete}
           disabled={isPending}

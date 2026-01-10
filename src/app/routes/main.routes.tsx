@@ -9,9 +9,10 @@ import { Authority } from "@/pages/authority";
 import { Performance } from "@/pages/performance";
 import { Ownership } from "@/pages/ownership";
 import { Building } from "@/pages/building";
-import { Company } from "@/pages/company";
+// import { Company } from "@/pages/company";
 import { FacilityPage } from "@/pages/facility";
 import { SidebarLayout } from "../layouts/sidebar-layout";
+import { EmployeePage } from "@/pages/employee";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -36,13 +37,25 @@ const mainRoutes = createBrowserRouter([
             children: [
               {
                 index: true,
-
                 element: (
                   <Suspense>
                     <FacilityPage />
                   </Suspense>
                 ),
               },
+              {
+                path: "employee",
+                children: [
+                  {
+                    path: ":currentPage",
+                    element: (
+                      <Suspense>
+                        <EmployeePage />
+                      </Suspense>
+                    )
+                  }
+                ]
+              }
             ],
           },
         ],
@@ -123,19 +136,19 @@ const mainRoutes = createBrowserRouter([
               },
             ],
           },
-          {
-            path: "company",
-            children: [
-              {
-                path: ":currentPage",
-                element: (
-                  <Suspense>
-                    <Company />
-                  </Suspense>
-                ),
-              },
-            ],
-          },
+          // {
+          //   path: "company",
+          //   children: [
+          //     {
+          //       path: ":currentPage",
+          //       element: (
+          //         <Suspense>
+          //           <Company />
+          //         </Suspense>
+          //       ),
+          //     },
+          //   ],
+          // },
 
           {
             path: "/test",

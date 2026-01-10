@@ -26,7 +26,6 @@ export const createCompany = async (payload: CreateCompanyMutation) => {
     ...(regionId && { region_id: regionId }),
   };
 
-  console.log(json);
   await apiInstance("/company/", {
     json,
     method: "POST",

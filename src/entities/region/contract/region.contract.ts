@@ -1,4 +1,6 @@
 import { z } from "zod";
 export const RegionContract = z.object({
-  type: z.string().min(3),
+  en: z.string().min(2),
+  ru: z.string().min(2),
+  tk: z.string().min(2),
 });

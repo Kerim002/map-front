@@ -6,21 +6,40 @@ export const FacilityContract = z.object({
     .object({
       type: z.string(),
       id: z.string(),
-    })
-    .optional(),
+    }),
   address: z.string().optional(),
-  company: z
-    .object({
-      name: z.string(),
-      id: z.string(),
-    })
-    .optional(),
+  // company: z
+  //   .object({
+  //     name: z.string(),
+  //     id: z.string(),
+  //   }),
   building: z
     .object({
       type: z.string(),
       id: z.string(),
-    })
-    .optional(),
+    }).optional(),
+  performance: z
+    .object({
+      type: z.string(),
+      id: z.string(),
+    }).optional(),
+  ownership: z
+    .object({
+      type: z.string(),
+      id: z.string(),
+    }),
+  auhtority: z
+    .object({
+      type: z.string(),
+      id: z.string(),
+    }),
+  cadaster: z.string().optional(),
+  floor: z.coerce.number().optional(),
+  area: z.coerce.number().optional(),
+  parking: z.coerce.number().optional(),
+  fireInspectAt: z.string().optional(),
+  note: z.string().optional(),
+
 });
 
 

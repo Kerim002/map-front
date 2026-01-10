@@ -1,26 +1,20 @@
+import { facilityApi } from "@/entities/facility/api/facility.api";
 import { useCreateFacilityImage } from "@/features/facility/hook/use-create-facility-image";
+import useQueryParam from "@/shared/hooks/use-query-param";
 import { Button } from "@/shared/ui/button";
+import { useQuery } from "@tanstack/react-query";
 import { MapPin } from "lucide-react";
 import { useRef, type ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
-const facilityData = {
-    id: "BLD-921",
-    name: "“Parahat” medeni-dynç alyş merkezi",
-    type: "Medeni dync alys merkezi",
-    status: "Operational",
-    region: "Bagtyyarlyk District",
-    address: "Magtymguly şaýoly, 98/1 Aşgabat şäheri",
-    area: "450 m²",
-    image:
-        "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop", // Placeholder
-    company: "Parahat MDAM",
-};
+
 
 
 export const FacilityNavbar = () => {
+    const { setQuery } = useQueryParam();
     const { facilityId } = useParams()
+    const { data } = useQuery(facilityApi.detail(facilityId))
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { mutate } = useCreateFacilityImage()
@@ -50,25 +44,26 @@ export const FacilityNavbar = () => {
                     </div>
                 </div>
 
-                <h1 className="text-4xl lg:text-5xl font-black tracking-tight text-foreground leading-[1.1]">
-                    {facilityData.name}
+                <h1 className="text-4xl lg:text-2xl font-black  text-foreground leading-[1.1]">
+                    {data?.name}
                 </h1>
 
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground/60 text-sm font-semibold italic">
                     <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4 text-primary" />
-                        <span className="not-italic text-foreground/80">{facilityData.address}</span>
+                        <span className="not-italic text-foreground/80">{data?.address}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="text-border">/</span>
-                        <span className="not-italic text-foreground/80">{facilityData.region}</span>
+                        <span className="not-italic text-foreground/80">{data?.region?.type}</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <span className="text-border">/</span>
-                        <span className="not-italic font-black text-primary/60 uppercase tracking-widest text-[10px]">{facilityData.id}</span>
-                    </div>
+                        <span className="not-italic font-black text-primary/60 uppercase tracking-widest text-[10px]">{data.id}</span>
+                    </div> */}
                 </div>
             </div>
+
 
             <div className="flex items-center gap-4 pt-4 xl:pt-0">
                 <Button
@@ -77,6 +72,13 @@ export const FacilityNavbar = () => {
                     className="h-12 px-6 font-black uppercase tracking-widest text-[11px] rounded-2xl border-border/50 hover:bg-muted/50 transition-all shadow-sm"
                 >
                     {t("upload-photo")}
+                </Button>
+                <Button
+                    onClick={() => setQuery([{ key: "location-id", value: facilityId }])}
+                    className="h-12 px-6 font-black uppercase tracking-widest text-[11px] rounded-2xl border-border/50 hover:bg-muted/50 transition-all shadow-sm"
+                    variant="outline"
+                >
+                    {t("edit-location")}
                 </Button>
                 <input
                     type="file"
@@ -92,6 +94,7 @@ export const FacilityNavbar = () => {
                 >
                     {t("view-on-map")}
                 </Button>
+
             </div>
         </div>
     )

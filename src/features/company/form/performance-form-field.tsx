@@ -14,6 +14,7 @@ import type {
   PathValue,
   UseFormReturn,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 type Props<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -44,10 +45,13 @@ export const PerformanceFormField = <T extends FieldValues>({
     id: string;
     valueName: string;
   }) => {
-    form.setValue(name, { id, name: valueName } as PathValue<T, Path<T>>);
+    form.setValue(name, { id, type: valueName } as PathValue<T, Path<T>>);
     setSearch(valueName);
     setIsOpen(false);
   };
+
+    const { i18n } = useTranslation();
+    const currentLang = (i18n.language || "ru") as "en" | "ru" | "tk"
 
   useEffect(() => {
     if (selectedItem) {
@@ -94,7 +98,7 @@ export const PerformanceFormField = <T extends FieldValues>({
           {performanceList?.data?.map((item) => (
             <p
               onClick={() =>
-                handleSelect({ id: item.id, valueName: item.type })
+                handleSelect({ id: item.id, valueName: item[currentLang] })
               }
               key={item.id}
               className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${
@@ -103,7 +107,7 @@ export const PerformanceFormField = <T extends FieldValues>({
                   : ""
               }`}
             >
-              {item.type}
+              {item[currentLang] || item.ru}
             </p>
           ))}
         </div>

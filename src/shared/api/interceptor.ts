@@ -12,10 +12,12 @@ const cleanParams = (
 
 class ApiError extends Error {
   public response: Response;
+  public data: any; // Add this to hold the JSON body
 
-  constructor(response: Response) {
+  constructor(response: Response, data: any) {
     super("ApiError:" + response.status + "\n" + response.statusText);
     this.response = response;
+    this.data = data; // Assign the parsed JSON
   }
 }
 
@@ -27,8 +29,13 @@ export const apiInstance = async <T>(
     retry?: boolean;
   }
 ): Promise<T> => {
+
+  const locale = typeof window !== "undefined" 
+    ? localStorage.getItem("i18nextLng") || "ru" 
+    : "ru";
   let headers: Record<string, string> = {
     Accept: "application/json",
+    "Accept-Language": locale,
     ...(init?.headers as Record<string, string>),
   };
 
@@ -79,7 +86,8 @@ export const apiInstance = async <T>(
   //   }
 
   if (!result.ok) {
-    throw new ApiError(result);
+    const errorBody = await result.json().catch(() => ({})); 
+  throw new ApiError(result, errorBody);
   }
 
   try {

@@ -14,6 +14,7 @@ import type {
   PathValue,
   UseFormReturn,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 type Props<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -44,11 +45,17 @@ export const RegionFormField = <T extends FieldValues>({
     id: string;
     regionName: string;
   }) => {
-    console.log(id, regionName);
-    form.setValue(name, { id, type: regionName } as PathValue<T, Path<T>>);
+    form.setValue(name, { id, type: regionName } as PathValue<T, Path<T>>, {
+      // This ensures the error disappears immediately after selecting
+      shouldValidate: true,
+      shouldDirty: true,
+    });
     setSearch(regionName);
     setIsOpen(false);
   };
+
+    const { i18n } = useTranslation();
+    const currentLang = (i18n.language || "ru") as "en" | "ru" | "tk"
 
   useEffect(() => {
     if (selectedItem?.id) {
@@ -72,6 +79,16 @@ export const RegionFormField = <T extends FieldValues>({
         onChange={(e) => setSearch(e.target.value)}
         className="h-10 bg-white"
       />
+      {form.formState.errors[name] && (
+        <p className="text-sm text-red-500">
+          {/* If 'name' is 'region', RHF might put the error on 
+       errors.region.message OR errors.region.id.message 
+    */}
+          {(form.formState.errors[name] as any)?.message ||
+            (form.formState.errors[name] as any)?.id?.message ||
+            (form.formState.errors[name] as any)?.type?.message}
+        </p>
+      )}
       <Button
         onClick={handleRemove}
         type="button"
@@ -95,16 +112,15 @@ export const RegionFormField = <T extends FieldValues>({
           {regionList?.list?.map((item) => (
             <p
               onClick={() =>
-                handleSelect({ id: item.id, regionName: item.type })
+                handleSelect({ id: item.id, regionName: item[currentLang] || item.ru})
               }
               key={item.id}
-              className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${
-                selectedItem?.id === item.id
-                  ? "dark:bg-zinc-800 bg-gray-200"
-                  : ""
-              }`}
+              className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${selectedItem?.id === item.id
+                ? "dark:bg-zinc-800 bg-gray-200"
+                : ""
+                }`}
             >
-              {item.type}
+              {item[currentLang] || item.ru}
             </p>
           ))}
         </div>

@@ -4,10 +4,9 @@ import type { PerformanceMutation } from "../contract";
 export const updatePerformance = async (
   body: PerformanceMutation & { id: string }
 ) => {
-  await apiInstance(`/performance/${body.id}`, {
+  const {id, ...rest} = body
+  await apiInstance(`/performance/${id}`, {
     method: "PATCH",
-    json: {
-      type: body.type,
-    },
+    json:rest
   });
 };

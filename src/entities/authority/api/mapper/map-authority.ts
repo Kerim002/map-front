@@ -7,5 +7,8 @@ export const mapAuthority = (dto: AuthorityDto): Authority => {
     id: dto.id,
     type: dto.type,
     updatedAt: dto.updated_at ?? "",
+    en:dto.en,
+    ru:dto.ru,
+    tk:dto.tk
   };
 };

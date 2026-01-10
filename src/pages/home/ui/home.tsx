@@ -128,11 +128,8 @@ export function Home() {
       {/* Premium Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest leading-none mb-2">
-            <div className="size-1.5 rounded-full bg-primary animate-pulse" />
-            Live System Status: Optimal
-          </div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-foreground lg:text-5xl">
+
+          <h1 className="text-4xl font-bold tracking-tight text-foreground lg:text-4xl">
             {t("turkmenistan-cadastre-dashboard")}
           </h1>
           <p className="text-muted-foreground text-base max-w-2xl leading-relaxed">
@@ -327,6 +324,12 @@ export function Home() {
             </div>
           </CardContent>
         </Card>
+      </div>
+      <div className="flex w-full items-center justify-center text-center">
+        <p className="text-center">
+
+        Derwaýys ulgamy HK. Ähli hukuklary goralan
+        </p>
       </div>
     </div>
   );

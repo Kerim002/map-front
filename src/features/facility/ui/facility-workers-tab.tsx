@@ -6,54 +6,31 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/ui/card";
-import { Mail, Phone, Users } from 'lucide-react';
+import {  Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { Button } from '@/shared/ui/button';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { employeeApi } from '@/entities/employee/api/employee.api';
+import { facilityApi } from '@/entities/facility/api/facility.api';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 
 
-const workers = [
-  {
-    id: 1,
-    name: "Agaorazow M.",
-    role: "Facility Manager",
-    image: "/test/images/workers/Agaorazow M.jpg",
-    email: "agaorazow@example.com",
-  },
-  {
-    id: 2,
-    name: "Amanow M.",
-    role: "Safety Inspector",
-    image: "/test/images/workers/Amanow M.JPG",
-    email: "amanow@example.com",
-  },
-  {
-    id: 3,
-    name: "Annagurbanowa G.",
-    role: "Logistics Head",
-    image: "/test/images/workers/Annagurbanowa G.jpg",
-    email: "annagurbanowa@example.com",
-  },
-];
-
-
-const facilityData = {
-  id: "BLD-921",
-  name: "“Parahat” medeni-dynç alyş merkezi",
-  type: "Medeni dync alys merkezi",
-  status: "Operational",
-  region: "Bagtyyarlyk District",
-  address: "Magtymguly şaýoly, 98/1 Aşgabat şäheri",
-  area: "450 m²",
-  image:
-    "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop", // Placeholder
-  company: "Parahat MDAM",
-};
 
 export const FacilityWorkersTab = () => {
   const { t } = useTranslation();
+  const { facilityId } = useParams()
+  const { data: facilityData } = useQuery(facilityApi.detail(facilityId))
+  const naviagte = useNavigate()
+  const { data } = useQuery(
+    employeeApi.list({ limit: 12, page: 1, loaction_id: facilityId ?? "" })
+  );
+
+
+    const getImageUrl = (id: string) =>
+    `http://216.250.12.42:9000/location-image/${id}/xmd.webp`;
 
   return (
     <TabsContent value="workers">
@@ -62,51 +39,54 @@ export const FacilityWorkersTab = () => {
           <CardTitle className="flex items-center gap-2">
             <Users className="h-5 w-5" /> {t("associated-personnel")}
           </CardTitle>
-          <CardDescription>{facilityData.name}</CardDescription>
+          <CardDescription>{facilityData?.name}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <PhotoProvider>
-            {workers.map((worker) => (
+            {data?.data.map((worker) => (
               <div
                 key={worker.id}
                 className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-700 transition-colors"
               >
                 <div className="flex items-center gap-4">
                   {/* 3. Wrap the specific image in PhotoView */}
-                  <PhotoView src={worker.image}>
+                  <PhotoView src={worker.avatarUrl ?? ""}>
                     <Avatar className="h-10 w-10 cursor-pointer hover:opacity-80 transition-opacity">
                       <AvatarImage
                         className="object-cover"
-                        src={worker.image}
-                        alt={worker.name}
+                        src={getImageUrl(worker.avatarUrl ?? "")}
+                        alt={worker.firstName}
                       />
                       <AvatarFallback>
-                        {worker.name.charAt(0)}
+                        {worker.firstName.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
                   </PhotoView>
 
                   <div>
-                    <p className="font-medium text-sm leading-none">
-                      {worker.name}
-                    </p>
+                    <div className='flex items-center gap-2'>
+
+                      <p className="font-medium text-sm leading-none">
+                        {worker.firstName}
+                      </p>
+                      <p className="font-medium text-sm leading-none">
+                        {worker.lastName}
+                      </p>
+                    </div>
                     <p className="text-xs text-slate-500 mt-1">
-                      {worker.role}
+                      {worker.position}
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-500">
-                    <Phone className="h-4 w-4" />
-                  </Button>
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-500">
-                    <Mail className="h-4 w-4" />
-                  </Button>
+                  <p>{worker.phone}</p>
+
+
                 </div>
               </div>
             ))}
           </PhotoProvider>
-          <Button variant="outline" className="w-full mt-4">
+          <Button onClick={() => naviagte("employee/1")} variant="outline" className="w-full mt-4">
             {t("manage-personnel")}
           </Button>
         </CardContent>

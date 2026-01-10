@@ -6,16 +6,25 @@ export type CreateBody = {
   lng: number;
   name: string;
   address?: string;
-  company_id?: string;
   building_id?: string;
   region_id?: string
-
+  cadaster: string,
+  floor?: number,
+  area?: number,
+  note?: string,
+  fire_inspect_at?: string,
+  performance_id?: string,
+  authority_id?: string
+  ownership_id?: string
+  parking?:number
 };
 
 export const createFacility = async (
   payload: FaciltyMutation & { geom: Geom }
 ) => {
-  const companyId = payload.company?.id;
+  const perfomanceId = payload?.performance?.id;
+  const authorityId = payload.auhtority.id;
+  const ownershipId = payload.ownership.id;
   const building_id = payload.building?.id;
   const address = payload.address;
   const region_id = payload.region?.id
@@ -24,10 +33,22 @@ export const createFacility = async (
     name: payload.name,
     lat: payload.geom.lat,
     lng: payload.geom.lng,
+    fire_inspect_at: payload.fireInspectAt ? new Date(payload.fireInspectAt).toISOString() : undefined,
+    area: payload.area,
+    cadaster: payload.cadaster ?? "",
+    floor: payload.floor,
+    note: payload.note,
+    parking:payload.parking,
+
     ...(address && { address: address }),
     ...(building_id && { building_id: building_id }),
-    ...(companyId && { company_id: companyId }),
-    ...(region_id && { region_id: region_id })
+    ...(ownershipId && { ownership_id: ownershipId }),
+    ...(region_id && { region_id: region_id }),
+    ...(authorityId && { authority_id: authorityId }),
+    ...(perfomanceId && { performance_id: perfomanceId }),
+
+
   };
+
   await apiInstance("/location/", { json, method: "POST" });
 };

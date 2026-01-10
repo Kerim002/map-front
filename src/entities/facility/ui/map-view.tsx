@@ -31,22 +31,15 @@ const SearchResultController = () => {
 
   useEffect(() => {
     if (!selectedFacility) return;
-
-    // 🔴 HARD CLOSE any currently open popup
     map.closePopup();
-
-    // 🔴 cancel previous popup intent
     setPendingPopupId(null);
-
     flyRequestId.current += 1;
     const currentId = flyRequestId.current;
-
     map.flyTo(
       [selectedFacility.geom.lat, selectedFacility.geom.lng],
       16,
       { animate: true }
     );
-
     const onMoveEnd = () => {
       if (flyRequestId.current !== currentId) return;
 
@@ -119,35 +112,36 @@ const MapFetcher = ({
   onDataLoaded: Dispatch<SetStateAction<Facility[]>>;
 }) => {
   const map = useMapEvents({
-    moveend: handleFetch,
-    zoomend: handleFetch,
+    moveend: () => {
+      // handleFetch();
+      handleFetchByZoom();
+    },
+    // zoomend: handleFetch,
+    zoomend: handleFetchByZoom,
   });
-
   const { getQuery } = useQueryParam();
+  const [center, setCenter] = useState(() => map.getCenter())
+  const [zoom, setZoom] = useState(() => map.getZoom())
 
-  const [bounds, setBounds] = useState(() => map.getBounds());
+  function handleFetchByZoom() {
+    setCenter(map.getCenter())
+    setZoom(map.getZoom())
 
-  function handleFetch() {
-    setBounds(map.getBounds());
-  }
+  };
+  const lat = center.lat
+  const lng = center.lng
 
-  const min_lat = bounds.getSouth();
-  const max_lat = bounds.getNorth();
-  const min_lon = bounds.getWest();
-  const max_lon = bounds.getEast();
 
   const { data } = useQuery(
-    facilityApi.list({
-      maxLat: max_lat,
-      maxLng: max_lon,
-      minLat: min_lat,
-      minLng: min_lon,
-      regionId: getQuery("regionId") || undefined,
-      buildingId: getQuery("buildingId") || undefined,
-      companyId: getQuery("companyId") || undefined
+    facilityApi.facilityZoom({
+      lat: lat,
+      lng,
+      zoom,
+      region_id: getQuery("regionId") || undefined,
+      building_id: getQuery("buildingId") || undefined,
+      company_id: getQuery("companyId") || undefined
     })
   );
-
   useEffect(() => {
     onDataLoaded(data ?? []);
   }, [data, onDataLoaded]);
@@ -156,10 +150,9 @@ const MapFetcher = ({
 };
 
 export const MapView = ({ className }: Props) => {
-  const { isEditMap } = useMapStore();
+  const { isEditMap, setMarkerPos, markerPos } = useMapStore();
   const { t } = useTranslation();
   const { setQuery } = useQueryParam();
-  const [markerPos, setMarkerPos] = useState<L.LatLng | null>(null);
   const [fetchedMarkers, setFetchedMarkers] = useState<Facility[]>([]);
   const handleMapClick = (pos: L.LatLng) => {
     setMarkerPos(pos);
@@ -172,6 +165,8 @@ export const MapView = ({ className }: Props) => {
   return (
     <div className={`w-full h-full relative z-0 ${className}`}>
       <MapContainer
+        // whenCreated={(map) => useMapStore.getState().setMapRef(map)}
+
         center={[37.95, 58.38]}
         zoom={13}
         minZoom={7}
@@ -184,6 +179,7 @@ export const MapView = ({ className }: Props) => {
           url={`${import.meta.env.VITE_MAP_URL
             }/styles/test-style/{z}/{x}/{y}.png`}
         />
+        <MapRefController />
         <ResizeMap />
         <SearchResultController />
         <MapInteractionController isEditMap={isEditMap} />
@@ -214,19 +210,28 @@ export const MapView = ({ className }: Props) => {
 };
 
 
-// Inside MapView.tsx or as a separate helper
 const ResizeMap = () => {
   const map = useMap();
-  const { state } = useSidebar(); // Access sidebar state
+  const { state } = useSidebar();
 
   useEffect(() => {
-    // Small timeout to wait for the sidebar transition animation to finish
     const timer = setTimeout(() => {
       map.invalidateSize({ animate: true });
-    }, 100); // Match this to your sidebar transition speed (usually 200-300ms)
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [state, map]);
+
+  return null;
+};
+
+export const MapRefController = () => {
+  const map = useMap();
+  const setMapRef = useMapStore((s) => s.setMapRef);
+
+  useEffect(() => {
+    setMapRef(map);
+  }, [map, setMapRef]);
 
   return null;
 };

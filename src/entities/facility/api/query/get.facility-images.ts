@@ -7,7 +7,7 @@ export const getFacilityImages = async (id:string):Promise<FacilityImage[]> => {
 
     const res = await apiInstance<{data:FacilityImageDto[]}>(`/location/${id}/images`)
 
-    return res.data.map(mapFacilityImage)
+    return res.data.map(mapFacilityImage).sort((a,b) => a.order - b.order)
 
 
 }

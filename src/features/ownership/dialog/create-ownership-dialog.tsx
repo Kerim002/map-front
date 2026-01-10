@@ -13,7 +13,7 @@ export const CreateOwnershipDialog = () => {
   const { t } = useTranslation();
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button>{t("create")}</Button>
       </DialogTrigger>
       <DialogContent>

@@ -7,7 +7,6 @@ type Args = {
 
 export const createFacilityImage = async (args:Args) => {
     const formdata = new FormData()
-    console.log(args.files)
     args.files.forEach(element => {
         formdata.append("files", element)
     });

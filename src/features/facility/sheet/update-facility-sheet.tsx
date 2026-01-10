@@ -14,7 +14,7 @@ export const UpdateFacilitySheet = () => {
       open={!!getQuery("location-id")}
       onOpenChange={() => deleteQuery(["location-id"])}
     >
-      <SheetContent>
+      <SheetContent  className="p-0 sm:max-w-lg overflow-auto">
         <SheetHeader className="hidden">
           <SheetTitle />
         </SheetHeader>

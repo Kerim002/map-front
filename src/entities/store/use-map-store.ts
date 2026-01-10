@@ -1,27 +1,79 @@
 import { create } from "zustand";
 import type { Facility } from "../facility/model/facility";
+import L from "leaflet";
 
 type MapStore = {
   isEditMap: boolean;
-  selectedFacility:null | Facility
-  pendingPopupId:null| string
+  selectedFacility: Facility | null;
+  pendingPopupId: string | null;
+  mapRef: L.Map | null;
+  markerPos: L.LatLng | null;
 };
 
 type MapAction = {
-  toggleCursor: () => void;
-  setSelectedFacility:(facility:Facility | null) => void,
-  setPendingPopupId: (id: string | null) => void,
+  setEditMap: (value: boolean) => void;
+  setSelectedFacility: (facility: Facility | null) => void;
+  setPendingPopupId: (id: string | null) => void;
+  setMapRef: (map: L.Map) => void;
+  setMarkerPos: (pos: L.LatLng | null) => void;
+  flyToCoords: (
+    coords: { lat: number; lng: number },
+    zoom?: number
+  ) => void;
 };
 
-export const useMapStore = create<MapAction & MapStore>((set) => ({
+export const useMapStore = create<MapStore & MapAction>((set, get) => ({
+  /* ---------- STATE ---------- */
   isEditMap: false,
   selectedFacility: null,
   pendingPopupId: null,
-  setPendingPopupId: (id: string | null) => set({ pendingPopupId: id }),
-  setSelectedFacility: (facility: Facility | null) => 
-    set({ selectedFacility: facility, pendingPopupId: facility?.id || null }),
-  toggleCursor: () =>
-    set((state) => ({
-      isEditMap: !state.isEditMap,
-    })),
+  mapRef: null,
+  markerPos: null,
+
+  /* ---------- ACTIONS ---------- */
+
+  setEditMap: (value: boolean) =>
+    set({
+      isEditMap: value,
+      markerPos: value ? get().markerPos : null,
+    }),
+
+  setSelectedFacility: (facility) =>
+    set({
+      selectedFacility: facility,
+      pendingPopupId: facility?.id ?? null,
+      markerPos: null,
+    }),
+
+  setPendingPopupId: (id) =>
+    set({
+      pendingPopupId: id,
+    }),
+
+  setMapRef: (map) =>
+    set({
+      mapRef: map,
+    }),
+
+  setMarkerPos: (pos) =>
+    set({
+      markerPos: pos,
+    }),
+
+  flyToCoords: ({ lat, lng }, zoom = 16) => {
+    const map = get().mapRef;
+    if (!map) return;
+
+    const latLng = new L.LatLng(lat, lng);
+
+    map.closePopup();
+    map.flyTo(latLng, zoom, { animate: true });
+
+    set({
+      markerPos: latLng,
+      isEditMap: true,
+      selectedFacility: null,
+      pendingPopupId: null,
+    });
+  },
 }));

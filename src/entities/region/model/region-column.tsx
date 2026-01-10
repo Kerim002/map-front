@@ -23,15 +23,21 @@ export const regionColumn: ColumnDef<Region>[] = [
     },
   },
   {
-    accessorKey: "type",
+    accessorKey: "en", // You can keep this or use an ID
     header: () => {
       const { t } = useTranslation();
       return <p>{t("type")}</p>;
     },
     cell: ({ row }) => {
+      const { i18n } = useTranslation();
+
+      const currentLang = (i18n.language || "ru") as keyof Pick<Region, "en" | "ru" | "tk">;
+
+      const displayValue = row.original[currentLang] || row.original.ru;
+
       return (
         <div>
-          <p>{row.original.type}</p>
+          <p className="font-medium">{displayValue}</p>
         </div>
       );
     },

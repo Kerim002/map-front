@@ -1,5 +1,5 @@
 import { companyApi } from "@/entities/company/api/company.api";
-import {} from "@/entities/region";
+import { } from "@/entities/region";
 import { useClickOutside } from "@/shared/hooks/use-click-outside";
 import { useDebounce } from "@/shared/hooks/use-debouncer";
 import { Button } from "@/shared/ui/button";
@@ -38,14 +38,12 @@ export const CompanyFormField = <T extends FieldValues>({
   );
 
   const selectedItem = form.watch(name);
-  const handleSelect = ({
-    id,
-    companyName,
-  }: {
-    id: string;
-    companyName: string;
-  }) => {
-    form.setValue(name, { id, name: companyName } as PathValue<T, Path<T>>);
+  const handleSelect = ({ id, companyName }: { id: string; companyName: string }) => {
+    form.setValue(name, { id, name: companyName } as PathValue<T, Path<T>>, {
+      // This ensures the error disappears immediately after selecting
+      shouldValidate: true,
+      shouldDirty: true,
+    });
     setSearch(companyName);
     setIsOpen(false);
   };
@@ -72,6 +70,11 @@ export const CompanyFormField = <T extends FieldValues>({
         onChange={(e) => setSearch(e.target.value)}
         className="h-10 bg-white"
       />
+      {form.formState.errors[name] && (
+        <span className="text-[0.8rem] font-medium text-red-500">
+          {form.formState.errors[name]?.message as string}
+        </span>
+      )}
       <Button
         onClick={handleRemove}
         type="button"
@@ -98,11 +101,10 @@ export const CompanyFormField = <T extends FieldValues>({
                 handleSelect({ id: item.id, companyName: item.name })
               }
               key={item.id}
-              className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${
-                selectedItem?.id === item.id
-                  ? "dark:bg-zinc-800 bg-gray-200"
-                  : ""
-              }`}
+              className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${selectedItem?.id === item.id
+                ? "dark:bg-zinc-800 bg-gray-200"
+                : ""
+                }`}
             >
               {item.name}
             </p>

@@ -3,6 +3,9 @@ export type Authority = {
   type: string;
   createdAt: string;
   updatedAt: string;
+    en:string
+  ru:string
+  tk:string
 };
 
 export type AuthorityPagionation = {

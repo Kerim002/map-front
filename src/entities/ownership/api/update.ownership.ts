@@ -4,10 +4,9 @@ import type { OwnershipMutation } from "../contract";
 export const updateOwnership = async (
   body: OwnershipMutation & { id: string }
 ) => {
-  await apiInstance(`/ownership/${body.id}`, {
+  const {id, ...rest} = body
+  await apiInstance(`/ownership/${id}`, {
     method: "PATCH",
-    json: {
-      type: body.type,
-    },
+    json: rest
   });
 };

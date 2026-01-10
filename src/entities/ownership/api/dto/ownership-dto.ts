@@ -3,6 +3,9 @@ export type OwnershipDto = {
   type: string;
   created_at: string;
   updated_at: null | string;
+    en:string,
+  ru:string,
+  tk:string
 };
 
 export type OwnershipPagintionDto = {

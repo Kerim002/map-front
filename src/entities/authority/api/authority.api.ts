@@ -1,3 +1,4 @@
+
 import { keepPreviousData, queryOptions } from "@tanstack/react-query";
 import { getAuthority } from "./get.authority";
 import { getAuthorityDetail } from "./get.authority-detail";

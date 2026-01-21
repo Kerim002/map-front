@@ -76,9 +76,9 @@ export const FacilityCard = () => {
             <div className="p-2.5 rounded-xl bg-violet-500/10 text-violet-500 group-hover/row:bg-violet-500 group-hover/row:text-white transition-all duration-300">
               <Building2 className="h-4 w-4" />
             </div>
-            <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60 group-hover/row:text-primary transition-colors">{t("company")}</span>
+            <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60 group-hover/row:text-primary transition-colors">{t("floor")}</span>
           </div>
-          <span className="text-sm font-black text-foreground uppercase tracking-tight">{data?.company?.type ?? "-"}</span>
+          <span className="text-sm font-black text-foreground uppercase tracking-tight">{data?.floor ?? "-"}</span>
         </div>
 
         {
@@ -113,17 +113,6 @@ export const FacilityCard = () => {
 
         <Button variant={"destructive"} className="w-full" onClick={handleDelete}>{t("delete")}</Button>
 
-        {/* <div className="flex justify-between items-center py-5 border-y border-border/30 group/row">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 group-hover/row:bg-emerald-500 group-hover/row:text-white transition-all duration-300">
-              <div className="size-4 rounded-full border-2 border-current" />
-            </div>
-            <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60 group-hover/row:text-primary transition-colors">Current Status</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest border border-emerald-500/20">
-            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          </div>
-        </div> */}
       </CardContent>
     </Card>
   )

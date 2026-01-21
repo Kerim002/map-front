@@ -39,7 +39,10 @@ function Calendar({
       captionLayout={captionLayout}
       formatters={{
         formatMonthDropdown: (date) =>
-          date.toLocaleString("default", { month: "short" }),
+          // This will now use 'Ýan', 'Few', etc., when in Turkmen mode
+          date.toLocaleString(props.locale?.code || "default", {
+            month: "short"
+          }),
         ...formatters,
       }}
       classNames={{

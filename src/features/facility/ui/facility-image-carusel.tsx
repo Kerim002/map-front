@@ -15,6 +15,7 @@ import { Button } from "@/shared/ui/button";
 import { Trash, ImageIcon, Loader2 } from "lucide-react";
 import { useDeleteFacilityImage } from "../hook/use-delete-facility-image";
 import { ImageOrderDialog } from "./image-order-dialog";
+import { storageUrlCreate } from "@/shared/lib/storage-url-create";
 
 export const FacilityImageCarusel = () => {
   const { facilityId } = useParams();
@@ -43,9 +44,6 @@ export const FacilityImageCarusel = () => {
       }
     }
   };
-
-  const getImageUrl = (id: string) =>
-    `http://216.250.12.42:9000/location-image/${id}/xmd.webp`;
 
   // 1. Handle Loading State
   if (isLoading) {
@@ -76,7 +74,7 @@ export const FacilityImageCarusel = () => {
                 <DialogTrigger asChild>
                   <div className="cursor-zoom-in overflow-hidden aspect-video relative bg-muted">
                     <img
-                      src={getImageUrl(item.objectPath)}
+                      src={storageUrlCreate("image", item.objectPath, "md")}
                       alt={`Facility ${index}`}
                       className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
@@ -109,7 +107,7 @@ export const FacilityImageCarusel = () => {
               {data.map((item) => (
                 <CarouselItem key={item.id} className="flex items-center w-full justify-center h-[85vh]">
                   <img
-                    src={getImageUrl(item.objectPath)}
+                    src={storageUrlCreate("image", item.objectPath, "md")}
                     className="max-h-full w-full h-full max-w-full object-contain"
                   />
                 </CarouselItem>

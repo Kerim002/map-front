@@ -4,6 +4,7 @@ import { Input } from "@/shared/ui/input";
 import { ImagePlus, X } from "lucide-react"; // Optional: for icons
 import type { FieldValues, UseFormReturn, Path } from "react-hook-form";
 import { cn } from "@/shared/lib/utils"; // Assuming you use shadcn's utility
+import { useTranslation } from "react-i18next";
 
 type Props<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -17,6 +18,7 @@ export const AvatarFormField = <T extends FieldValues>({ form, name, label }: Pr
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fileValue = form.watch(name);
+  const {t} = useTranslation()
 
   useEffect(() => {
     if (isFile(fileValue)) {
@@ -61,13 +63,13 @@ export const AvatarFormField = <T extends FieldValues>({ form, name, label }: Pr
                     <img src={preview} alt="Avatar" className="w-full h-full object-cover" />
                     {/* Hover Overlay */}
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="text-white text-xs font-medium">Change Photo</span>
+                      <span className="text-white text-xs font-medium">{t("change-photo")}</span>
                     </div>
                   </>
                 ) : (
                   <div className="flex flex-col items-center gap-2 text-muted-foreground">
                     <ImagePlus className="w-8 h-8 opacity-50" />
-                    <span className="text-xs font-medium">Click to upload</span>
+                    <span className="text-xs font-medium">{t("click-to-upload")}</span>
                   </div>
                 )}
               </div>
@@ -100,7 +102,7 @@ export const AvatarFormField = <T extends FieldValues>({ form, name, label }: Pr
           
           <FormMessage />
           <p className="text-[10px] text-muted-foreground mt-2">
-            Accepted: JPG, PNG. Max size 5MB.
+              {t("accepted-image-formats")}
           </p>
         </FormItem>
       )}

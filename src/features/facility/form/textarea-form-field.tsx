@@ -26,7 +26,7 @@ export const TextAreaFormField = <T extends FieldValues>({
         <FormItem className="flex-1">
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Textarea className="bg-white" {...field} placeholder={`${name}`} />
+            <Textarea className="bg-white" {...field}  />
           </FormControl>
           <FormMessage />
         </FormItem>

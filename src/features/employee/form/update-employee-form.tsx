@@ -88,8 +88,8 @@ export const UpdateEmployeeForm = () => {
                 <AvatarFormField form={form} name="avatar" label={t("avatar")} />
 
                 <div className="grid grid-cols-2 gap-4">
-                    <TextFormField form={form} name="first_name" label={t("first_name")} />
-                    <TextFormField form={form} name="last_name" label={t("last_name")} />
+                    <TextFormField form={form} name="first_name" label={t("firstname")} />
+                    <TextFormField form={form} name="last_name" label={t("lastname")} />
                 </div>
 
                 <TextFormField form={form} name="email" label={t("email")} />
@@ -101,7 +101,7 @@ export const UpdateEmployeeForm = () => {
 
                 <DialogClose ref={closeRef} className="hidden" />
                 <Button type="submit" className="w-full mt-3">
-                    {t("create")}
+                    {t("update")}
                 </Button>
             </form>
         </Form>

@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/shared/ui/table";
 import { flexRender, type Table as TableProps } from "@tanstack/react-table";
+import { useTranslation } from "react-i18next";
 import { InView } from "react-intersection-observer";
 
 type Props<T> = {
@@ -26,6 +27,8 @@ export const DataTable = <T,>({
   isFetchingNextPage,
 }: Props<T>) => {
   const rowLength = table?.getAllColumns()?.length ?? 0;
+
+  const {t} = useTranslation()
 
   return (
     <div className="w-full">
@@ -105,7 +108,7 @@ export const DataTable = <T,>({
                   <td colSpan={rowLength} className="text-center py-6">
                     {isFetchingNextPage ? (
                       <div className="inline-flex items-center gap-2 text-xs font-black text-primary animate-pulse">
-                        Loading more assets...
+                        {t("loading")}
                       </div>
                     ) : (
                       <div className="text-[10px] font-black text-muted-foreground/30 uppercase tracking-widest">End of results</div>
@@ -122,8 +125,7 @@ export const DataTable = <T,>({
                     <span className="text-4xl opacity-50 text-muted-foreground">🕸️</span>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span className="text-sm font-black text-foreground/50">Registry is empty</span>
-                    <span className="text-[10px] font-bold text-muted-foreground/40 uppercase tracking-wider">No matching records found</span>
+                    <span className="text-[10px] font-bold text-muted-foreground/40 uppercase tracking-wider">{t("no-data-found")}</span>
                   </div>
                 </div>
               </TableCell>

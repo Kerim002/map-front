@@ -13,7 +13,8 @@ export type Employee =    {
         id: string,
         name: string,
         address: string
-      }
+      },
+      order:number
 }
 
 

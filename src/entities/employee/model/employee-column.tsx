@@ -3,8 +3,9 @@ import { useTranslation } from "react-i18next";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 import type { Employee } from "./employee";
 import { EmployeeActionCell } from "@/features/employee/ui/employee-action-cell";
-import { PhotoView } from "react-photo-view";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { storageUrlCreate } from "@/shared/lib/storage-url-create";
 
 export const employeeColumn: ColumnDef<Employee>[] = [
     {
@@ -30,48 +31,34 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             return <p>{t("avatar")}</p>;
         },
         cell: ({ row }) => {
-            const avatarId = row.original.avatarUrl;
+            const avatarUrl = row.original.avatarUrl;
             const fullName = `${row.original.firstName} ${row.original.lastName}`;
 
-            const getImageUrl = (id: string) =>
-                `http://216.250.12.42:9000/location-image/${id}/xmd.webp`;
 
-            const imageUrl = avatarId ? getImageUrl(avatarId) : "";
+            const imageUrl = avatarUrl ? storageUrlCreate("user", avatarUrl, "sm") : "";
 
             return (
-                // <PhotoView
-                //     src={imageUrl}
-                //     overlay={
-                //         <div
-                //             style={{ zIndex: 100 }}
-                //             className="absolute bottom-0 left-0 w-full p-4 bg-black/50 text-white text-center">
-                //             <p className="text-lg font-semibold">{fullName}</p>
-                //         </div>
-                //     }
-                // >
-                <PhotoView
-                    src={imageUrl}
-                    // render={() => (
-
-                    //     <div
-                    //         style={{ zIndex: 100 }}
-                    //         className="absolute bottom-0 left-0 w-full p-4 bg-black/50 text-white text-center">
-                    //         <p className="text-lg font-semibold">{fullName}</p>
-                    //     </div>
-                    // )
-                    // }
+                <PhotoProvider
+                    overlayRender={() => (
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2
+                            bg-black/60 text-white px-4 py-1 rounded-md text-sm">
+                            {fullName}
+                        </div>
+                    )}
                 >
-                    <Avatar className="h-10 w-10 cursor-pointer hover:opacity-80 transition-opacity">
-                        <AvatarImage
-                            className="object-cover"
-                            src={imageUrl}
-                            alt={fullName}
-                        />
-                        <AvatarFallback>
-                            {row.original.firstName.charAt(0)}
-                        </AvatarFallback>
-                    </Avatar>
-                </PhotoView>
+                    <PhotoView src={imageUrl}>
+                        <Avatar className="h-10 w-10 cursor-pointer hover:opacity-80 transition-opacity">
+                            <AvatarImage
+                                className="object-cover"
+                                src={imageUrl}
+                                alt={fullName}
+                            />
+                            <AvatarFallback>
+                                {row.original.firstName.charAt(0)}
+                            </AvatarFallback>
+                        </Avatar>
+                    </PhotoView>
+                </PhotoProvider>
             );
         },
     },
@@ -90,7 +77,6 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             );
         },
     },
-
     {
         accessorKey: "phone",
         header: () => {
@@ -105,7 +91,6 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             );
         },
     },
-
     {
         accessorKey: "position",
         header: () => {
@@ -116,6 +101,20 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             return (
                 <div>
                     <p>{row.original.position}</p>
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: "order",
+        header: () => {
+            const { t } = useTranslation();
+            return <p>{t("order")}</p>;
+        },
+        cell: ({ row }) => {
+            return (
+                <div>
+                    <p>{row.original.order}</p>
                 </div>
             );
         },
@@ -145,12 +144,13 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             return <p>{t("updated-at")}</p>;
         },
         cell: ({ row }) => {
+            const {t} = useTranslation()
             return (
                 <div>
                     <p>
                         {row.original.updatedAt
                             ? formatToDDMMYYYY(row.original.updatedAt)
-                            : "Not updated yet"}
+                            : t("not-updated-yet")}
                     </p>
                 </div>
             );
@@ -163,7 +163,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             return <p>{t("action")}</p>;
         },
         cell: ({ row }) => {
-            return <EmployeeActionCell id={row.original.id} />;
+            return <EmployeeActionCell id={row.original.id} currentOrder={row.original.order} location_id={row.original.location.id} />;
         },
     },
 ];

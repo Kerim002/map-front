@@ -2,7 +2,7 @@ import { TabsContent } from '@/shared/ui/tabs'
 import {
   Card,
   CardContent,
-  CardDescription,
+  // CardDescription,
   CardHeader,
   CardTitle,
 } from "@/shared/ui/card";
@@ -14,23 +14,24 @@ import 'react-photo-view/dist/react-photo-view.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { employeeApi } from '@/entities/employee/api/employee.api';
-import { facilityApi } from '@/entities/facility/api/facility.api';
+// import { facilityApi } from '@/entities/facility/api/facility.api';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
+import { storageUrlCreate } from '@/shared/lib/storage-url-create';
 
 
 
 export const FacilityWorkersTab = () => {
   const { t } = useTranslation();
   const { facilityId } = useParams()
-  const { data: facilityData } = useQuery(facilityApi.detail(facilityId))
+  // const { data: facilityData } = useQuery(facilityApi.detail(facilityId))
   const naviagte = useNavigate()
   const { data } = useQuery(
-    employeeApi.list({ limit: 12, page: 1, loaction_id: facilityId ?? "" })
+    employeeApi.list({ limit: 12, page: 1, location_id: facilityId ?? "" })
   );
 
 
-    const getImageUrl = (id: string) =>
-    `http://216.250.12.42:9000/location-image/${id}/xmd.webp`;
+    // const getImageUrl = (id: string) =>
+    // `http://216.250.12.42:9000/location-image/${id}/xmd.webp`;
 
   return (
     <TabsContent value="workers">
@@ -39,7 +40,7 @@ export const FacilityWorkersTab = () => {
           <CardTitle className="flex items-center gap-2">
             <Users className="h-5 w-5" /> {t("associated-personnel")}
           </CardTitle>
-          <CardDescription>{facilityData?.name}</CardDescription>
+          {/* <CardDescription>{facilityData?.name}</CardDescription> */}
         </CardHeader>
         <CardContent className="space-y-4">
           <PhotoProvider>
@@ -54,7 +55,7 @@ export const FacilityWorkersTab = () => {
                     <Avatar className="h-10 w-10 cursor-pointer hover:opacity-80 transition-opacity">
                       <AvatarImage
                         className="object-cover"
-                        src={getImageUrl(worker.avatarUrl ?? "")}
+                        src={storageUrlCreate('user', worker.avatarUrl ?? "" , 'md')}
                         alt={worker.firstName}
                       />
                       <AvatarFallback>

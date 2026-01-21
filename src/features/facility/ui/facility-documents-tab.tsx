@@ -69,7 +69,7 @@ export const FacilityDocumentsTab = () => {
             <FileText className="h-5 w-5 text-primary" /> {t("legal-and-compliance")}
           </CardTitle>
           <CardDescription>
-            Manage and view property documents and certificates.
+            {t("docs-description")}
           </CardDescription>
         </CardHeader>
 
@@ -87,13 +87,13 @@ export const FacilityDocumentsTab = () => {
             {isFetching && (
               <div className="flex flex-col items-center justify-center py-12 gap-2 text-slate-500">
                 <Loader2 className="h-8 w-8 animate-spin" />
-                <p className="text-sm">Loading documents...</p>
+                <p className="text-sm">{t("loading-documents")}...</p>
               </div>
             )}
 
             {!isFetching && data?.data.length === 0 && (
               <div className="text-center py-12 border-2 border-dashed rounded-lg border-slate-200 dark:border-slate-700">
-                <p className="text-sm text-slate-500">No documents uploaded yet.</p>
+                <p className="text-sm text-slate-500">{t("no-documents-uploaded")}</p>
               </div>
             )}
 

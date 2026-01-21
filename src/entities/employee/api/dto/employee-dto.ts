@@ -14,6 +14,7 @@ export type EmployeeDto =    {
         name: string,
         address: string
       },
+      order:number
 }
 
 

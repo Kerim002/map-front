@@ -7,13 +7,16 @@ import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { PhotoProvider } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 
 export const EmployeeTable = () => {
+  const date = Date.now()
+     const { currentPage } = useParams()
+  
+  console.log(date)
   const {facilityId} = useParams()
   const { data, isFetching } = useQuery(
-    employeeApi.list({ limit: 12, page: 1, loaction_id:facilityId??"" })
+    employeeApi.list({ limit: 12, page: Number(currentPage) ?? 1 , location_id:facilityId??"" })
   );
 
   const { table } = useTable({
@@ -30,10 +33,10 @@ export const EmployeeTable = () => {
       <div className="flex justify-end">
         <CreateEmployeeDialog/>
       </div>
-      <PhotoProvider>
+      {/* <PhotoProvider> */}
 
       <DataTable table={table} />
-      </PhotoProvider>
+      {/* </PhotoProvider> */}
       <TablePagination table={table} isFetching={isFetching} />
       <UpdateEmployeeDialog/>
     </div>

@@ -64,9 +64,10 @@ export const buildingColumn: ColumnDef<Building>[] = [
       return <p>{t("updated-at")}</p>;
     },
     cell: ({ row }) => {
+      const {t} = useTranslation()
       return (
         <div>
-          <p>{row.original.updatedAt || "Not updated yet"}</p>
+          <p>{row.original.updatedAt ? formatToDDMMYYYY(row.original.updatedAt) : t("not-updated-yet")}</p>
         </div>
       );
     },

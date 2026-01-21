@@ -74,5 +74,30 @@
   "delete":"Удалить",
   "english": "Английский",
   "turkmen": "Туркменский",
-  "russian": "Русский"
+  "russian": "Русский",
+  "all-regions": "Все регионы",
+  "all-buildings": "Все здания",
+  "firstname": "Имя",
+  "lastname": "Фамилия",
+  "position": "Должность",
+  "phone": "Телефон",
+  "email": "Электронная почта",
+  "avatar": "Аватар",
+  "accepted-image-formats": "Допустимые форматы: JPG, PNG. Макс. размер 5МБ.",
+  "click-to-upload": "Нажмите, чтобы загрузить",
+  "change-photo": "Изменить фото",
+  "fire-inspection-at": "Пожарная инспекция в:",
+  "parking": "Парковка",
+  "not-updated-yet": "Еще не обновлено",
+  "pick-a-date": "Выберите дату",
+  "floor": "Этаж",
+  "upload-photo": "Загрузить фото",
+  "docs-description": "Управление и просмотр документов на недвижимость и сертификатов.",
+  "no-documents-uploaded": "Документы еще не загружены.",
+  "loading-documents": "Загрузка документов",
+  "loading": "Загрузка...",
+  "no-data-found": "Данные не найдены",
+  "name-surname": "Имя и фамилия"
+  
+
 }

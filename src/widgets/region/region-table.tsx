@@ -6,9 +6,11 @@ import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
 export const RegionTable = () => {
-  const { data, isFetching } = useQuery(regionApi.list({ limit: 12, page: 1 }));
+  const { currentPage } = useParams()
+  const { data, isFetching } = useQuery(regionApi.list({ limit: 12, page: Number(currentPage) ?? 1 }));
 
   const { table } = useTable({
     list: data?.list ?? [],

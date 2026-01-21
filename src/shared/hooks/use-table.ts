@@ -16,6 +16,7 @@ type Props<T> = {
   hasPrevPage: boolean;
 };
 
+
 export const useTable = <T>({
   column,
   list,

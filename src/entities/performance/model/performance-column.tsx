@@ -62,12 +62,13 @@ export const performanceColumn: ColumnDef<Performance>[] = [
       return <p>{t("updated-at")}</p>;
     },
     cell: ({ row }) => {
+      const {t} = useTranslation()
       return (
         <div>
           <p>
             {row.original.updatedAt
               ? formatToDDMMYYYY(row.original.updatedAt)
-              : "Not updated yet"}
+              : t("not-updated-yet")}
           </p>
         </div>
       );

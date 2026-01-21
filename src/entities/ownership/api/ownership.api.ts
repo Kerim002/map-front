@@ -4,7 +4,7 @@ import { getOwnershipDetail } from "./get.ownership.detail";
 
 export const ownershipApi = {
   all: () => ["ownership"],
-  listKey: (params: PageBaseQuery) => [...ownershipApi.all(), "list", params],
+  listKey: (params: PageBaseQuery) => [...ownershipApi.all(), "list", params.limit, params],
   list: (params: PageBaseQuery) =>
     queryOptions({
       queryKey: [...ownershipApi.listKey(params)],

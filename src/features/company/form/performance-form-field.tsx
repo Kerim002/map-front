@@ -50,12 +50,12 @@ export const PerformanceFormField = <T extends FieldValues>({
     setIsOpen(false);
   };
 
-    const { i18n } = useTranslation();
-    const currentLang = (i18n.language || "ru") as "en" | "ru" | "tk"
+  const { i18n } = useTranslation();
+  const currentLang = (i18n.language || "ru") as "en" | "ru" | "tk"
 
   useEffect(() => {
     if (selectedItem) {
-      setSearch(selectedItem.name);
+      setSearch(selectedItem.type);
     }
   }, [selectedItem]);
 
@@ -101,11 +101,10 @@ export const PerformanceFormField = <T extends FieldValues>({
                 handleSelect({ id: item.id, valueName: item[currentLang] })
               }
               key={item.id}
-              className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${
-                selectedItem?.id === item.id
+              className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${selectedItem?.id === item.id
                   ? "dark:bg-zinc-800 bg-gray-200"
                   : ""
-              }`}
+                }`}
             >
               {item[currentLang] || item.ru}
             </p>

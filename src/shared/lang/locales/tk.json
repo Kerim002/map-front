@@ -71,7 +71,7 @@
   "edit-mode": "Redaktirleme tertibi",
   "create-facility": "Desga döretmek",
   "create-facility-desc": "Ulgama täze desga goşmak üçin aşakdaky maglumatlary dolduryň.",
-  "delete":"Pozmak",
+  "delete": "Pozmak",
   "english": "Inlisçe",
   "turkmen": "Turkmençe",
   "russian": "Rusça",
@@ -97,6 +97,14 @@
   "loading-documents": "Resminamalar ýüklenýär",
   "loading": "Ýüklenýär...",
   "no-data-found": "Maglumat tapylmady",
-  "name-surname": "Ady we familiýasy"
-  
+  "name-surname": "Ady we familiýasy",
+  "cadastr": "Kadastr ulgamy",
+  "surname": "Atasyň ady",
+  "upload-3x4-image": "3: 4 Surat ýükläň",
+  "zoom": "Ulaltmak",
+  "confirm-crop": "Tassyklaň",
+  "new-folder": "Täze bukja",
+  "select-folder": "Bukja saýlaň",
+  "folder-name": "Bukjanyň ady",
+  "this-folder-is-empty": "Bu bukja boş"
 }

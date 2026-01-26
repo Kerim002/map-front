@@ -56,7 +56,6 @@ export function AppSidebar() {
   queryClient.invalidateQueries(); 
 };
 
-console.log(i18n.language)
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border/50 bg-background/60 backdrop-blur-xl">
@@ -71,7 +70,7 @@ console.log(i18n.language)
             </div>
             {!isCollapsed && (
               <div className="flex flex-col">
-                <span className="font-extrabold text-base tracking-tight text-foreground leading-none">Cadastr</span>
+                <span className="font-extrabold text-base tracking-tight text-foreground leading-none">{t("cadastr")}</span>
                 {/* <span className="text-[10px] font-bold text-primary tracking-widest uppercase mt-0.5 opacity-80">Premium v2</span> */}
               </div>
             )}

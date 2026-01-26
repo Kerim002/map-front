@@ -5,8 +5,6 @@ import { getDetailFacility } from "./query/get.detail.facility";
 import { getFacilityImages } from "./query/get.facility-images";
 import { getFacilitiesSearch } from "./query/get-facilities-search";
 import { getFacilitiesByZoom } from "./query/get-facilities-by-zoom";
-import type { FacilityFolderQuery } from "./query-type/facility-folder-query";
-import { getFacilityFolders } from "./query/get-locations-folder";
 
 export const facilityApi = {
   all: ["locations"],
@@ -46,11 +44,5 @@ export const facilityApi = {
       enabled: enabled
     })
   },
-  folders: (params: FacilityFolderQuery) => queryOptions({
-    queryKey: ["facility-folders", params],
-    queryFn: () => getFacilityFolders(params),
-    placeholderData: keepPreviousData,
-    enabled: !!params.location_id
 
-  })
 };

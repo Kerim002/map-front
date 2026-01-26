@@ -17,7 +17,7 @@ const variants: VariantFunctions = {
 
   image: (url: string) => ({
     sm: `${S3URL}/${url}/sm.webp?${Date.now()}`,
-    md: `${S3URL}/${url}/sm.webp?${Date.now()}`,
+    md: `${S3URL}/${url}/md.webp?${Date.now()}`,
     xmd: `${S3URL}/${url}/xmd.webp?${Date.now()}`,
   }),
 };

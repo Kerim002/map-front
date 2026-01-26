@@ -71,7 +71,7 @@
   "edit-mode": "Режим редактирования",
   "create-facility": "Создать объект",
   "create-facility-desc": "Заполните данные ниже, чтобы добавить новый объект в систему.",
-  "delete":"Удалить",
+  "delete": "Удалить",
   "english": "Английский",
   "turkmen": "Туркменский",
   "russian": "Русский",
@@ -97,7 +97,14 @@
   "loading-documents": "Загрузка документов",
   "loading": "Загрузка...",
   "no-data-found": "Данные не найдены",
-  "name-surname": "Имя и фамилия"
-  
-
+  "name-surname": "Имя и фамилия",
+  "cadastr": "Кадастровая система",
+  "surname": "Отчество",
+  "upload-3x4-image": "Загрузить изображение 3:4",
+  "zoom": "Увеличить",
+  "confirm-crop": "Подтвердить обрезку",
+  "new-folder": "Новая папка",
+  "select-folder": "Выбрать папку",
+  "folder-name": "Имя папки",
+  "this-folder-is-empty": "Эта папка пуста"
 }

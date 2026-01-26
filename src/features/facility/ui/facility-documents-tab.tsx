@@ -3,16 +3,12 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { FileText, Loader2, Upload, Download } from 'lucide-react';
-// import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
 import { TabsContent } from "@/shared/ui/tabs";
-// import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/shared/ui/dialog";
-
-import { facilityApi } from "@/entities/facility/api/facility.api";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 import { useUploadFacilityFile } from "../hook/use-upload-facility-file";
+import { folderApi } from "@/entities/folders/api/folder-api";
 
 // Helper: Format bytes to readable size
 const formatSize = (bytes: number) => {
@@ -24,7 +20,8 @@ const formatSize = (bytes: number) => {
 };
 
 // Helper: Get Icon based on MimeType
-const getFileIcon = (mime: string) => {
+const getFileIcon = (mime: string | null) => {
+  if (!mime) return <FileText className="h-5 w-5 text-slate-400" />
   if (mime.includes("pdf")) return <FileText className="h-5 w-5 text-red-500" />;
   if (mime.includes("image")) return <FileText className="h-5 w-5 text-green-500" />;
   if (mime.includes("spreadsheetml") || mime.includes("excel")) return <FileText className="h-5 w-5 text-emerald-600" />;
@@ -39,7 +36,7 @@ export const FacilityDocumentsTab = () => {
 
   // 1. Fetch Data
   const { data, isLoading: isFetching } = useQuery(
-    facilityApi.folders({ limit: 20, location_id: facilityId!, page: 1 })
+    folderApi.folders({ limit: 20, location_id: facilityId!, page: 1 })
   );
 
   // 2. Upload Mutation
@@ -49,7 +46,8 @@ export const FacilityDocumentsTab = () => {
     if (e.target.files && e.target.files.length > 0 && facilityId) {
       uploadFiles({
         location_id: facilityId,
-        files: Array.from(e.target.files)
+        files: Array.from(e.target.files),
+        path: "root"
       }, {
         onSuccess: () => {
           if (fileInputRef.current) fileInputRef.current.value = "";
@@ -60,6 +58,7 @@ export const FacilityDocumentsTab = () => {
 
   const getFileUrl = (path: string) =>
     `http://216.250.12.42:9000/location-files/${path}`;
+
 
   return (
     <TabsContent value="documents">
@@ -117,63 +116,19 @@ export const FacilityDocumentsTab = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0" asChild>
-                    <a
-                      href={getFileUrl(doc.url ?? "")}
-                      download={doc.name}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Download className="h-4 w-4" />
-                    </a>
-                  </Button>
-                  {/* <Dialog>
-                    <DialogTrigger asChild>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-5xl h-[85vh] flex flex-col p-0 overflow-hidden">
-                      <div className="p-4 border-b flex justify-between items-center bg-white dark:bg-slate-900">
-                        <DialogTitle className="text-base font-medium truncate pr-4">
-                          {doc.name}
-                        </DialogTitle>
-                        {doc.url && (
-                          <Button variant="outline" size="sm" asChild>
-                            <a href={doc.url} download>
-                              <Download className="h-4 w-4 mr-2" /> Download
-                            </a>
-                          </Button>
-                        )}
-                      </div>
-
-                      <div className="flex-1 bg-slate-50 dark:bg-slate-950 relative">
-                        {doc.url ? (
-                          <DocViewer
-                            documents={[{ uri: doc.url, fileName: doc.name }]}
-                            pluginRenderers={DocViewerRenderers}
-                            theme={{
-                                disableThemeScrollbar: true,
-                            }}
-                            config={{
-                                header: { disableHeader: true }
-                            }}
-                          />
-                        ) : (
-                          <div className="flex flex-col items-center justify-center h-full text-slate-500 gap-3 p-6 text-center">
-                            <FileWarning className="h-12 w-12 opacity-20" />
-                            <div>
-                                <p className="font-medium text-slate-900 dark:text-white">Preview unavailable</p>
-                                <p className="text-sm">This file is processing or requires download to view.</p>
-                            </div>
-                            <Button variant="secondary" asChild>
-                                <a href={doc.url || "#"} download>Download to Local Device</a>
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </DialogContent>
-                  </Dialog> */}
+                  {!doc.isFolder ?
+                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0" asChild>
+                      <a
+                        href={getFileUrl(doc.url ?? "")}
+                        download={doc.name}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Download className="h-4 w-4" />
+                      </a>
+                    </Button>
+                    : null}
+                 
                 </div>
               </div>
             ))}

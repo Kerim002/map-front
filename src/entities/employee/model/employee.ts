@@ -9,12 +9,18 @@ export type Employee =    {
       position: string,
       createdAt: string,
       updatedAt: string,
+      surname:string
       location: {
         id: string,
         name: string,
         address: string
       },
       order:number
+      folder:{
+        id:string,
+        name:string,
+        path:string
+      } | null
 }
 
 

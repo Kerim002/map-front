@@ -47,13 +47,13 @@ export const employeeColumn: ColumnDef<Employee>[] = [
                     )}
                 >
                     <PhotoView src={imageUrl}>
-                        <Avatar className="h-10 w-10 cursor-pointer hover:opacity-80 transition-opacity">
+                        <Avatar className="rounded-sm h-20 w-full aspect-3/4 cursor-pointer hover:opacity-80 transition-opacity">
                             <AvatarImage
-                                className="object-cover"
+                                className="object-cover "
                                 src={imageUrl}
                                 alt={fullName}
                             />
-                            <AvatarFallback>
+                            <AvatarFallback className="rounded-sm">
                                 {row.original.firstName.charAt(0)}
                             </AvatarFallback>
                         </Avatar>
@@ -163,7 +163,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             return <p>{t("action")}</p>;
         },
         cell: ({ row }) => {
-            return <EmployeeActionCell id={row.original.id} currentOrder={row.original.order} location_id={row.original.location.id} />;
+            return <EmployeeActionCell path={row.original.folder?.path} id={row.original.id} currentOrder={row.original.order} location_id={row.original.location.id} />;
         },
     },
 ];

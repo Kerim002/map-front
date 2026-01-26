@@ -1,111 +1,129 @@
-import { useState, useEffect, useRef } from "react";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/form";
-import { Input } from "@/shared/ui/input";
-import { ImagePlus, X } from "lucide-react"; // Optional: for icons
-import type { FieldValues, UseFormReturn, Path } from "react-hook-form";
-import { cn } from "@/shared/lib/utils"; // Assuming you use shadcn's utility
+import Cropper from "react-easy-crop";
+import { useState, useRef } from "react";
+import { Dialog, DialogContent, DialogFooter } from "@/shared/ui/dialog";
+import { Button } from "@/shared/ui/button";
+import { Slider } from "@/shared/ui/slider";
+import { X, Edit } from "lucide-react";
+import { getCroppedImage } from "@/shared/lib/get-cropped-img"; 
 import { useTranslation } from "react-i18next";
 
-type Props<T extends FieldValues> = {
-  form: UseFormReturn<T>;
-  name: Path<T>;
-  label: string;
-};
-  
-const isFile = (value: any): value is File => value instanceof File;
-
-export const AvatarFormField = <T extends FieldValues>({ form, name, label }: Props<T>) => {
+export const AvatarFormField = ({ form, label }: { form: any; label: string }) => {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const fileValue = form.watch(name);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedPixels, setCroppedPixels] = useState<any>(null);
   const {t} = useTranslation()
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (isFile(fileValue)) {
-      const objectUrl = URL.createObjectURL(fileValue);
-      setPreview(objectUrl);
-      return () => URL.revokeObjectURL(objectUrl);
-    } else {
-      setPreview(null);
-    }
-  }, [fileValue]);
-
-  const handleBoxClick = () => {
-    fileInputRef.current?.click();
+  const onSelectFile = (file: File) => {
+    const url = URL.createObjectURL(file);
+    form.setValue("avatar_original", file);
+    setImageSrc(url);
   };
 
-  const handleRemove = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent triggering the file upload box
-    form.setValue(name, undefined as any);
-    if (fileInputRef.current) fileInputRef.current.value = "";
+  const onCropComplete = (_: any, pixels: any) => {
+    setCroppedPixels(pixels);
+  };
+
+  const confirmCrop = async () => {
+    if (!imageSrc || !croppedPixels) return;
+
+    const cropped = await getCroppedImage(imageSrc, croppedPixels);
+    const croppedUrl = URL.createObjectURL(cropped);
+
+    form.setValue("avatar_cropped", cropped);
+    setPreview(croppedUrl);
+    setImageSrc(null);
   };
 
   return (
-    <FormField
-      control={form.control}
-      name={name}
-      render={({ field: { onChange, value, ...rest } }) => (
-        <FormItem className="flex flex-col items-center justify-center">
-          <FormLabel className="w-full text-left mb-2">{label}</FormLabel>
-          
-          <FormControl>
-            <div className="relative group">
-              {/* The Big Press Box */}
-              <div
-                onClick={handleBoxClick}
-                className={cn(
-                  "relative w-48 h-48 rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer overflow-hidden transition-all hover:border-primary hover:bg-muted/50",
-                  preview ? "border-solid border-muted" : "border-muted-foreground/25"
-                )}
-              >
-                {preview ? (
-                  <>
-                    <img src={preview} alt="Avatar" className="w-full h-full object-cover" />
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="text-white text-xs font-medium">{t("change-photo")}</span>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                    <ImagePlus className="w-8 h-8 opacity-50" />
-                    <span className="text-xs font-medium">{t("click-to-upload")}</span>
-                  </div>
-                )}
-              </div>
+    <>
+      <label className="text-sm font-medium mb-2 block">{label}</label>
 
-              {/* Hidden File Input */}
-              <Input
-                {...rest}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                ref={fileInputRef}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) onChange(file);
-                }}
-              />
+      {/* Preview Box - Updated to 3:4 Portrait Ratio */}
+      <div className="relative w-36 aspect-[3/4]">
+        <div
+          onClick={() => inputRef.current?.click()}
+          className="w-full h-full rounded-md border border-dashed overflow-hidden flex items-center justify-center cursor-pointer group bg-muted"
+        >
+          {preview ? (
+            <img src={preview} className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-xs text-muted-foreground text-center px-2">
+              {t("upload-3x4-image")}
+            </span>
+          )}
 
-              {/* Remove Button (Visible only if image exists) */}
-              {preview && (
-                <button
-                  type="button"
-                  onClick={handleRemove}
-                  className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 shadow-md hover:scale-110 transition-transform"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
+          {preview && (
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+              <Edit className="text-white w-5 h-5" />
             </div>
-          </FormControl>
-          
-          <FormMessage />
-          <p className="text-[10px] text-muted-foreground mt-2">
-              {t("accepted-image-formats")}
-          </p>
-        </FormItem>
-      )}
-    />
+          )}
+        </div>
+
+        {preview && (
+          <button
+            type="button"
+            onClick={() => {
+              setPreview(null);
+              form.setValue("avatar_cropped", undefined);
+            }}
+            className="absolute -top-2 -right-2 bg-destructive text-white rounded-full p-1 z-10"
+          >
+            <X size={14} />
+          </button>
+        )}
+      </div>
+
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        hidden
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) onSelectFile(file);
+        }}
+      />
+
+      {/* Crop Modal */}
+      <Dialog open={!!imageSrc} onOpenChange={() => setImageSrc(null)}>
+        <DialogContent className="sm:max-w-[450px]">
+          {/* Increased container height slightly to better fit portrait crop UI */}
+          <div className="relative h-[400px] w-full bg-black rounded-lg overflow-hidden">
+            <Cropper
+              image={imageSrc!}
+              crop={crop}
+              zoom={zoom}
+              aspect={3 / 4} // Portrait ratio
+              cropShape="rect"
+              showGrid={true}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs text-muted-foreground">{t("zoom")}</label>
+            <Slider
+              value={[zoom]}
+              min={1}
+              max={3}
+              step={0.1}
+              onValueChange={(v) => setZoom(v[0])}
+            />
+          </div>
+
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setImageSrc(null)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmCrop}>Confirm Crop</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };

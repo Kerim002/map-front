@@ -11,11 +11,17 @@ export const createEmployee = async (body: EmployeCreateMutation & { location_id
 
     if (hasFile) {
         const formData = new FormData();
-        Object.entries(body).forEach(([key, value]) => {
-            if (value !== undefined && value !== null) {
-                formData.append(key, value);
-            }
-        });
+
+        formData.append("location_id", body.location_id)
+        formData.append("position", body.position)
+        formData.append("folder_id", body.folder.id)
+        formData.append("phone", body.phone)
+        formData.append("last_name", body.last_name)
+        body.avatar_cropped && formData.append("avatar", body.avatar_cropped)
+        formData.append("first_name", body.first_name)
+        formData.append("surname", body.surname)
+        formData.append("email", body.email)
+        console.log(hasFile)
         requestConfig = {
             method: "POST",
             body: formData,

@@ -15,6 +15,7 @@ import useQueryParam from "@/shared/hooks/use-query-param";
 import { useUpdateEmployee } from "../hook/use-update-employee";
 import { toast } from "sonner";
 import { useUpdateEmployeeImage } from "../hook/use-update-employee-image";
+import { FolderPopoverPicker } from "@/shared/ui/folder-form-field";
 
 export const UpdateEmployeeForm = () => {
     const { facilityId } = useParams();
@@ -30,6 +31,7 @@ export const UpdateEmployeeForm = () => {
             email: "",
             phone: "",
             position: "",
+            surname: "",
         }
     });
 
@@ -38,10 +40,10 @@ export const UpdateEmployeeForm = () => {
 
     const onSubmit: SubmitHandler<EmployeCreateMutation> = (arg) => {
         const employeeId = getQuery("id") ?? "";
-        if (arg.avatar) {
+        if (arg.avatar_cropped) {
             updateEmployeeImage({
                 id: employeeId,
-                avatar: arg.avatar
+                avatar: arg.avatar_cropped
             });
             toast.success(t("Employee image updated"));
         }
@@ -74,22 +76,36 @@ export const UpdateEmployeeForm = () => {
                 first_name: data.firstName,
                 last_name: data.lastName,
                 phone: data.phone,
-                position: data.position
+                position: data.position,
+                surname: data.surname,
+                folder: data.folder
+                    ? {
+                        id: data.folder.id,
+                        name: data.folder.name,
+                    }
+                    : undefined,
 
             });
         }
     }, [data, form])
 
-    console.log(form.formState.errors)
+
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
-                <AvatarFormField form={form} name="avatar" label={t("avatar")} />
+                <div className="w-full flex flex-col items-center justify-center">
+
+                    <AvatarFormField form={form} label={t("avatar")} />
+                </div>
 
                 <div className="grid grid-cols-2 gap-4">
                     <TextFormField form={form} name="first_name" label={t("firstname")} />
                     <TextFormField form={form} name="last_name" label={t("lastname")} />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <TextFormField form={form} name="email" label={t("email")} />
+                    <TextFormField form={form} name="surname" label={t("surname")} />
                 </div>
 
                 <TextFormField form={form} name="email" label={t("email")} />
@@ -98,6 +114,13 @@ export const UpdateEmployeeForm = () => {
                     <TextFormField form={form} name="phone" label={t("phone")} />
                     <TextFormField form={form} name="position" label={t("position")} />
                 </div>
+
+                <FolderPopoverPicker
+                    locationId={facilityId ?? ""}
+                    value={form.watch("folder") ?? data?.folder}
+                    onSelect={(val) => form.setValue("folder", val)}
+                />
+
 
                 <DialogClose ref={closeRef} className="hidden" />
                 <Button type="submit" className="w-full mt-3">

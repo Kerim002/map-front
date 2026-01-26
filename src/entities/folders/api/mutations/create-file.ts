@@ -6,7 +6,7 @@ type Props = {
     files: File[]
 }
 
-export const facilityUploadFile = async ({ files, location_id, path }: Props) => {
+export const facilityUploadFile = async ({ files, location_id,path }: Props) => {
 
     const formdata = new FormData()
     files.forEach((file) => {

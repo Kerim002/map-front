@@ -51,11 +51,11 @@ export const FacilityWorkersTab = () => {
               >
                 <div className="flex items-center gap-4">
                   {/* 3. Wrap the specific image in PhotoView */}
-                  <PhotoView src={worker.avatarUrl ?? ""}>
+                  <PhotoView src={storageUrlCreate('user', worker.avatarUrl ?? "" , 'md')}>
                     <Avatar className="h-10 w-10 cursor-pointer hover:opacity-80 transition-opacity">
                       <AvatarImage
                         className="object-cover"
-                        src={storageUrlCreate('user', worker.avatarUrl ?? "" , 'md')}
+                        src={storageUrlCreate('user', worker.avatarUrl ?? "" , 'sm')}
                         alt={worker.firstName}
                       />
                       <AvatarFallback>

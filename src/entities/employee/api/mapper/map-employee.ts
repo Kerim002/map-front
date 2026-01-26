@@ -13,7 +13,9 @@ export const mapEmployee = (dto: EmployeeDto): Employee => {
         phone: dto.phone,
         position: dto.position,
         updatedAt: dto.updated_at,
-        order:dto.order
+        order:dto.order,
+        surname:dto.surname,
+        folder:dto.folder 
         
     }
 }

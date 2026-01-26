@@ -21,6 +21,7 @@ import {
 } from "@/shared/ui/alert-dialog";
 import { toast } from "sonner"; // Assuming you use sonner for notifications
 import { useUpdateFacilityPatch } from '../hook/use-update-facility-patch';
+import { storageUrlCreate } from '@/shared/lib/storage-url-create';
 
 type Props = {
   item: Facility;
@@ -48,7 +49,7 @@ export const MapMarker = ({ item }: Props) => {
 
   const firstImage = images?.[0];
   const imageUrl = firstImage
-    ? `http://216.250.12.42:9000/location-image/${firstImage.objectPath}/md.webp`
+    ? storageUrlCreate("image", firstImage?.objectPath ?? "", 'md') 
     : null;
 
 

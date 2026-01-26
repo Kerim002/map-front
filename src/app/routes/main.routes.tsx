@@ -12,7 +12,8 @@ import { Building } from "@/pages/building";
 // import { Company } from "@/pages/company";
 import { FacilityPage } from "@/pages/facility";
 import { SidebarLayout } from "../layouts/sidebar-layout";
-import { EmployeePage } from "@/pages/employee";
+import { DocumentsPage, EmployeePage } from "@/pages/employee";
+import { EmployeeFilesPage } from "@/pages/employee/ui/employee-files-page";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -51,6 +52,32 @@ const mainRoutes = createBrowserRouter([
                     element: (
                       <Suspense>
                         <EmployeePage />
+                      </Suspense>
+                    )
+                  }
+                ]
+              },
+              {
+                path: "documents",
+                children: [
+                  {
+                    path: ":currentPage",
+                    element: (
+                      <Suspense>
+                        <DocumentsPage />
+                      </Suspense>
+                    )
+                  }
+                ]
+              },
+              {
+                path: "files",
+                children: [
+                  {
+                    path: ":currentPage",
+                    element: (
+                      <Suspense>
+                        <EmployeeFilesPage />
                       </Suspense>
                     )
                   }

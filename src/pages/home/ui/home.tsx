@@ -91,19 +91,16 @@ const METRICS: KeyMetric[] = [
   {
     title: "total-registered-buildings",
     value: "1,870",
-    change: "+7% YTD",
     icon: Building2,
   },
   {
     title: "total-cadastre-area-km",
     value: "491,220",
-    change: "—",
     icon: AreaChart,
   },
   {
     title: "authority-violations-q4",
     value: "42",
-    change: "-12% vs Q3",
     icon: AlertTriangle,
   },
   {
@@ -137,13 +134,7 @@ export function Home() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="h-12 w-[1px] bg-border/50 hidden md:block mx-4" />
-          <div className="text-right">
-            <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-0.5">Global Compliance</div>
-            <div className="text-2xl font-black text-primary tabular-nums">{averageCompliance}%</div>
-          </div>
-        </div>
+
       </div>
 
       {/* BENTO GRID LAYOUT */}
@@ -167,17 +158,7 @@ export function Home() {
             </CardHeader>
             <CardContent className="pt-2">
               <div className="text-3xl font-black tracking-tight mb-2 group-hover:scale-105 transition-transform duration-500 origin-left">{metric.value}</div>
-              {metric.change && (
-                <div className="flex items-center gap-1.5">
-                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${metric.change.startsWith("+")
-                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                    : "bg-muted text-muted-foreground"
-                    }`}>
-                    {metric.change}
-                  </span>
-                  <span className="text-[10px] font-medium text-muted-foreground/70 tracking-tight">vs last month</span>
-                </div>
-              )}
+              
             </CardContent>
           </Card>
         ))}
@@ -187,14 +168,12 @@ export function Home() {
           <CardHeader className="flex flex-row items-center justify-between border-b border-border/50 pb-6 px-8 pt-8">
             <div>
               <CardTitle className="text-xl font-black tracking-tight">{t("authority-compliance-rate-by-welayat-region")}</CardTitle>
-              <CardDescription className="text-xs font-medium text-muted-foreground mt-1">
-                Regional performance and registration efficiency metrics
-              </CardDescription>
+
             </div>
-            <div className="flex items-center gap-2 bg-muted/30 p-1 rounded-xl">
+            {/* <div className="flex items-center gap-2 bg-muted/30 p-1 rounded-xl">
               <button className="px-3 py-1.5 text-[10px] font-bold rounded-lg bg-background shadow-sm text-primary">Monthly</button>
               <button className="px-3 py-1.5 text-[10px] font-bold rounded-lg text-muted-foreground hover:text-foreground">Quarterly</button>
-            </div>
+            </div> */}
           </CardHeader>
           <CardContent className="p-8 h-[400px]">
             <ChartAreaInteractive />

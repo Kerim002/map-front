@@ -1,14 +1,15 @@
-import { useRef } from "react";
+// import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { FileText, Loader2, Upload, Download } from 'lucide-react';
+import { FileText, Loader2, Upload, Download, Folder } from 'lucide-react';
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
 import { TabsContent } from "@/shared/ui/tabs";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
-import { useUploadFacilityFile } from "../hook/use-upload-facility-file";
+// import { useUploadFacilityFile } from "../hook/use-upload-facility-file";
 import { folderApi } from "@/entities/folders/api/folder-api";
+import { storageUrlCreate } from "@/shared/lib/storage-url-create";
 
 // Helper: Format bytes to readable size
 const formatSize = (bytes: number) => {
@@ -21,7 +22,7 @@ const formatSize = (bytes: number) => {
 
 // Helper: Get Icon based on MimeType
 const getFileIcon = (mime: string | null) => {
-  if (!mime) return <FileText className="h-5 w-5 text-slate-400" />
+  if (!mime) return <Folder className="h-5 w-5 text-slate-400" />
   if (mime.includes("pdf")) return <FileText className="h-5 w-5 text-red-500" />;
   if (mime.includes("image")) return <FileText className="h-5 w-5 text-green-500" />;
   if (mime.includes("spreadsheetml") || mime.includes("excel")) return <FileText className="h-5 w-5 text-emerald-600" />;
@@ -32,32 +33,32 @@ const getFileIcon = (mime: string | null) => {
 export const FacilityDocumentsTab = () => {
   const { t } = useTranslation();
   const { facilityId } = useParams();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
+  // const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate()
   // 1. Fetch Data
   const { data, isLoading: isFetching } = useQuery(
     folderApi.folders({ limit: 20, location_id: facilityId!, page: 1 })
   );
 
   // 2. Upload Mutation
-  const { mutate: uploadFiles, isPending: isUploading } = useUploadFacilityFile();
+  // const { mutate: uploadFiles, isPending: isUploading } = useUploadFacilityFile();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0 && facilityId) {
-      uploadFiles({
-        location_id: facilityId,
-        files: Array.from(e.target.files),
-        path: "root"
-      }, {
-        onSuccess: () => {
-          if (fileInputRef.current) fileInputRef.current.value = "";
-        }
-      });
-    }
-  };
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files.length > 0 && facilityId) {
+  //     uploadFiles({
+  //       location_id: facilityId,
+  //       files: Array.from(e.target.files),
+  //       path: "root"
+  //     }, {
+  //       onSuccess: () => {
+  //         if (fileInputRef.current) fileInputRef.current.value = "";
+  //       }
+  //     });
+  //   }
+  // };
 
-  const getFileUrl = (path: string) =>
-    `http://216.250.12.42:9000/location-files/${path}`;
+
+
 
 
   return (
@@ -74,13 +75,13 @@ export const FacilityDocumentsTab = () => {
 
         <CardContent>
           {/* Hidden Input */}
-          <input
+          {/* <input
             type="file"
             multiple
             ref={fileInputRef}
             className="hidden"
             onChange={handleFileChange}
-          />
+          /> */}
 
           <div className="space-y-1 min-h-[200px]">
             {isFetching && (
@@ -110,7 +111,7 @@ export const FacilityDocumentsTab = () => {
                       {doc.name}
                     </p>
                     <p className="text-[11px] text-slate-500 uppercase font-bold tracking-tight">
-                      {formatSize(doc.size)} • {formatToDDMMYYYY(doc.updatedAt, true)}
+                      {doc.isFolder ? null : `${formatSize(doc.size)} •`}  {formatToDDMMYYYY(doc.updatedAt, true)}
                     </p>
                   </div>
                 </div>
@@ -119,7 +120,7 @@ export const FacilityDocumentsTab = () => {
                   {!doc.isFolder ?
                     <Button size="sm" variant="ghost" className="h-8 w-8 p-0" asChild>
                       <a
-                        href={getFileUrl(doc.url ?? "")}
+                        href={storageUrlCreate("fileDownload", doc.url ?? "")}
                         download={doc.name}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -128,7 +129,7 @@ export const FacilityDocumentsTab = () => {
                       </a>
                     </Button>
                     : null}
-                 
+
                 </div>
               </div>
             ))}
@@ -136,15 +137,15 @@ export const FacilityDocumentsTab = () => {
 
           <Button
             className="w-full mt-6 shadow-sm"
-            disabled={isUploading}
-            onClick={() => fileInputRef.current?.click()}
+            // disabled={isUploading}
+            // onClick={() => fileInputRef.current?.click()}
+            onClick={() => navigate("files/1")}
           >
-            {isUploading ? (
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            ) : (
-              <Upload className="h-4 w-4 mr-2" />
-            )}
-            {isUploading ? t("uploading") : t("upload-new-document")}
+
+            <Upload className="h-4 w-4 mr-2" />
+
+            {/* {isUploading ? t("uploading") : t("upload-new-document")} */}
+            {t("upload-new-document")}
           </Button>
         </CardContent>
       </Card>

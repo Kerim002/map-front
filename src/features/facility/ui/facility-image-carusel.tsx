@@ -79,7 +79,7 @@ export const FacilityImageCarusel = () => {
                       className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
                         // Handle broken image URLs
-                        (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=Image+Not+Found';
+                        (e.target as HTMLImageElement).src = '/placeholder/image.png';
                       }}
                     />
                   </div>

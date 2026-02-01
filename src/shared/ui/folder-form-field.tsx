@@ -18,7 +18,7 @@ const getParentPath = (path: string) => {
 
 type Props = {
     locationId: string;
-    value?: { id: string; name: string; path?: string };
+    value?: { id: string; name: string; path?: string } | null;
     onSelect: (val: { id: string; name: string }) => void;
 };
 

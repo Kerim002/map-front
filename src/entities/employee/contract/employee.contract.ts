@@ -19,7 +19,7 @@ export const CreateEmployeeContract = z.object({
   folder: z.object({
     id: z.string().min(1),
     name: z.string().min(1),
-  }),
+  }).optional(),
 });
 
 export type EmployeCreateMutation = z.infer<typeof CreateEmployeeContract>;

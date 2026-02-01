@@ -24,6 +24,7 @@ import { Button } from "@/shared/ui/button";
 import { useUpdateFacilityImageOrder } from "../hook/use-update-facility-image-order";
 import type { FacilityImage } from "@/entities/facility/model/facility-image";
 import { useTranslation } from "react-i18next";
+import { storageUrlCreate } from "@/shared/lib/storage-url-create";
 
 // --- Sortable Row Component ---
 const SortableRow = ({ image }: { image: FacilityImage }) => {
@@ -47,7 +48,7 @@ const SortableRow = ({ image }: { image: FacilityImage }) => {
       </TableCell>
       <TableCell className="w-[100px]">
         <img 
-          src={`http://216.250.12.42:9000/location-image/${image.objectPath}/xmd.webp`} 
+          src={storageUrlCreate("image", image.objectPath, "md")}
           className="h-12 w-16 object-cover rounded border" 
           alt="Preview"
         />

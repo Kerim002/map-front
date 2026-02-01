@@ -32,6 +32,7 @@ export const MapMarker = ({ item }: Props) => {
   const { setQuery } = useQueryParam();
   const navigate = useNavigate();
   const { mutate, isPending: isUpdating } = useUpdateFacilityPatch()
+  
 
   // Refs & State
   const markerRef = useRef<L.Marker>(null);
@@ -138,6 +139,7 @@ export const MapMarker = ({ item }: Props) => {
                 onClick={() => setQuery([{ key: "location-id", value: item.id }])}
                 className="w-full h-8 text-xs"
                 variant="secondary"
+                disabled={!isEditMap}
               >
                 {t("edit-location")}
               </Button>

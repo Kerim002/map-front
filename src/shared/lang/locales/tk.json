@@ -42,7 +42,7 @@
   "total-cadastre-area-km": "Jemi kadastrir meýdany (Manlik)",
   "total-registered-buildings": "Jemi hasaba alnan binalar",
   "regional-land-and-asset-summary": "Sebitdäki ýer we aktiwleriň gysgaça mazmuny",
-  "overview-of-registered-buildings-and-area-by-administrative-region-welayat": "Administratiw sebit bilen hasaba alnan binalara we meýdana syn etmek (Weýanat).",
+  "overview-of-registered-buildings-and-area-by-administrative-region-welayat": "Administratiw sebit bilen hasaba alnan binalara we meýdana syn etmek (Welaýat).",
   "buildings": "Binalar",
   "compliant": "Laýyk",
   "area": "Meýdany",
@@ -106,5 +106,6 @@
   "new-folder": "Täze bukja",
   "select-folder": "Bukja saýlaň",
   "folder-name": "Bukjanyň ady",
-  "this-folder-is-empty": "Bu bukja boş"
+  "this-folder-is-empty": "Bu bukja boş",
+  "cuncel": "Ýatyr"
 }

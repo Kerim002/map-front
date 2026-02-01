@@ -27,3 +27,8 @@ sudo docker rmi <image id>
 sudo docker load -i tar_file.tar
 
 sudo docker run -d -p 5173:80 map-front
+
+
+
+
+cards in dahsbaord ygtyarlykday bozulmalar

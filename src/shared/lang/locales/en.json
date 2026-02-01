@@ -103,5 +103,6 @@
   "new-folder":"New folder",
   "select-folder":"Select folder",
   "folder-name":"Folder name",
-  "this-folder-is-empty":"This folder is empty"
+  "this-folder-is-empty":"This folder is empty",
+  "cuncel":"Cuncel"
 }

@@ -30,9 +30,6 @@ export const FacilityWorkersTab = () => {
   );
 
 
-    // const getImageUrl = (id: string) =>
-    // `http://216.250.12.42:9000/location-image/${id}/xmd.webp`;
-
   return (
     <TabsContent value="workers">
       <Card className="dark:bg-slate-800 bg-white">

@@ -34,28 +34,21 @@ export const FacilityNavbar = () => {
     return (
         <div className="flex flex-col xl:flex-row items-start xl:items-end justify-between gap-8 pb-10 border-b border-border/30">
             <div className="space-y-4 max-w-4xl">
-                <div className="flex items-center gap-3">
-                    <div className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest leading-none">
-                        Asset Registry
-                    </div>
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest leading-none">
-                        <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        Operational
-                    </div>
-                </div>
+ 
 
                 <h1 className="text-4xl lg:text-2xl font-black  text-foreground leading-[1.1]">
-                    {data?.name}
+                    "{data?.name}"
                 </h1>
 
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground/60 text-sm font-semibold italic">
+    
                     <div className="flex items-center gap-2">
+                        <span className="not-italic text-foreground/80">{data?.region?.type}</span>
+                        <span className="text-border">/</span>
+                    </div>
+                                    <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4 text-primary" />
                         <span className="not-italic text-foreground/80">{data?.address}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-border">/</span>
-                        <span className="not-italic text-foreground/80">{data?.region?.type}</span>
                     </div>
                     {/* <div className="flex items-center gap-2">
                         <span className="text-border">/</span>

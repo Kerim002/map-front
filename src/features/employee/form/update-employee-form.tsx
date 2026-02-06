@@ -18,7 +18,7 @@ import { useUpdateEmployeeImage } from "../hook/use-update-employee-image";
 import { FolderPopoverPicker } from "@/shared/ui/folder-form-field";
 
 export const UpdateEmployeeForm = () => {
-    const { facilityId } = useParams();
+    const { facilityId,facilityChildId } = useParams();
     const { t } = useTranslation();
     const { getQuery } = useQueryParam()
     const closeRef = useRef<HTMLButtonElement>(null);
@@ -49,7 +49,7 @@ export const UpdateEmployeeForm = () => {
         }
 
         mutate(
-            { ...arg, location_id: facilityId ?? "", id: employeeId },
+            { ...arg, location_id: facilityChildId? facilityChildId :facilityId ?? "", id: employeeId },
             {
                 onSuccess: async () => {
                     toast.success(t("Employee updated"));

@@ -18,14 +18,22 @@ import { useTranslation } from "react-i18next";
 import { OwnershipFormField } from "./ownership-form-field";
 import { AuthorityFormField } from "./authority-form-field";
 import { PerformanceFormField } from "@/features/company/form/performance-form-field";
+import { useLocation, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { facilityApi } from "@/entities/facility/api/facility.api";
 export const CreateFacilityForm = () => {
   const form = useForm({
     resolver: zodResolver(FacilityContract),
   });
+  const { pathname } = useLocation()
+  const { facilityId } = useParams()
   const closeRef = useRef<HTMLButtonElement>(null);
   const { getQuery, deleteQuery } = useQueryParam();
   const { mutate } = useCreateFacility();
   const { t } = useTranslation()
+  const isInChild = pathname.includes("/childs")
+  const { data } = useQuery(facilityApi.detail(facilityId))
+  const geom = isInChild ? { lat: data?.geom.lat ?? 0, lng: data?.geom.lng ?? 0 } : { lat: Number(getQuery("lat")), lng: Number(getQuery("lng")) }
 
   const onSubmit: SubmitHandler<FaciltyMutation> = (body) => {
 
@@ -33,7 +41,8 @@ export const CreateFacilityForm = () => {
     mutate(
       {
         ...body,
-        geom: { lat: Number(getQuery("lat")), lng: Number(getQuery("lng")) },
+        geom,
+        parent_id:isInChild ? facilityId : undefined
       },
       {
         onSuccess: () => {

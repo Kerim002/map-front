@@ -8,18 +8,9 @@ export type Facility = {
   updatedAt: string;
   name: string;
   address: null | string;
-  company: {
-    id: string;
-    type: string;
-  } | undefined;
-  building: {
-    id: string,
-    type: string
-  } | undefined,
-  region: {
-    type: string,
-    id: string
-  } | undefined,
+  company: AttriubtesFacility;
+  building: AttriubtesFacility,
+  region: AttriubtesFacility,
   cadaster: null | string,
   note: string | null,
   // images: [] | null,
@@ -28,19 +19,16 @@ export type Facility = {
   floor: number,
   fireInspectionAt: null | string,
   parking: null | number,
-  authority: {
-    id: string;
-    type: string
-  } | undefined
-  ownership: {
-    id: string;
-    type: string
-  } | undefined
-  performance: {
-    id: string;
-    type: string
-  } | undefined
+  authority: AttriubtesFacility
+  ownership: AttriubtesFacility
+  performance: AttriubtesFacility
+  hasChildren:boolean
 };
+
+type AttriubtesFacility = {
+    id: string;
+    type: string
+  } | undefined
 
 
 export type FacilityPagionation = {

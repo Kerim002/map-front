@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ImageIcon, Loader2 } from 'lucide-react';
 import { useMapStore } from '@/entities/store/use-map-store';
+import L from "leaflet";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,6 +27,15 @@ import { storageUrlCreate } from '@/shared/lib/storage-url-create';
 type Props = {
   item: Facility;
 };
+
+
+const getIcon = (colorClass: string) => new L.Icon({
+  iconUrl: '/marker-icon.png',
+  shadowUrl: '/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  className: colorClass // This applies the CSS filter class to the <img> tag
+});
 
 export const MapMarker = ({ item }: Props) => {
   const { t } = useTranslation();
@@ -93,6 +103,10 @@ export const MapMarker = ({ item }: Props) => {
     }
   };
 
+  const markerIcon = useMemo(() => {
+    return item.hasChildren ? getIcon('marker-yellow') : getIcon('marker-blue');
+  }, [item.hasChildren]);
+
   const handleCancelMove = () => {
     if (markerRef.current) {
       // Revert marker to original position from the 'item' prop
@@ -104,11 +118,13 @@ export const MapMarker = ({ item }: Props) => {
   return (
     <>
       <Marker
+      icon={markerIcon}
         draggable={isEditMap}
         ref={markerRef}
         attribution={item.id}
         position={[item.geom.lat, item.geom.lng]}
         eventHandlers={eventHandlers}
+        
       >
         <Popup>
           <div className="w-48 flex flex-col gap-2">
@@ -130,7 +146,7 @@ export const MapMarker = ({ item }: Props) => {
               )}
             </div>
 
-            <p className="font-semibold text-sm !m-0 truncate dark:text-gray-200">
+            <p className="font-semibold text-sm m-0! truncate dark:text-gray-200">
               {item.name}
             </p>
 

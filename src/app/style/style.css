@@ -160,3 +160,12 @@
   filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3)
     brightness(0.7);
 } */
+
+.marker-yellow {
+  filter: hue-rotate(160deg) brightness(1.2) saturate(1.5);
+}
+
+/* Default blue (optional, just for clarity) */
+.marker-blue {
+  filter: none;
+}

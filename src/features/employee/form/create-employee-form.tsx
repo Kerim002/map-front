@@ -14,7 +14,7 @@ import { FolderPopoverPicker } from "@/shared/ui/folder-form-field";
 // import { AvatarFormField } from "./avatar-form-field"; // Import the new component
 
 export const CreateEmployeeForm = () => {
-    const { facilityId } = useParams();
+    const { facilityId, facilityChildId } = useParams();
     const { t } = useTranslation();
     const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -32,7 +32,7 @@ export const CreateEmployeeForm = () => {
     const { mutate } = useCreateEmployee();
 
     const onSubmit: SubmitHandler<EmployeCreateMutation> = (arg) => {
-        mutate({ ...arg, location_id: facilityId ?? "" }, {
+        mutate({ ...arg, location_id: facilityChildId ? facilityChildId : facilityId ?? "" }, {
             onSuccess() {
                 closeRef.current?.click();
             },

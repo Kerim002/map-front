@@ -16,11 +16,12 @@ export type CreateBody = {
   performance_id?: string,
   authority_id?: string
   ownership_id?: string
-  parking?:number
+  parking?:number,
+  parent_id?:string
 };
 
 export const createFacility = async (
-  payload: FaciltyMutation & { geom: Geom }
+  payload: FaciltyMutation & { geom: Geom , parent_id?:string}
 ) => {
   const perfomanceId = payload?.performance?.id;
   const authorityId = payload.auhtority.id;
@@ -39,6 +40,7 @@ export const createFacility = async (
     floor: payload.floor,
     note: payload.note,
     parking:payload.parking,
+    parent_id:payload.parent_id,
 
     ...(address && { address: address }),
     ...(building_id && { building_id: building_id }),
@@ -46,6 +48,7 @@ export const createFacility = async (
     ...(region_id && { region_id: region_id }),
     ...(authorityId && { authority_id: authorityId }),
     ...(perfomanceId && { performance_id: perfomanceId }),
+    
 
 
   };

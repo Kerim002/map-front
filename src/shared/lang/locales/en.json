@@ -100,9 +100,10 @@
   "upload-3x4-image": "Upload 3:4 Image",
   "zoom": "Zoom",
   "confirm-crop": "Confirm Crop",
-  "new-folder":"New folder",
-  "select-folder":"Select folder",
-  "folder-name":"Folder name",
-  "this-folder-is-empty":"This folder is empty",
-  "cuncel":"Cuncel"
+  "new-folder": "New folder",
+  "select-folder": "Select folder",
+  "folder-name": "Folder name",
+  "this-folder-is-empty": "This folder is empty",
+  "cuncel": "Cuncel",
+  "facilities": "Facilities"
 }

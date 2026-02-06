@@ -11,12 +11,13 @@ export type FacilityQuery = {
 
 
 export type FacilitySearchQuery ={
-  q:string,
+  q?:string,
   company_id?:string,
   region_id?:string,
   building_id?:string,
   page:number,
-  limit:number
+  limit:number,
+  parent_id?:string
 }
 
 
@@ -29,3 +30,4 @@ export type FacilityZoomQuery = {
   region_id?:string,
   building_id?:string,
 }
+

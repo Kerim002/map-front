@@ -21,9 +21,10 @@ export const mapFacility = (dto: FacilityDto): Facility => {
     floor:dto.floor,
     note:dto.note,
     parking:dto.parking,
-    authority:dto.authority,
+    authority:dto.authority ?? undefined,
     ownership:dto.ownership ?? undefined,
-    performance:dto.performance ?? undefined
+    performance:dto.performance ?? undefined,
+    hasChildren:dto.has_children
     
   };
 };

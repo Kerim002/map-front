@@ -10,9 +10,9 @@ import { Performance } from "@/pages/performance";
 import { Ownership } from "@/pages/ownership";
 import { Building } from "@/pages/building";
 // import { Company } from "@/pages/company";
-import { FacilityPage } from "@/pages/facility";
+import { FacilityChildListPage, FacilityPage } from "@/pages/facility";
 import { SidebarLayout } from "../layouts/sidebar-layout";
-import { DocumentsPage, EmployeePage } from "@/pages/employee";
+import {  EmployeePage } from "@/pages/employee";
 import { EmployeeFilesPage } from "@/pages/employee/ui/employee-files-page";
 
 const mainRoutes = createBrowserRouter([
@@ -45,6 +45,61 @@ const mainRoutes = createBrowserRouter([
                 ),
               },
               {
+                path: "childs",
+                children: [
+                  {
+                    path: ":currentPage",
+                    element: (
+                      <Suspense>
+                        <FacilityChildListPage />
+                      </Suspense>)
+
+                  },
+                  {
+                    path: ":currentPage/:facilityChildId",
+
+                    children: [
+                      {
+                        index: true,
+                        element: (
+                          <Suspense>
+                            <FacilityPage />
+                          </Suspense>
+                        ),
+                      },
+                      {
+                        path: "employee",
+                        children: [
+                          {
+                            path: ":currentPage",
+                            element: (
+                              <Suspense>
+                                <EmployeePage />
+                              </Suspense>
+                            )
+                          }
+                        ]
+                      },
+    
+                      {
+                        path: "files",
+                        children: [
+                          {
+                            path: ":currentPage",
+                            element: (
+                              <Suspense>
+                                <EmployeeFilesPage />
+                              </Suspense>
+                            )
+                          }
+                        ]
+                      }
+                    ]
+                  }
+
+                ]
+              },
+              {
                 path: "employee",
                 children: [
                   {
@@ -57,19 +112,7 @@ const mainRoutes = createBrowserRouter([
                   }
                 ]
               },
-              {
-                path: "documents",
-                children: [
-                  {
-                    path: ":currentPage",
-                    element: (
-                      <Suspense>
-                        <DocumentsPage />
-                      </Suspense>
-                    )
-                  }
-                ]
-              },
+
               {
                 path: "files",
                 children: [

@@ -18,8 +18,8 @@ import { ImageOrderDialog } from "./image-order-dialog";
 import { storageUrlCreate } from "@/shared/lib/storage-url-create";
 
 export const FacilityImageCarusel = () => {
-  const { facilityId } = useParams();
-  const { data, isLoading } = useQuery(facilityApi.facilityImages(facilityId as string));
+  const { facilityId, facilityChildId } = useParams();
+  const { data, isLoading } = useQuery(facilityApi.facilityImages(facilityChildId ? facilityChildId : facilityId as string));
 
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -38,9 +38,9 @@ export const FacilityImageCarusel = () => {
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent opening the dialog
     const activeImage = data?.[current - 1];
-    if (activeImage && facilityId) {
+    if (activeImage && (facilityId)) {
       if (window.confirm("Are you sure you want to delete this image?")) {
-        mutate({ facilityId, imageId: activeImage.id });
+        mutate({ facilityId: facilityChildId ? facilityChildId : facilityId, imageId: activeImage.id });
       }
     }
   };

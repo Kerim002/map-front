@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/ui/card";
-import {  Users } from 'lucide-react';
+import { Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
@@ -22,11 +22,11 @@ import { storageUrlCreate } from '@/shared/lib/storage-url-create';
 
 export const FacilityWorkersTab = () => {
   const { t } = useTranslation();
-  const { facilityId } = useParams()
+  const { facilityId, facilityChildId } = useParams()
   // const { data: facilityData } = useQuery(facilityApi.detail(facilityId))
   const naviagte = useNavigate()
   const { data } = useQuery(
-    employeeApi.list({ limit: 12, page: 1, location_id: facilityId ?? "" })
+    employeeApi.list({ limit: 12, page: 1, location_id:  facilityChildId ? facilityChildId : facilityId ?? "" })
   );
 
 
@@ -48,11 +48,11 @@ export const FacilityWorkersTab = () => {
               >
                 <div className="flex items-center gap-4">
                   {/* 3. Wrap the specific image in PhotoView */}
-                  <PhotoView src={storageUrlCreate('user', worker.avatarUrl ?? "" , 'md')}>
+                  <PhotoView src={storageUrlCreate('user', worker.avatarUrl ?? "", 'md')}>
                     <Avatar className="h-10 w-10 cursor-pointer hover:opacity-80 transition-opacity">
                       <AvatarImage
                         className="object-cover"
-                        src={storageUrlCreate('user', worker.avatarUrl ?? "" , 'sm')}
+                        src={storageUrlCreate('user', worker.avatarUrl ?? "", 'sm')}
                         alt={worker.firstName}
                       />
                       <AvatarFallback>

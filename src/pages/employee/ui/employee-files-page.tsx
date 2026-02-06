@@ -14,7 +14,7 @@ const ONLYOFFICE_EXTS = ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "tx
 const IMAGE_EXTS = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
 
 export const EmployeeFilesPage = () => {
-  const { facilityId } = useParams();
+  const { facilityId,facilityChildId } = useParams();
   const [search, setSearch] = useSearchParams();
   const path = search.get("path") ?? "root";
   
@@ -23,7 +23,7 @@ export const EmployeeFilesPage = () => {
 
   const { data, isLoading } = useQuery(
     folderApi.folders({
-      location_id: facilityId!,
+      location_id: facilityChildId ? facilityChildId :facilityId!,
       page: 1,
       limit: 30,
       path,
@@ -58,7 +58,7 @@ export const EmployeeFilesPage = () => {
 
   return (
     <div className="space-y-4 p-4">
-      <EmployeeFilesNav facilityId={facilityId} path={path} />
+      <EmployeeFilesNav facilityId={facilityChildId ? facilityChildId :facilityId} path={path} />
 
       {isLoading && <div className="text-sm">{"loading"}</div>}
       {!isLoading && data?.data.length === 0 && <EmptyFolderState />}

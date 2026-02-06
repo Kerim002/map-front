@@ -154,7 +154,7 @@ export const MapView = ({ className }: Props) => {
   const { t } = useTranslation();
   const { setQuery } = useQueryParam();
   const [fetchedMarkers, setFetchedMarkers] = useState<Facility[]>([]);
-  const handleMapClick = (pos: L.LatLng) => {
+  const handleMapClick = (pos: L.LatLng) => { 
     setMarkerPos(pos);
     setQuery([
       { key: "lat", value: pos.lat },

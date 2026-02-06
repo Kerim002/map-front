@@ -32,12 +32,12 @@ const getFileIcon = (mime: string | null) => {
 
 export const FacilityDocumentsTab = () => {
   const { t } = useTranslation();
-  const { facilityId } = useParams();
+  const { facilityId,facilityChildId } = useParams();
   // const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate()
   // 1. Fetch Data
   const { data, isLoading: isFetching } = useQuery(
-    folderApi.folders({ limit: 20, location_id: facilityId!, page: 1 })
+    folderApi.folders({ limit: 20, location_id: facilityChildId ? facilityChildId : facilityId ?? "", page: 1 })
   );
 
   // 2. Upload Mutation

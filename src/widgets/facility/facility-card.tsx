@@ -13,8 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export const FacilityCard = () => {
   const { t } = useTranslation();
-  const { facilityId } = useParams()
-  const { data } = useQuery(facilityApi.detail(facilityId))
+  const { facilityId,facilityChildId } = useParams()
+  const { data } = useQuery(facilityApi.detail(facilityChildId? facilityChildId :facilityId))
   const {mutate} = useDeleteFacility()
   const navigate = useNavigate()
 

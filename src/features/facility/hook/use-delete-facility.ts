@@ -4,10 +4,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 export const useDeleteFacility = () => {
     const queryClient = useQueryClient()
     const all = useMutation({
-        mutationFn:deleteFacility,
-        onSuccess:() => {
+        mutationFn: deleteFacility,
+        onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey:["locations"]
+                queryKey: ["locations"]
             })
         }
     })

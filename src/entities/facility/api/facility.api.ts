@@ -5,6 +5,7 @@ import { getDetailFacility } from "./query/get.detail.facility";
 import { getFacilityImages } from "./query/get.facility-images";
 import { getFacilitiesSearch } from "./query/get-facilities-search";
 import { getFacilitiesByZoom } from "./query/get-facilities-by-zoom";
+import { getFacilitesList } from "./query/get-facilities-list";
 
 export const facilityApi = {
   all: ["locations"],
@@ -44,5 +45,13 @@ export const facilityApi = {
       enabled: enabled
     })
   },
-
+  facilityList:(params:FacilitySearchQuery & { enabled: boolean }) => {
+     const {enabled, ...rest} = params
+    return queryOptions({
+      queryKey:[...facilityApi.all,"facility-list", rest],
+      queryFn:()=> getFacilitesList(params),
+      placeholderData:keepPreviousData,
+      enabled
+    })
+  }
 };

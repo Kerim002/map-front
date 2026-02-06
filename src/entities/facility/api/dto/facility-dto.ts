@@ -8,31 +8,13 @@ export type FacilityDto = {
   updated_at: null | string;
   name: string;
   address: null | string;
-  company: {
-    id: string;
-    type: string;
-  } | null;
-  building: {
-    type: string,
-    id: string
-  } | null;
-  region: {
-    type: string,
-    id: string
-  } | null;
-  authority: {
-    id: string;
-    type: string
-  }
-  ownership: {
-    id: string;
-    type: string
-  } | null
-  performance: {
-    id: string;
-    type: string
-  } | null
-
+  company: AttriubtesFacility
+  building: AttriubtesFacility
+  region:AttriubtesFacility
+  authority: AttriubtesFacility
+  ownership: AttriubtesFacility
+  performance: AttriubtesFacility
+  has_children:boolean
   cadaster: null | string,
   note: string | null,
   // images: [] | null,
@@ -48,3 +30,8 @@ export type FacilityPagionationDto = {
   data: FacilityDto[]
   page_info: PageInfoDto
 }
+
+type AttriubtesFacility = {
+    id: string;
+    type: string
+  } | null

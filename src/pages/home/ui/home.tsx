@@ -113,11 +113,11 @@ const METRICS: KeyMetric[] = [
 // --- MAIN DASHBOARD COMPONENT ---
 
 export function Home() {
-  const totalCompliance = REGIONAL_DATA.reduce(
-    (sum, item) => sum + item.complianceRate,
-    0
-  );
-  const averageCompliance = (totalCompliance / REGIONAL_DATA.length).toFixed(1);
+  // const totalCompliance = REGIONAL_DATA.reduce(
+  //   (sum, item) => sum + item.complianceRate,
+  //   0
+  // );
+  // const averageCompliance = (totalCompliance / REGIONAL_DATA.length).toFixed(1);
   const { t } = useTranslation();
 
   return (

@@ -6,6 +6,7 @@ import {
   PopoverTrigger,
 } from "./popover";
 import { Button } from "./button";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   children: ReactNode;
@@ -19,6 +20,7 @@ const DeletePopover = ({
   label = "Delete this item?",
 }: Props) => {
   const closeRef = useRef<HTMLButtonElement>(null);
+  const {t} = useTranslation()
   const handleDelete = () => {
     onDelete();
     closeRef.current?.click();
@@ -33,10 +35,10 @@ const DeletePopover = ({
         <h6 className="text-center">{label}</h6>
         <div className="flex w-full justify-end gap-3">
           <Button onClick={handleCuncel} size="sm">
-            Cancel
+            {t("cancel")}
           </Button>
           <Button onClick={handleDelete} size="sm" variant="destructive">
-            Delete
+            {t("delete")}
           </Button>
         </div>
       </PopoverContent>

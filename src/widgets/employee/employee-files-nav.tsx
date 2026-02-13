@@ -1,11 +1,19 @@
 import { useCreateFile } from '@/features/folders/hooks/use-create-file'
 import { useCreateFolder } from '@/features/folders/hooks/use-create-folder'
 import { Button } from '@/shared/ui/button'
-import { ArrowLeft, Plus, Upload, Loader2 } from 'lucide-react' // Added Loader2
-import { useRef, useState } from 'react'
+import { 
+    Dialog, 
+    DialogContent, 
+    DialogHeader, 
+    DialogTitle, 
+    DialogTrigger 
+} from '@/shared/ui/dialog'
+import { ArrowLeft, Plus, Upload, Loader2, FileUp } from 'lucide-react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { toast } from 'sonner' // Assuming you use sonner or similar
+import { toast } from 'sonner'
+import { cn } from '@/shared/lib/utils'
 
 type Props = {
     path: string
@@ -16,14 +24,14 @@ export const EmployeeFilesNav = ({ path, facilityId }: Props) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const { pathname } = useLocation()
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const [newFolderName, setNewFolderName] = useState("");
-    const [isCreatingFolder, setIsCreatingFolder] = useState(false);
+    const [newFolderName, setNewFolderName] = useState("")
+    const [isCreatingFolder, setIsCreatingFolder] = useState(false)
+    const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false)
+    const [isDragging, setIsDragging] = useState(false)
 
-    // Hooks
-    const { mutate: createFile, isPending: isUploading } = useCreateFile();
-    const { mutate: createFolder, isPending: isCreating } = useCreateFolder();
+    const { mutate: createFile, isPending: isUploading } = useCreateFile()
+    const { mutate: createFolder, isPending: isCreating } = useCreateFolder()
 
     const goBack = () => {
         if (path === "root") {
@@ -31,48 +39,52 @@ export const EmployeeFilesNav = ({ path, facilityId }: Props) => {
         } else {
             navigate(-1)
         }
-    };
+    }
 
     const handleCreateFolder = () => {
-        if (!newFolderName.trim()) return;
-
+        if (!newFolderName.trim()) return
         createFolder(
             { locationId: facilityId!, path, name: newFolderName },
             {
                 onSuccess: () => {
-                    toast.success(t("folder-created-successfully"));
-                    setNewFolderName("");
-                    setIsCreatingFolder(false);
+                    toast.success(t("folder-created-successfully"))
+                    setNewFolderName("")
+                    setIsCreatingFolder(false)
                 },
-                onError: () => {
-                    toast.error(t("failed-to-create-folder"));
-                }
+                onError: () => toast.error(t("failed-to-create-folder"))
             }
-        );
-    };
+        )
+    }
 
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files?.length) return;
+    const onFilesSelected = (files: File[]) => {
+        if (!files.length) return
 
-        const files = Array.from(e.target.files);
-        
         createFile(
-            {
-                location_id: facilityId!,
-                path,
-                files,
-            },
+            { location_id: facilityId!, path, files },
             {
                 onSuccess: () => {
-                    toast.success(t("files-uploaded-successfully"));
-                    if (fileInputRef.current) fileInputRef.current.value = "";
+                    toast.success(t("files-uploaded-successfully"))
+                    setIsUploadDialogOpen(false)
                 },
-                onError: () => {
-                    toast.error(t("failed-to-upload-files"));
-                }
+                onError: () => toast.error(t("failed-to-upload-files"))
             }
-        );
-    };
+        )
+    }
+
+    // Drag and Drop Handlers
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragging(true)
+    }
+
+    const handleDragLeave = () => setIsDragging(false)
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault()
+        setIsDragging(false)
+        const files = Array.from(e.dataTransfer.files)
+        onFilesSelected(files)
+    }
 
     return (
         <div className="flex flex-col gap-4">
@@ -87,28 +99,57 @@ export const EmployeeFilesNav = ({ path, facilityId }: Props) => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        multiple
-                        hidden
-                        onChange={handleFileUpload}
-                        disabled={isUploading}
-                    />
-
-                    <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => fileInputRef.current?.click()}
-                        disabled={isUploading}
-                    >
-                        {isUploading ? (
-                            <Loader2 className="size-4 mr-2 animate-spin" />
-                        ) : (
-                            <Upload className="size-4 mr-2" />
-                        )}
-                        {isUploading ? t("uploading") : t("upload-new-document")}
-                    </Button>
+                    {/* Upload Dialog */}
+                    <Dialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen}>
+                        <DialogTrigger asChild>
+                            <Button size="sm" variant="outline" disabled={isUploading}>
+                                {isUploading ? (
+                                    <Loader2 className="size-4 mr-2 animate-spin" />
+                                ) : (
+                                    <Upload className="size-4 mr-2" />
+                                )}
+                                {t("upload-new-document")}
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                            <DialogHeader>
+                                <DialogTitle>{t("upload-new-document")}</DialogTitle>
+                            </DialogHeader>
+                            <div
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                                onDrop={handleDrop}
+                                className={cn(
+                                    "mt-4 flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-10 transition-colors",
+                                    isDragging ? "border-primary bg-primary/5" : "border-muted-foreground/25",
+                                    isUploading && "opacity-50 cursor-not-allowed"
+                                )}
+                            >
+                                <FileUp className="size-10 text-muted-foreground mb-4" />
+                                <p className="text-sm text-muted-foreground text-center mb-4">
+                                    {t("drag-drop-hint", "Drag and drop files here or click to browse")}
+                                </p>
+                                <input
+                                    type="file"
+                                    multiple
+                                    className="hidden"
+                                    id="file-upload"
+                                    disabled={isUploading}
+                                    onChange={(e) => onFilesSelected(Array.from(e.target.files || []))}
+                                />
+                                <Button 
+                                    variant="secondary" 
+                                    asChild 
+                                    disabled={isUploading}
+                                >
+                                    <label htmlFor="file-upload" className="cursor-pointer">
+                                        {isUploading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+                                        {t("select-files")}
+                                    </label>
+                                </Button>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
 
                     <Button
                         size="sm"
@@ -146,7 +187,7 @@ export const EmployeeFilesNav = ({ path, facilityId }: Props) => {
                         onClick={() => setIsCreatingFolder(false)}
                         disabled={isCreating}
                     >
-                        {t("cuncel")} 
+                        {t("cancel")} 
                     </Button>
                 </div>
             )}

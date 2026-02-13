@@ -16,6 +16,7 @@ import { useUpdateEmployee } from "../hook/use-update-employee";
 import { toast } from "sonner";
 import { useUpdateEmployeeImage } from "../hook/use-update-employee-image";
 import { FolderPopoverPicker } from "@/shared/ui/folder-form-field";
+import { storageUrlCreate } from "@/shared/lib/storage-url-create";
 
 export const UpdateEmployeeForm = () => {
     const { facilityId,facilityChildId } = useParams();
@@ -89,16 +90,11 @@ export const UpdateEmployeeForm = () => {
         }
     }, [data, form])
 
-
-
-
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
                 <div className="w-full flex flex-col items-center justify-center">
-
-                    <AvatarFormField form={form} label={t("avatar")} />
+                    <AvatarFormField oldImage={storageUrlCreate("user", data?.avatarUrl??"", "sm")} form={form} label={t("avatar")} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -110,7 +106,6 @@ export const UpdateEmployeeForm = () => {
                     <TextFormField form={form} name="surname" label={t("surname")} />
                 </div>
 
-                <TextFormField form={form} name="email" label={t("email")} />
 
                 <div className="grid grid-cols-2 gap-4">
                     <TextFormField form={form} name="phone" label={t("phone")} />

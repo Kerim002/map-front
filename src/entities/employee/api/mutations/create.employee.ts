@@ -13,14 +13,14 @@ export const createEmployee = async (body: EmployeCreateMutation & { location_id
         const formData = new FormData();
 
         formData.append("location_id", body.location_id)
-        formData.append("position", body.position)
+        body.position && formData.append("position", body.position)
         body?.folder?.id && formData.append("folder_id", body?.folder?.id)
-        formData.append("phone", body.phone)
-        formData.append("last_name", body.last_name)
+        body.phone && formData.append("phone", body.phone)
+        body.last_name && formData.append("last_name", body.last_name)
         body.avatar_cropped && formData.append("avatar", body.avatar_cropped)
         formData.append("first_name", body.first_name)
-        formData.append("surname", body.surname)
-        formData.append("email", body.email)
+        body.surname && formData.append("surname", body.surname)
+        body.email && formData.append("email", body.email)
         requestConfig = {
             method: "POST",
             body: formData,

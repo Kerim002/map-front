@@ -1,118 +1,82 @@
-import { type ElementType } from "react";
-import {
-  Building2,
-  AreaChart,
-  MapPin,
-  CheckCircle,
-  Truck,
-  Factory,
-  AlertTriangle,
-  Barcode,
-} from "lucide-react";
-
-// Shadcn UI Imports (Assuming paths are correct)
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/shared/ui/card";
 import { ChartAreaInteractive } from "./chart-area-interactive";
 import { useTranslation } from "react-i18next";
+import { DashboardCards } from "@/widgets/home/dashboard-cards";
+import { LocationCategoryChart } from "./locations-category-chart";
+import { StoragePieChart } from "./storage-pie-bar";
 
 // mockData.ts (or placed inside the component)
-export interface RegionData {
-  region: string; // e.g., 'Ahal', 'Balkan', 'Ashgabat City'
-  totalBuildings: number;
-  totalAreaSqKm: number;
-  complianceRate: number; // Percentage 0-100
-}
+// export interface RegionData {
+//   region: string; // e.g., 'Ahal', 'Balkan', 'Ashgabat City'
+//   totalBuildings: number;
+//   totalAreaSqKm: number;
+//   complianceRate: number; // Percentage 0-100
+// }
 
-export interface BuildingTypeCount {
-  type: "Warehouse" | "Market" | "Factory" | "Office" | "Residential";
-  count: number;
-}
+// export interface BuildingTypeCount {
+//   type: "Warehouse" | "Market" | "Factory" | "Office" | "Residential";
+//   count: number;
+// }
 
-export interface KeyMetric {
-  title: string;
-  value: string;
-  change?: string;
-  icon: ElementType;
-}
 
-const REGIONAL_DATA: RegionData[] = [
-  {
-    region: "Ashgabat City",
-    totalBuildings: 480,
-    totalAreaSqKm: 260,
-    complianceRate: 98.1,
-  },
-  {
-    region: "Ahal Welaýaty",
-    totalBuildings: 320,
-    totalAreaSqKm: 97260,
-    complianceRate: 85.5,
-  },
-  {
-    region: "Balkan Welaýaty",
-    totalBuildings: 180,
-    totalAreaSqKm: 139300,
-    complianceRate: 90.2,
-  },
-  {
-    region: "Daşoguz Welaýaty",
-    totalBuildings: 250,
-    totalAreaSqKm: 73400,
-    complianceRate: 78.8,
-  },
-  {
-    region: "Lebap Welaýaty",
-    totalBuildings: 290,
-    totalAreaSqKm: 93700,
-    complianceRate: 81.3,
-  },
-  {
-    region: "Mary Welaýaty",
-    totalBuildings: 350,
-    totalAreaSqKm: 87200,
-    complianceRate: 88.9,
-  },
-];
 
-const TYPE_DATA: BuildingTypeCount[] = [
-  { type: "Warehouse", count: 580 },
-  { type: "Factory", count: 320 },
-  { type: "Market", count: 410 },
-  { type: "Office", count: 250 },
-  { type: "Residential", count: 310 },
-];
-const METRICS: KeyMetric[] = [
-  {
-    title: "total-registered-buildings",
-    value: "1,870",
-    icon: Building2,
-  },
-  {
-    title: "total-cadastre-area-km",
-    value: "491,220",
-    icon: AreaChart,
-  },
-  {
-    title: "authority-violations-q4",
-    value: "42",
-    icon: AlertTriangle,
-  },
-  {
-    title: "ownership",
-    value: "18",
-    icon: Barcode,
-  },
-];
+// const REGIONAL_DATA: RegionData[] = [
+//   {
+//     region: "Ashgabat City",
+//     totalBuildings: 480,
+//     totalAreaSqKm: 260,
+//     complianceRate: 98.1,
+//   },
+//   {
+//     region: "Ahal Welaýaty",
+//     totalBuildings: 320,
+//     totalAreaSqKm: 97260,
+//     complianceRate: 85.5,
+//   },
+//   {
+//     region: "Balkan Welaýaty",
+//     totalBuildings: 180,
+//     totalAreaSqKm: 139300,
+//     complianceRate: 90.2,
+//   },
+//   {
+//     region: "Daşoguz Welaýaty",
+//     totalBuildings: 250,
+//     totalAreaSqKm: 73400,
+//     complianceRate: 78.8,
+//   },
+//   {
+//     region: "Lebap Welaýaty",
+//     totalBuildings: 290,
+//     totalAreaSqKm: 93700,
+//     complianceRate: 81.3,
+//   },
+//   {
+//     region: "Mary Welaýaty",
+//     totalBuildings: 350,
+//     totalAreaSqKm: 87200,
+//     complianceRate: 88.9,
+//   },
+// ];
+
+// const TYPE_DATA: BuildingTypeCount[] = [
+//   { type: "Warehouse", count: 580 },
+//   { type: "Factory", count: 320 },
+//   { type: "Market", count: 410 },
+//   { type: "Office", count: 250 },
+//   { type: "Residential", count: 310 },
+// ];
 
 // --- MAIN DASHBOARD COMPONENT ---
 
 export function Home() {
+
+
   // const totalCompliance = REGIONAL_DATA.reduce(
   //   (sum, item) => sum + item.complianceRate,
   //   0
@@ -141,33 +105,19 @@ export function Home() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[minmax(180px,auto)]">
 
         {/* Row 1: Key Metrics (4 cols) */}
-        {METRICS.slice(0, 4).map((metric, idx) => (
-          <Card
-            key={metric.title}
-            className={`group relative overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-1 rounded-3xl ${idx === 0 ? "lg:col-span-1" : ""
-              }`}
-          >
-            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-              <metric.icon className="size-24 -mr-8 -mt-8" />
-            </div>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <div className={`p-2.5 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500`}>
-                <metric.icon className="h-5 w-5" />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">{t(metric.title)}</span>
-            </CardHeader>
-            <CardContent className="pt-2">
-              <div className="text-3xl font-black tracking-tight mb-2 group-hover:scale-105 transition-transform duration-500 origin-left">{metric.value}</div>
-              
-            </CardContent>
-          </Card>
-        ))}
+
+        <div className="grid col-span-1 md:col-span-2 lg:col-span-4 grid-cols-3 gap-6">
+
+          <DashboardCards />
+        </div>
 
         {/* Row 2: Large Chart (3 cols) & Quick Actions (1 col) */}
-        <Card className="lg:col-span-3 lg:row-span-2 border-border/50 bg-card/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden group">
+        <Card className="lg:col-span-3 border-border/50 bg-card/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden group">
           <CardHeader className="flex flex-row items-center justify-between border-b border-border/50 pb-6 px-8 pt-8">
             <div>
-              <CardTitle className="text-xl font-black tracking-tight">{t("authority-compliance-rate-by-welayat-region")}</CardTitle>
+              <CardTitle className="text-xl font-black tracking-tight">
+                {t("location-creation-analytics")}
+              </CardTitle>
 
             </div>
             {/* <div className="flex items-center gap-2 bg-muted/30 p-1 rounded-xl">
@@ -175,13 +125,15 @@ export function Home() {
               <button className="px-3 py-1.5 text-[10px] font-bold rounded-lg text-muted-foreground hover:text-foreground">Quarterly</button>
             </div> */}
           </CardHeader>
-          <CardContent className="p-8 h-[400px]">
+          <CardContent className="">
             <ChartAreaInteractive />
           </CardContent>
         </Card>
+        <StoragePieChart />
+        <LocationCategoryChart />
 
         {/* Assets Breakdown (1 col) */}
-        <Card className="lg:col-span-1 lg:row-span-2 border-border/50 bg-card/60 backdrop-blur-md rounded-[2.5rem] overflow-hidden">
+        {/* <Card className="lg:col-span-1 lg:row-span-2 border-border/50 bg-card/60 backdrop-blur-md rounded-[2.5rem] overflow-hidden">
           <CardHeader className="px-8 pt-8 pb-4">
             <CardTitle className="text-xl font-black tracking-tight">Classification</CardTitle>
             <CardDescription className="text-xs font-medium">Distribution by usage</CardDescription>
@@ -229,22 +181,16 @@ export function Home() {
               </button>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Row 3: Regional Table (Full Width) */}
-        <Card className="lg:col-span-4 border-border/50 bg-card/30 backdrop-blur-md rounded-[2.5rem] overflow-hidden">
+        {/* <Card className="lg:col-span-4 border-border/50 bg-card/30 backdrop-blur-md rounded-[2.5rem] overflow-hidden">
           <CardHeader className="px-8 pt-8 pb-4 border-b border-border/50">
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-xl font-black tracking-tight">{t("regional-land-and-asset-summary")}</CardTitle>
-                <CardDescription className="text-xs font-medium">Real-time data synchronization with central registry</CardDescription>
               </div>
-              <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map(i => (
-                  <div key={i} className="size-8 rounded-full border-2 border-background bg-muted flex items-center justify-center text-[10px] font-bold">U{i}</div>
-                ))}
-                <div className="size-8 rounded-full border-2 border-background bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">+12</div>
-              </div>
+
             </div>
           </CardHeader>
           <CardContent className="p-0">
@@ -302,12 +248,12 @@ export function Home() {
               </table>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
       <div className="flex w-full items-center justify-center text-center">
         <p className="text-center">
 
-        Derwaýys ulgamy HK. Ähli hukuklary goralan
+          Derwaýys ulgamy HK. Ähli hukuklary goralan
         </p>
       </div>
     </div>

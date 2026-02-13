@@ -8,11 +8,11 @@ const imageFile = z
 
 export const CreateEmployeeContract = z.object({
   first_name: z.string().min(2),
-  last_name: z.string().min(2),
-  surname: z.string().min(2),
-  email: z.string().min(2),
-  phone: z.string().min(2),
-  position: z.string().min(2),
+  last_name: z.string().nullable().optional(),
+  surname: z.string().nullable().optional(),
+  email: z.string().nullable().optional(),
+  phone: z.string().nullable().optional(),
+  position: z.string().nullable().optional(),
 
   avatar_original: imageFile.optional(),
   avatar_cropped: imageFile.optional(),

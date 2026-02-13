@@ -11,7 +11,7 @@ export const employeeApi = {
     }),
     detail: (id?: string) => queryOptions({
         queryFn: () => getEmployeeDetail(id as string),
-        queryKey: [employeeApi.listKey, id],
+        queryKey: [...employeeApi.listKey, id],
         enabled:!!id
     })
 }

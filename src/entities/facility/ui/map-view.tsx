@@ -139,7 +139,11 @@ const MapFetcher = ({
       zoom,
       region_id: getQuery("regionId") || undefined,
       building_id: getQuery("buildingId") || undefined,
-      company_id: getQuery("companyId") || undefined
+      company_id: getQuery("companyId") || undefined,
+      authority_id:getQuery("authorityId"),
+      ownership_id:getQuery("ownershipId"),
+      performance_id:getQuery("performanceId")
+
     })
   );
   useEffect(() => {

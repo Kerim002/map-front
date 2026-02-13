@@ -143,7 +143,7 @@ export const MapSearchBox = () => {
                 >
                     <div className="rounded-[1.5rem] bg-background/60 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-border/50 overflow-hidden py-2">
                         <div className="px-4 py-2 text-[10px] font-black text-muted-foreground/40 uppercase tracking-widest border-b border-border/10 mb-1">
-                            Registry Results
+                            {t("search-results")}
                         </div>
 
                         {data?.data.length === 0 ? (

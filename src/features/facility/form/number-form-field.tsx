@@ -26,7 +26,7 @@ export const NumberFormField = <T extends FieldValues>({
         <FormItem className="flex-1">
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input type="number" min={0} className="bg-white" {...field}  />
+            <Input type="number" step="any" min={0} className="bg-white" {...field}  />
           </FormControl>
           <FormMessage />
         </FormItem>

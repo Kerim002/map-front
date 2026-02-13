@@ -1,6 +1,7 @@
 import { facilityApi } from "@/entities/facility/api/facility.api";
 import { useDeleteFacility } from "@/features/facility/hook/use-delete-facility";
 import { FacilityImageCarusel } from "@/features/facility/ui/facility-image-carusel"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shared/ui/alert-dialog";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card"
 import { useQuery } from "@tanstack/react-query";
@@ -111,7 +112,30 @@ export const FacilityCard = () => {
         }
 
 
-        <Button variant={"destructive"} className="w-full" onClick={handleDelete}>{t("delete")}</Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant={"destructive"} className="w-full mt-4">
+              {t("delete")}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t("delete-facility-title")}</AlertDialogTitle>
+              <AlertDialogDescription>
+                {t("delete-facility-description")}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={handleDelete}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                {t("confirm-delete")}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
 
       </CardContent>
     </Card>

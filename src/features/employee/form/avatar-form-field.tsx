@@ -1,5 +1,5 @@
 import Cropper from "react-easy-crop";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter } from "@/shared/ui/dialog";
 import { Button } from "@/shared/ui/button";
 import { Slider } from "@/shared/ui/slider";
@@ -7,9 +7,9 @@ import { X, Edit } from "lucide-react";
 import { getCroppedImage } from "@/shared/lib/get-cropped-img"; 
 import { useTranslation } from "react-i18next";
 
-export const AvatarFormField = ({ form, label }: { form: any; label: string }) => {
+export const AvatarFormField = ({ form, label,oldImage }: { form: any; label: string,oldImage:string }) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+const [preview, setPreview] = useState<string | null>(oldImage || null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedPixels, setCroppedPixels] = useState<any>(null);
@@ -25,6 +25,12 @@ export const AvatarFormField = ({ form, label }: { form: any; label: string }) =
   const onCropComplete = (_: any, pixels: any) => {
     setCroppedPixels(pixels);
   };
+
+  useEffect(() => {
+    if (oldImage && !preview) {
+      setPreview(oldImage);
+    }
+  }, [oldImage]);
 
   const confirmCrop = async () => {
     if (!imageSrc || !croppedPixels) return;

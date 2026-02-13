@@ -11,6 +11,7 @@ import { TextFormField } from "./text-from-field";
 import { Form } from "@/shared/ui/form";
 import { AvatarFormField } from "./avatar-form-field";
 import { FolderPopoverPicker } from "@/shared/ui/folder-form-field";
+import { toast } from "sonner";
 // import { AvatarFormField } from "./avatar-form-field"; // Import the new component
 
 export const CreateEmployeeForm = () => {
@@ -36,6 +37,16 @@ export const CreateEmployeeForm = () => {
             onSuccess() {
                 closeRef.current?.click();
             },
+            onError: (error: any) => {
+                const errorData = error.data;
+                if (errorData?.detail) {
+                    errorData.detail.forEach((err: any) => {
+                        const fieldName = err.loc[err.loc.length - 1];
+                        form.setError(fieldName as any, { message: err.msg });
+                    });
+                }
+                toast.error(t("Update failed"));
+            },
         });
     };
 
@@ -44,7 +55,7 @@ export const CreateEmployeeForm = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
                 <div className="w-full flex flex-col items-center justify-center">
 
-                    <AvatarFormField form={form} label={t("avatar")} />
+                    <AvatarFormField oldImage="" form={form} label={t("avatar")} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">

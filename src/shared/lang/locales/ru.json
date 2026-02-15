@@ -138,6 +138,20 @@
   "drag-drop-hint": "Перетащите файлы сюда или нажмите, чтобы выбрать",
   "select-files": "Выбрать файлы",
   "success": "Действие успешно завершено.",
-  "error": "Что-то пошло не так. Попробуйте еще раз."
-  
+  "error": "Что-то пошло не так. Попробуйте еще раз.",
+  "cadaster": "Кадастр",
+  "delete-facility": "Удалить объект",
+  "managing-team-members": "Управление членами команды",
+  "quick-actions": "Быстрые действия",
+  "manage-facility-operations": "Управление операциями объекта",
+  "documents-explorer": "Проводник документов",
+  "parent-folder": "Родительская папка",
+  "no-folder-assigned": "Папка не назначена",
+  "this-worker-does-not-have-an-associated-document-folder-yet": "У этого работника еще нет связанной папки с документами.",
+  "folder": "Папка",
+  "file": "Файл",
+  "worker-not-found": "Работник не найден",
+  "verified-file-structure": "Проверенная структура файлов",
+  "personal-account": "Личный аккаунт",
+  "workers": "Рабочие"
 }

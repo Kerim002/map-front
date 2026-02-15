@@ -10,7 +10,7 @@ import { Button } from "@/shared/ui/button";
 import { TextFormField } from "./text-from-field";
 import { Form } from "@/shared/ui/form";
 import { AvatarFormField } from "./avatar-form-field";
-import { FolderPopoverPicker } from "@/shared/ui/folder-form-field";
+// import { FolderPopoverPicker } from "@/shared/ui/folder-form-field";
 import { toast } from "sonner";
 // import { AvatarFormField } from "./avatar-form-field"; // Import the new component
 
@@ -72,11 +72,11 @@ export const CreateEmployeeForm = () => {
                     <TextFormField form={form} name="phone" label={t("phone")} />
                     <TextFormField form={form} name="position" label={t("position")} />
                 </div>
-                <FolderPopoverPicker
+                {/* <FolderPopoverPicker
                     locationId={facilityId ?? ""}
                     value={form.watch("folder")}
                     onSelect={(val) => form.setValue("folder", val)}
-                />
+                /> */}
 
                 <DialogClose ref={closeRef} className="hidden" />
                 <Button type="submit" className="w-full mt-3">

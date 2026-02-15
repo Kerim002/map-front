@@ -14,14 +14,14 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export const FacilityCard = () => {
   const { t } = useTranslation();
-  const { facilityId,facilityChildId } = useParams()
-  const { data } = useQuery(facilityApi.detail(facilityChildId? facilityChildId :facilityId))
-  const {mutate} = useDeleteFacility()
+  const { facilityId, facilityChildId } = useParams()
+  const { data } = useQuery(facilityApi.detail(facilityChildId ? facilityChildId : facilityId))
+  const { mutate } = useDeleteFacility()
   const navigate = useNavigate()
 
   const handleDelete = () => {
     mutate(facilityId ?? "", {
-      onSuccess:() => {
+      onSuccess: () => {
         navigate("/map")
       }
     })
@@ -127,7 +127,7 @@ export const FacilityCard = () => {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-              <AlertDialogAction 
+              <AlertDialogAction
                 onClick={handleDelete}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >

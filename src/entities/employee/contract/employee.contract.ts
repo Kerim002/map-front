@@ -16,10 +16,10 @@ export const CreateEmployeeContract = z.object({
 
   avatar_original: imageFile.optional(),
   avatar_cropped: imageFile.optional(),
-  folder: z.object({
-    id: z.string().min(1),
-    name: z.string().min(1),
-  }).optional(),
+  // folder: z.object({
+  //   id: z.string().min(1),
+  //   name: z.string().min(1),
+  // }).optional(),
 });
 
 export type EmployeCreateMutation = z.infer<typeof CreateEmployeeContract>;

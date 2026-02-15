@@ -15,11 +15,11 @@ import useQueryParam from "@/shared/hooks/use-query-param";
 import { useUpdateEmployee } from "../hook/use-update-employee";
 import { toast } from "sonner";
 import { useUpdateEmployeeImage } from "../hook/use-update-employee-image";
-import { FolderPopoverPicker } from "@/shared/ui/folder-form-field";
+// import { FolderPopoverPicker } from "@/shared/ui/folder-form-field";
 import { storageUrlCreate } from "@/shared/lib/storage-url-create";
 
 export const UpdateEmployeeForm = () => {
-    const { facilityId,facilityChildId } = useParams();
+    const { facilityId, facilityChildId } = useParams();
     const { t } = useTranslation();
     const { getQuery } = useQueryParam()
     const closeRef = useRef<HTMLButtonElement>(null);
@@ -50,7 +50,7 @@ export const UpdateEmployeeForm = () => {
         }
 
         mutate(
-            { ...arg, location_id: facilityChildId? facilityChildId :facilityId ?? "", id: employeeId },
+            { ...arg, location_id: facilityChildId ? facilityChildId : facilityId ?? "", id: employeeId },
             {
                 onSuccess: async () => {
                     toast.success(t("Employee updated"));
@@ -79,12 +79,12 @@ export const UpdateEmployeeForm = () => {
                 phone: data.phone,
                 position: data.position,
                 surname: data.surname,
-                folder: data.folder
-                    ? {
-                        id: data.folder.id,
-                        name: data.folder.name,
-                    }
-                    : undefined,
+                // folder: data.folder
+                //     ? {
+                //         id: data.folder.id,
+                //         name: data.folder.name,
+                //     }
+                //     : undefined,
 
             });
         }
@@ -94,7 +94,7 @@ export const UpdateEmployeeForm = () => {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
                 <div className="w-full flex flex-col items-center justify-center">
-                    <AvatarFormField oldImage={storageUrlCreate("user", data?.avatarUrl??"", "sm")} form={form} label={t("avatar")} />
+                    <AvatarFormField oldImage={storageUrlCreate("user", data?.avatarUrl ?? "", "sm")} form={form} label={t("avatar")} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -112,11 +112,11 @@ export const UpdateEmployeeForm = () => {
                     <TextFormField form={form} name="position" label={t("position")} />
                 </div>
 
-                <FolderPopoverPicker
+                {/* <FolderPopoverPicker
                     locationId={facilityId ?? ""}
                     value={form.watch("folder") ?? data?.folder}
                     onSelect={(val) => form.setValue("folder", val)}
-                />
+                /> */}
 
 
                 <DialogClose ref={closeRef} className="hidden" />

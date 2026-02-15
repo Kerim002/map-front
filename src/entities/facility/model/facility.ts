@@ -13,8 +13,6 @@ export type Facility = {
   region: AttriubtesFacility,
   cadaster: null | string,
   note: string | null,
-  // images: [] | null,
-  // working_days: [] | null,
   area: number,
   floor: number,
   fireInspectionAt: null | string,

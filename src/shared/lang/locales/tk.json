@@ -138,5 +138,20 @@
   "drag-drop-hint": "Faýllary bu ýere süýräp getiriň ýa-da saýlamak üçin basyň",
   "select-files": "Faýllary saýlaň",
   "success": "Amalyýet üstünlikli tamamlandy.",
-  "error": "Bir zat ýalňyş boldy. Täzeden synanyşyň."
+  "error": "Bir zat ýalňyş boldy. Täzeden synanyşyň.",
+  "cadaster": "Kadastr",
+  "delete-facility": "Desgany pozmak",
+  "managing-team-members": "Topar agzalaryny dolandyrmak",
+  "quick-actions": "Çalt hereketler",
+  "manage-facility-operations": "Desga amallaryny dolandyrmak",
+  "documents-explorer": "Resminama gözlegçisi",
+  "parent-folder": "Esasy bukjasy",
+  "no-folder-assigned": "Bukja bellenmedi",
+  "this-worker-does-not-have-an-associated-document-folder-yet": "Bu işgäriň entek resminama bukjasy ýok.",
+  "folder": "Bukja",
+  "file": "Faýl",
+  "worker-not-found": "Işgär tapylmady",
+  "verified-file-structure": "Tassyklanan resminama gurluşy",
+  "personal-account": "Şahsy hasap",
+  "workers": "Işgärler"
 }

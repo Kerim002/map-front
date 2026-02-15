@@ -135,5 +135,20 @@
   "drag-drop-hint": "Drag and drop files here or click to browse",
   "select-files": "Select files",
   "success": "Action completed successfully.",
-  "error": "Something went wrong. Please try again."
+  "error": "Something went wrong. Please try again.",
+  "cadaster": "Cadaster",
+  "delete-facility": "Delete Facility",
+  "managing-team-members": "Managing Team Members",
+  "quick-actions": "Quick Actions",
+  "manage-facility-operations": "Manage Facility Operations",
+  "documents-explorer": "Documents Explorer",
+  "parent-folder": "Parent Folder",
+  "no-folder-assigned": "No Folder Assigned",
+  "this-worker-does-not-have-an-associated-document-folder-yet": "This worker does not have an associated document folder yet.",
+  "folder": "Folder",
+  "file": "File",
+  "worker-not-found": "Worker not found",
+  "verified-file-structure": "Verified File Structure",
+  "personal-account": "Personal Account",
+  "workers": "Workers"
 }

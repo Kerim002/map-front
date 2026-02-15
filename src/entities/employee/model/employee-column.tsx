@@ -6,6 +6,8 @@ import { EmployeeActionCell } from "@/features/employee/ui/employee-action-cell"
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { storageUrlCreate } from "@/shared/lib/storage-url-create";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/shared/ui/tooltip";
+import { Link } from "react-router-dom";
 
 export const employeeColumn: ColumnDef<Employee>[] = [
     {
@@ -69,11 +71,16 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             return <p>{t("name-surname")}</p>;
         },
         cell: ({ row }) => {
+            const employeeId = row.original.id;
+            // Determine if we are in a sub-facility context by looking at the location structure if possible, 
+            // or just use a generic nested path. The best way is to check the current URL in the component.
+            // However, this mapper is used in tables.
+
             return (
-                <div>
-                    <p>{row.original.firstName}</p>
-                    <p>{row.original.lastName}</p>
-                </div>
+                <Link to={`../../employees/${employeeId}`} className="hover:text-primary transition-colors cursor-pointer block">
+                    <p className="font-bold">{row.original.firstName}</p>
+                    <p className="font-bold">{row.original.lastName}</p>
+                </Link>
             );
         },
     },
@@ -98,10 +105,25 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             return <p>{t("position")}</p>;
         },
         cell: ({ row }) => {
+            const position = row.original.position ?? "";
+            const isLongText = position.length > 30;
+            const displayValue = isLongText ? `${position.substring(0, 30)}...` : position;
+
             return (
-                <div>
-                    <p>{row.original.position}</p>
-                </div>
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <div className="max-w-[200px] truncate cursor-default">
+                                {displayValue}
+                            </div>
+                        </TooltipTrigger>
+                        {isLongText && (
+                            <TooltipContent>
+                                <p>{position}</p>
+                            </TooltipContent>
+                        )}
+                    </Tooltip>
+                </TooltipProvider>
             );
         },
     },
@@ -144,7 +166,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
             return <p>{t("updated-at")}</p>;
         },
         cell: ({ row }) => {
-            const {t} = useTranslation()
+            const { t } = useTranslation()
             return (
                 <div>
                     <p>

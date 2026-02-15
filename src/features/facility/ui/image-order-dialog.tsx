@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
-import { 
-  DndContext, 
-  closestCenter, 
-  KeyboardSensor, 
-  PointerSensor, 
-  useSensor, 
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
   useSensors,
-  type DragEndEvent 
+  type DragEndEvent
 } from "@dnd-kit/core";
-import { 
-  arrayMove, 
-  SortableContext, 
-  sortableKeyboardCoordinates, 
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-  useSortable 
+  useSortable
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical, Settings2 } from "lucide-react";
+import { Edit, GripVertical, Trash } from "lucide-react";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/shared/ui/table";
@@ -25,12 +25,15 @@ import { useUpdateFacilityImageOrder } from "../hook/use-update-facility-image-o
 import type { FacilityImage } from "@/entities/facility/model/facility-image";
 import { useTranslation } from "react-i18next";
 import { storageUrlCreate } from "@/shared/lib/storage-url-create";
+import DeletePopover from "@/shared/ui/delete-popover";
+import { useDeleteFacilityImage } from "../hook/use-delete-facility-image";
 
 // --- Sortable Row Component ---
-const SortableRow = ({ image }: { image: FacilityImage }) => {
+const SortableRow = ({ image, facilityId }: { image: FacilityImage, facilityId: string }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: image.id,
   });
+  const { mutate, isPending } = useDeleteFacilityImage()
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -47,9 +50,9 @@ const SortableRow = ({ image }: { image: FacilityImage }) => {
         </Button>
       </TableCell>
       <TableCell className="w-[100px]">
-        <img 
+        <img
           src={storageUrlCreate("image", image.objectPath, "md")}
-          className="h-12 w-16 object-cover rounded border" 
+          className="h-12 w-16 object-cover rounded border"
           alt="Preview"
         />
       </TableCell>
@@ -57,7 +60,14 @@ const SortableRow = ({ image }: { image: FacilityImage }) => {
         {image.id}
       </TableCell>
       <TableCell className="text-right font-mono text-xs">
-        {image.order}
+        {image.order + 1}
+      </TableCell>
+      <TableCell>
+        <DeletePopover onDelete={() => mutate({ imageId: image.id, facilityId })}>
+          <Button disabled={isPending} variant="destructive" size="sm">
+            <Trash className="size-4" />
+          </Button>
+        </DeletePopover>
       </TableCell>
     </TableRow>
   );
@@ -66,8 +76,8 @@ const SortableRow = ({ image }: { image: FacilityImage }) => {
 // --- Main Dialog Component ---
 export const ImageOrderDialog = ({ images, facilityId }: { images: FacilityImage[], facilityId: string }) => {
   const [items, setItems] = useState(images);
-  const { mutate } = useUpdateFacilityImageOrder(); 
-  const {t} = useTranslation()
+  const { mutate } = useUpdateFacilityImageOrder();
+  const { t } = useTranslation()
 
   // Keep local state in sync with server data when it changes
   useEffect(() => {
@@ -85,16 +95,13 @@ export const ImageOrderDialog = ({ images, facilityId }: { images: FacilityImage
     if (over && active.id !== over.id) {
       const oldIndex = items.findIndex((item) => item.id === active.id);
       const newIndex = items.findIndex((item) => item.id === over.id);
-      
+
       const newArray = arrayMove(items, oldIndex, newIndex);
       setItems(newArray);
-
-      // Call API to update the order of the moved item
-      // Note: In a real app, you might want to send the whole new sequence
-      mutate({ 
-        facilityId, 
-        imageId: active.id as string, 
-        order: newIndex + 1 
+      mutate({
+        facilityId,
+        imageId: active.id as string,
+        order: newIndex + 1
       });
     }
   };
@@ -102,20 +109,19 @@ export const ImageOrderDialog = ({ images, facilityId }: { images: FacilityImage
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
-          <Settings2 className="size-4" />
-          {t("manage-order")}
+        <Button variant="outline" className="text-white" size="icon">
+          <Edit />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] h-[70vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>{t("reorder-images")}</DialogTitle>
         </DialogHeader>
-        
+
         <div className="flex-1 overflow-y-auto pr-2">
-          <DndContext 
-            sensors={sensors} 
-            collisionDetection={closestCenter} 
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
           >
             <Table>
@@ -130,7 +136,7 @@ export const ImageOrderDialog = ({ images, facilityId }: { images: FacilityImage
               <TableBody>
                 <SortableContext items={items} strategy={verticalListSortingStrategy}>
                   {items.map((image) => (
-                    <SortableRow key={image.id} image={image} />
+                    <SortableRow facilityId={facilityId} key={image.id} image={image} />
                   ))}
                 </SortableContext>
               </TableBody>

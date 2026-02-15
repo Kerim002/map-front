@@ -12,8 +12,9 @@ import { Building } from "@/pages/building";
 // import { Company } from "@/pages/company";
 import { FacilityChildListPage, FacilityPage } from "@/pages/facility";
 import { SidebarLayout } from "../layouts/sidebar-layout";
-import {  EmployeePage } from "@/pages/employee";
+import { EmployeePage } from "@/pages/employee";
 import { EmployeeFilesPage } from "@/pages/employee/ui/employee-files-page";
+import { EmployeeDetailPage } from "@/pages/employee/ui/employee-detail-page";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -80,19 +81,23 @@ const mainRoutes = createBrowserRouter([
                           }
                         ]
                       },
-    
+
                       {
                         path: "files",
                         children: [
                           {
                             path: ":currentPage",
-                            element: (
-                              <Suspense>
-                                <EmployeeFilesPage />
-                              </Suspense>
-                            )
+                            element: <EmployeeFilesPage />
                           }
                         ]
+                      },
+                      {
+                        path: "employees/:employeeId",
+                        element: (
+                          <Suspense>
+                            <EmployeeDetailPage />
+                          </Suspense>
+                        )
                       }
                     ]
                   }
@@ -125,6 +130,14 @@ const mainRoutes = createBrowserRouter([
                     )
                   }
                 ]
+              },
+              {
+                path: "employees/:employeeId",
+                element: (
+                  <Suspense>
+                    <EmployeeDetailPage />
+                  </Suspense>
+                )
               }
             ],
           },

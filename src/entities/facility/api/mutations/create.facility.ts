@@ -1,6 +1,11 @@
 import { apiInstance } from "@/shared/api/interceptor";
 import type { FaciltyMutation } from "../../contract";
 
+export type Geom = {
+  lat: number;
+  lng: number;
+};
+
 export type CreateBody = {
   lat: number;
   lng: number;
@@ -16,14 +21,14 @@ export type CreateBody = {
   performance_id?: string,
   authority_id?: string
   ownership_id?: string
-  parking?:number,
-  parent_id?:string
+  parking?: number,
+  parent_id?: string
 };
 
 export const createFacility = async (
-  payload: FaciltyMutation & { geom: Geom , parent_id?:string}
+  payload: FaciltyMutation & { geom: Geom, parent_id?: string }
 ) => {
-  const perfomanceId = payload?.performance?.id;
+  const performanceId = payload?.performance?.id;
   const authorityId = payload.auhtority.id;
   const ownershipId = payload.ownership.id;
   const building_id = payload.building?.id;
@@ -39,16 +44,16 @@ export const createFacility = async (
     cadaster: payload.cadaster ?? "",
     floor: payload.floor,
     note: payload.note,
-    parking:payload.parking,
-    parent_id:payload.parent_id,
+    parking: payload.parking,
+    parent_id: payload.parent_id,
 
     ...(address && { address: address }),
     ...(building_id && { building_id: building_id }),
     ...(ownershipId && { ownership_id: ownershipId }),
     ...(region_id && { region_id: region_id }),
     ...(authorityId && { authority_id: authorityId }),
-    ...(perfomanceId && { performance_id: perfomanceId }),
-    
+    ...(performanceId && { performance_id: performanceId }),
+
 
 
   };

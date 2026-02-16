@@ -258,14 +258,42 @@ const ExplorerItem = ({ item, view, onClick, onDelete, getFileInfo, closeRef }: 
     if (view === "grid") {
         return (
             <div
-                onClick={onClick}
                 className={cn(
-                    "group relative flex flex-col items-center justify-center p-6 aspect-square rounded-[2rem] bg-muted/30 border border-border/30 hover:bg-muted/50 hover:border-primary/30 transition-all duration-500 cursor-pointer shadow-sm hover:shadow-xl hover:-translate-y-2",
+                    "group relative flex flex-col items-center justify-center p-6 aspect-square rounded-[2rem] bg-muted/30 border border-border/30 hover:bg-muted/50 hover:border-primary/30 transition-all duration-500 shadow-sm hover:shadow-xl hover:-translate-y-2",
                     !item.isFolder && (isDoc || isImage) ? "ring-2 ring-primary/5 bg-primary/5 border-primary/20" : ""
                 )}
             >
+                {/* Navigation Area */}
+                <div
+                    onClick={onClick}
+                    className="flex flex-col items-center justify-center w-full h-full cursor-pointer z-0"
+                >
+                    {/* Icon Area */}
+                    <div className="size-20 rounded-[1.5rem] bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                        {item.isFolder ? (
+                            <FolderOpen className="size-10 text-primary drop-shadow-lg" />
+                        ) : isImage ? (
+                            <ImageIcon className="size-10 text-blue-500 drop-shadow-lg" />
+                        ) : (
+                            <File className="size-10 text-slate-400 drop-shadow-lg" />
+                        )}
+                    </div>
+
+                    {/* Label */}
+                    <div className="w-full text-center">
+                        <p className="text-[11px] font-black uppercase tracking-widest text-foreground line-clamp-1 mb-0.5">
+                            {item.name}
+                        </p>
+                        {!item.isFolder && (
+                            <p className="text-[9px] font-bold text-muted-foreground/50 uppercase tracking-tighter">
+                                {ext}
+                            </p>
+                        )}
+                    </div>
+                </div>
+
                 {/* Action Bar */}
-                <div className="absolute top-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100">
+                <div className="absolute top-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100 z-10" onClick={(e) => e.stopPropagation()}>
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button
@@ -286,7 +314,12 @@ const ExplorerItem = ({ item, view, onClick, onDelete, getFileInfo, closeRef }: 
                                 <p className="text-xs font-black uppercase tracking-widest text-foreground">{t("are-you-sure")}</p>
                                 <div className="flex justify-end gap-2">
                                     <PopoverClose ref={closeRef} asChild>
-                                        <Button size="sm" variant="outline" className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest">
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
                                             {t("cancel")}
                                         </Button>
                                     </PopoverClose>
@@ -341,38 +374,18 @@ const ExplorerItem = ({ item, view, onClick, onDelete, getFileInfo, closeRef }: 
                     )}
                 </div>
 
-                {/* Icon Area */}
-                <div className="size-20 rounded-[1.5rem] bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                    {item.isFolder ? (
-                        <FolderOpen className="size-10 text-primary drop-shadow-lg" />
-                    ) : isImage ? (
-                        <ImageIcon className="size-10 text-blue-500 drop-shadow-lg" />
-                    ) : (
-                        <File className="size-10 text-slate-400 drop-shadow-lg" />
-                    )}
-                </div>
-
-                {/* Label */}
-                <div className="w-full text-center">
-                    <p className="text-[11px] font-black uppercase tracking-widest text-foreground line-clamp-1 mb-0.5">
-                        {item.name}
-                    </p>
-                    {!item.isFolder && (
-                        <p className="text-[9px] font-bold text-muted-foreground/50 uppercase tracking-tighter">
-                            {ext}
-                        </p>
-                    )}
-                </div>
             </div>
         );
     }
 
     return (
         <div
-            onClick={onClick}
-            className="group flex items-center justify-between p-5 rounded-[1.5rem] bg-muted/30 border border-border/50 hover:bg-muted/50 hover:border-primary/40 transition-all duration-300 cursor-pointer shadow-sm hover:translate-x-1"
+            className="group flex items-center justify-between p-5 rounded-[1.5rem] bg-muted/30 border border-border/50 hover:bg-muted/50 hover:border-primary/40 transition-all duration-300 shadow-sm hover:translate-x-1"
         >
-            <div className="flex items-center gap-5">
+            <div
+                className="flex items-center gap-5 flex-1 cursor-pointer"
+                onClick={onClick}
+            >
                 <div className="p-3 rounded-2xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
                     {item.isFolder ? <FolderOpen className="size-5" /> : isImage ? <ImageIcon className="size-5" /> : <File className="size-5" />}
                 </div>
@@ -382,7 +395,7 @@ const ExplorerItem = ({ item, view, onClick, onDelete, getFileInfo, closeRef }: 
                 </div>
             </div>
 
-            <div className="flex items-center gap-2 transform scale-90 md:scale-100">
+            <div className="flex items-center gap-2 transform scale-90 md:scale-100" onClick={(e) => e.stopPropagation()}>
                 {showEye && (
                     <Button
                         size="icon"
@@ -420,7 +433,12 @@ const ExplorerItem = ({ item, view, onClick, onDelete, getFileInfo, closeRef }: 
                             <p className="text-xs font-black uppercase tracking-widest text-foreground">{t("are-you-sure")}</p>
                             <div className="flex justify-end gap-2">
                                 <PopoverClose ref={closeRef} asChild>
-                                    <Button size="sm" variant="outline" className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest">
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
                                         {t("cancel")}
                                     </Button>
                                 </PopoverClose>

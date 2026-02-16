@@ -9,7 +9,6 @@ export const updateFacilityPatch = async ({ body, id, lat, lng }: { body?: Parti
         lng,
         name: body?.name,
         address: body?.address,
-        // company_id: body?.company?.id,
         building_id: body?.building?.id,
         region_id: body?.region?.id,
         fire_inspect_at: body?.fireInspectAt ? new Date(body?.fireInspectAt).toISOString() : undefined,
@@ -21,8 +20,6 @@ export const updateFacilityPatch = async ({ body, id, lat, lng }: { body?: Parti
         authority_id: body?.auhtority?.id,
         ownership_id: body?.ownership?.id,
         parking: body?.parking,
-        fire_inspection_at: body?.fireInspectAt
-
     }
 
     await apiInstance(`/location/${id}`, {

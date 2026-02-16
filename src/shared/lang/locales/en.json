@@ -150,5 +150,7 @@
   "worker-not-found": "Worker not found",
   "verified-file-structure": "Verified File Structure",
   "personal-account": "Personal Account",
-  "workers": "Workers"
+  "workers": "Workers",
+  "sub-facilities": "Sub-facilities",
+  "overview": "Overview"
 }

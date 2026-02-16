@@ -153,5 +153,7 @@
   "worker-not-found": "Работник не найден",
   "verified-file-structure": "Проверенная структура файлов",
   "personal-account": "Личный аккаунт",
-  "workers": "Рабочие"
+  "workers": "Рабочие",
+  "sub-facilities": "Подразделения",
+  "overview": "Обзор"
 }

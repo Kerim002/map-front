@@ -10,6 +10,7 @@ import {
     type ChangeEvent,
 } from "react";
 import { useTranslation } from "react-i18next";
+import useQueryParam from "@/shared/hooks/use-query-param";
 
 /* ---------------------------------- */
 /* Utils */
@@ -49,6 +50,7 @@ function useDebounce<T>(value: T, delay = 600) {
 export const MapSearchBox = () => {
     const { setSelectedFacility, flyToCoords } = useMapStore();
     const { t } = useTranslation();
+    const { setQuery: setUrlQuery } = useQueryParam();
 
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
@@ -88,7 +90,13 @@ export const MapSearchBox = () => {
         setOpen(false);
         setSelectedFacility(null);
         flyToCoords(coords);
-    }, [coords, flyToCoords, setSelectedFacility]);
+
+        // Sync with URL parameters for CreateFacilityForm
+        setUrlQuery([
+            { key: "lat", value: coords.lat },
+            { key: "lng", value: coords.lng },
+        ]);
+    }, [coords, flyToCoords, setSelectedFacility, setUrlQuery]);
 
     /* ---------------------------------- */
     /* Handlers */
@@ -137,8 +145,8 @@ export const MapSearchBox = () => {
                 {/* Dropdown */}
                 <div
                     className={`absolute left-0 right-0 mt-3 transition-all duration-500 origin-top ${open && !isCoords
-                            ? "opacity-100 scale-100 translate-y-0 visible"
-                            : "opacity-0 scale-95 -translate-y-4 invisible"
+                        ? "opacity-100 scale-100 translate-y-0 visible"
+                        : "opacity-0 scale-95 -translate-y-4 invisible"
                         }`}
                 >
                     <div className="rounded-[1.5rem] bg-background/60 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-border/50 overflow-hidden py-2">

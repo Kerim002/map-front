@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { FacilityContract } from "@/entities/facility/contract/facility.contract";
+import { createFacilityContract } from "@/entities/facility/contract/facility.contract";
 import { Form } from "@/shared/ui/form";
 import type { FaciltyMutation } from "@/entities/facility/contract";
 import { RegionFormField } from "./region-form-field";
@@ -22,16 +22,18 @@ import { useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { facilityApi } from "@/entities/facility/api/facility.api";
 export const CreateFacilityForm = () => {
-  const form = useForm({
-    resolver: zodResolver(FacilityContract),
-  });
+
+
   const { pathname } = useLocation()
+  const isInChild = pathname.includes("/childs")
+  const form = useForm({
+    resolver: zodResolver(createFacilityContract(isInChild)),
+  });
   const { facilityId } = useParams()
   const closeRef = useRef<HTMLButtonElement>(null);
   const { getQuery, deleteQuery } = useQueryParam();
   const { mutate } = useCreateFacility();
   const { t } = useTranslation()
-  const isInChild = pathname.includes("/childs")
   const { data } = useQuery(facilityApi.detail(facilityId))
   const geom = isInChild ? { lat: data?.geom.lat ?? 0, lng: data?.geom.lng ?? 0 } : { lat: Number(getQuery("lat")), lng: Number(getQuery("lng")) }
 
@@ -42,7 +44,7 @@ export const CreateFacilityForm = () => {
       {
         ...body,
         geom,
-        parent_id:isInChild ? facilityId : undefined
+        parent_id: isInChild ? facilityId : undefined
       },
       {
         onSuccess: () => {
@@ -66,9 +68,10 @@ export const CreateFacilityForm = () => {
 
           <div className="space-y-4 overflow-auto">
             <NameFormField form={form} label={t("location-name")} name="name" />
-            <div className="grid grid-cols-2 gap-3">
-
-              <NameFormField form={form} label={t("cadester-code")} name="cadaster" />
+            <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
+              {
+                !isInChild && <NameFormField form={form} label={t("cadester-code")} name="cadaster" />
+              }
               <OwnershipFormField form={form} label={t("ownership")} name="ownership" />
               {/* <CompanyFormField form={form} label={t("company")} name="company" /> */}
             </div>

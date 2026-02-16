@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { FacilityContract } from "@/entities/facility/contract/facility.contract";
+import { createFacilityContract } from "@/entities/facility/contract/facility.contract";
 import { Form } from "@/shared/ui/form";
 import type { FaciltyMutation } from "@/entities/facility/contract";
 import { RegionFormField } from "./region-form-field";
@@ -20,9 +20,15 @@ import { useTranslation } from "react-i18next";
 import { OwnershipFormField } from "./ownership-form-field";
 import { AuthorityFormField } from "./authority-form-field";
 import { PerformanceFormField } from "@/features/company/form/performance-form-field";
+import { useLocation } from "react-router-dom";
+
+
+
 export const UpdateFacilityForm = () => {
+  const { pathname } = useLocation()
+  const isInChild = pathname.includes("/childs")
   const form = useForm({
-    resolver: zodResolver(FacilityContract),
+    resolver: zodResolver(createFacilityContract(isInChild)),
     // defaultValues: {
     //   name: "",
     //   address: "",
@@ -62,7 +68,6 @@ export const UpdateFacilityForm = () => {
 
 
   const onSubmit: SubmitHandler<FaciltyMutation> = (body) => {
-
     mutate(
       {
         body,
@@ -71,7 +76,7 @@ export const UpdateFacilityForm = () => {
       {
         onSuccess: () => {
           closeRef.current?.click();
-          deleteQuery(["lat", "lng"]);
+          deleteQuery(["location-id", "lat", "lng"]);
         },
       }
     );
@@ -87,9 +92,10 @@ export const UpdateFacilityForm = () => {
 
           <div className="space-y-4 overflow-auto">
             <NameFormField form={form} label={t("location-name")} name="name" />
-            <div className="grid grid-cols-2 gap-3">
-
-              <NameFormField form={form} label={t("cadester-code")} name="cadaster" />
+            <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
+              {
+                !isInChild && <NameFormField form={form} label={t("cadester-code")} name="cadaster" />
+              }
               <OwnershipFormField form={form} label={t("ownership")} name="ownership" />
             </div>
             <div className="grid grid-cols-2 gap-3">

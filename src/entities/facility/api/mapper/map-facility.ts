@@ -24,7 +24,11 @@ export const mapFacility = (dto: FacilityDto): Facility => {
     authority:dto.authority ?? undefined,
     ownership:dto.ownership ?? undefined,
     performance:dto.performance ?? undefined,
-    hasChildren:dto.has_children
+    hasChildren:dto.has_children,
+    specialization:dto.specialization ?? undefined,
+    licenseExpiredAt:dto.license_expired_at ? dto.license_expired_at.split('T')[0] : null,
+    visibility:dto.visibility,
+    parent:dto.parent
     
   };
 };

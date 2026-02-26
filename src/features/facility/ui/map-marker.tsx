@@ -115,6 +115,8 @@ export const MapMarker = ({ item }: Props) => {
     setDraggedCoords(null);
   };
 
+
+
   return (
     <>
       <Marker
@@ -160,7 +162,13 @@ export const MapMarker = ({ item }: Props) => {
                 {t("edit-location")}
               </Button>
               <Button
-                onClick={() => navigate(`/map/${item.id}`)}
+                onClick={() => {
+                  if(item.parent){
+                    navigate(`/map/${item.parent.id}/childs/1/${item.id}`)
+                  }else{
+                    navigate(`/map/${item.id}`)
+                  }
+                }}
                 className="w-full h-8 text-xs"
               >
                 {t("view-detail")}

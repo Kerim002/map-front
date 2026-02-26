@@ -155,5 +155,7 @@
   "personal-account": "Личный аккаунт",
   "workers": "Рабочие",
   "sub-facilities": "Подразделения",
-  "overview": "Обзор"
+  "overview": "Обзор",
+  "specialization": "Специализация",
+  "license-expired-at":"Срок лицензии"
 }

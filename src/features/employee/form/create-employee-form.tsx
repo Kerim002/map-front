@@ -30,9 +30,11 @@ export const CreateEmployeeForm = () => {
         }
     });
 
+
     const { mutate } = useCreateEmployee();
 
     const onSubmit: SubmitHandler<EmployeCreateMutation> = (arg) => {
+        console.log(arg)
         mutate({ ...arg, location_id: facilityChildId ? facilityChildId : facilityId ?? "" }, {
             onSuccess() {
                 closeRef.current?.click();
@@ -53,18 +55,19 @@ export const CreateEmployeeForm = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
+                
                 <div className="w-full flex flex-col items-center justify-center">
 
                     <AvatarFormField oldImage="" form={form} label={t("avatar")} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                    <TextFormField form={form} name="first_name" label={t("firstname")} />
                     <TextFormField form={form} name="last_name" label={t("lastname")} />
+                    <TextFormField form={form} name="first_name" label={t("firstname")} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    <TextFormField form={form} name="email" label={t("email")} />
                     <TextFormField form={form} name="surname" label={t("surname")} />
+                    <TextFormField form={form} name="email" label={t("email")} />
                 </div>
 
 

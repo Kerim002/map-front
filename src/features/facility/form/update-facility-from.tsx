@@ -21,6 +21,8 @@ import { OwnershipFormField } from "./ownership-form-field";
 import { AuthorityFormField } from "./authority-form-field";
 import { PerformanceFormField } from "@/features/company/form/performance-form-field";
 import { useLocation } from "react-router-dom";
+import { SpecFormField } from "./spec-form-field";
+import { SwitchFormField } from "@/shared/ui/switch-form-field";
 
 
 
@@ -29,13 +31,10 @@ export const UpdateFacilityForm = () => {
   const isInChild = pathname.includes("/childs")
   const form = useForm({
     resolver: zodResolver(createFacilityContract(isInChild)),
-    // defaultValues: {
-    //   name: "",
-    //   address: "",
-    //   region: undefined,
-    //   company: undefined,
-    //   building: undefined,
-    // },
+    defaultValues: {
+      name: "",
+      address: "",
+    },
   });
   const { t } = useTranslation()
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -58,9 +57,10 @@ export const UpdateFacilityForm = () => {
         auhtority: data.authority,
         ownership: data.ownership,
         performance: data.performance,
-        // auhtority:data
-        parking: data.parking
-
+        parking: data.parking,
+        specialization: data.specialization,
+        licenseExpiredAt: data.licenseExpiredAt || "",
+        visibility: data.visibility
       });
     }
   }, [data, form])
@@ -110,6 +110,11 @@ export const UpdateFacilityForm = () => {
             </div>
             <div className="grid grid-cols-2 gap-3">
 
+              <SpecFormField form={form} label={t("specialization")} name="specialization" />
+              <TimeFormField form={form} label={t("license-expired-at")} name="licenseExpiredAt" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+
               <TimeFormField label={t("fire-incpect-at")} form={form} name="fireInspectAt" />
               <NumberFormField label={t("total-area")} form={form} name="area" />
 
@@ -118,8 +123,12 @@ export const UpdateFacilityForm = () => {
 
               <NumberFormField label={t("total-floor")} form={form} name="floor" />
               <NumberFormField label={t("totol-parking-place")} form={form} name="parking" />
-
             </div>
+            {data?.parent !== null &&
+              <div>
+                <SwitchFormField control={form.control} label={t("visibility")} name="visibility" />
+              </div>
+            }
             <TextAreaFormField form={form} label={t("address")} name="address" />
             <TextAreaFormField form={form} label={t("additional-information")} name="note" />
           </div>

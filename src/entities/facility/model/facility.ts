@@ -20,7 +20,14 @@ export type Facility = {
   authority: AttriubtesFacility
   ownership: AttriubtesFacility
   performance: AttriubtesFacility
-  hasChildren:boolean
+  specialization: AttriubtesFacility,
+  licenseExpiredAt: null | string,
+  visibility: boolean,
+  hasChildren:boolean,
+  parent:{
+    id: string;
+    name: string;
+  } | null
 };
 
 type AttriubtesFacility = {

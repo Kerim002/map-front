@@ -34,6 +34,10 @@ export const createFacilityContract = (isInChild: boolean) =>
       type: z.string(),
       id: z.string(),
     }),
+    specialization: z.object({
+      type: z.string(),
+      id: z.string(),
+    }),
 
     // 👇 conditional
     cadaster: isInChild
@@ -44,5 +48,8 @@ export const createFacilityContract = (isInChild: boolean) =>
     area: z.coerce.number().optional(),
     parking: z.coerce.number().optional(),
     fireInspectAt: z.string().optional(),
+    licenseExpiredAt: z.string().optional(),
+    visibility:z.boolean().optional(),
+    
     note: z.string().optional(),
   });

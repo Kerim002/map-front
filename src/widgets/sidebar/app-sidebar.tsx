@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import {
   BadgeCheck,
   Building,
+  Focus,
   Home,
   IdCard,
   LandPlot,
@@ -39,6 +40,7 @@ const routes = [
   { path: "/ownership/1", icon: Shield, name: "ownership" },
   { path: "/performance/1", icon: BadgeCheck, name: "performance" },
   { path: "/region/1", icon: LandPlot, name: "region" },
+  { path: "/specialization/1", icon: Focus, name: "specialization" },
 ];
 
 export function AppSidebar() {
@@ -51,10 +53,10 @@ export function AppSidebar() {
   const isCollapsed = state === "collapsed";
 
   const handleLanguageChange = async (newLang: string) => {
-  await i18n.changeLanguage(newLang);
-  // This tells TanStack Query to mark all queries as "stale" and refetch active ones
-  queryClient.invalidateQueries(); 
-};
+    await i18n.changeLanguage(newLang);
+    // This tells TanStack Query to mark all queries as "stale" and refetch active ones
+    queryClient.invalidateQueries();
+  };
 
 
   return (

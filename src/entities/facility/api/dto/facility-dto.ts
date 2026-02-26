@@ -14,15 +14,20 @@ export type FacilityDto = {
   authority: AttriubtesFacility
   ownership: AttriubtesFacility
   performance: AttriubtesFacility
+  specialization: AttriubtesFacility,
+  license_expired_at: null | string,
   has_children:boolean
   cadaster: null | string,
   note: string | null,
-  // images: [] | null,
-  // working_days: [] | null,
   area: number,
   floor: number,
   fire_inspection_at: null | string,
-  parking: null | number
+  parking: null | number,
+  visibility: boolean,
+    parent:{
+    id: string;
+    name: string;
+  } | null
 };
 
 

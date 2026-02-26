@@ -38,6 +38,8 @@ export const UpdateEmployeeForm = () => {
 
     const { mutate } = useUpdateEmployee();
     const { mutate: updateEmployeeImage } = useUpdateEmployeeImage()
+    console.log(form.formState.errors)
+
 
     const onSubmit: SubmitHandler<EmployeCreateMutation> = (arg) => {
         const employeeId = getQuery("id") ?? "";
@@ -98,12 +100,12 @@ export const UpdateEmployeeForm = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                    <TextFormField form={form} name="first_name" label={t("firstname")} />
                     <TextFormField form={form} name="last_name" label={t("lastname")} />
+                    <TextFormField form={form} name="first_name" label={t("firstname")} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    <TextFormField form={form} name="email" label={t("email")} />
                     <TextFormField form={form} name="surname" label={t("surname")} />
+                    <TextFormField form={form} name="email" label={t("email")} />
                 </div>
 
 

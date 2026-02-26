@@ -152,5 +152,7 @@
   "personal-account": "Personal Account",
   "workers": "Workers",
   "sub-facilities": "Sub-facilities",
-  "overview": "Overview"
+  "overview": "Overview",
+  "specialization": "Specialization",
+  "license-expired-at":"License expired at"
 }

@@ -23,6 +23,9 @@ export type CreateBody = {
   ownership_id?: string
   parking?: number,
   parent_id?: string
+  specialization_id?: string
+  license_expired_at?: string
+  visibility?: boolean
 };
 
 export const createFacility = async (
@@ -33,7 +36,9 @@ export const createFacility = async (
   const ownershipId = payload.ownership.id;
   const building_id = payload.building?.id;
   const address = payload.address;
-  const region_id = payload.region?.id
+  const region_id = payload.region?.id;
+  const specializationId = payload.specialization.id
+  const licesnceExpiredAt = payload.licenseExpiredAt ? new Date(payload.licenseExpiredAt).toISOString() : undefined;
 
   const json: CreateBody = {
     name: payload.name,
@@ -46,6 +51,9 @@ export const createFacility = async (
     note: payload.note,
     parking: payload.parking,
     parent_id: payload.parent_id,
+    specialization_id: specializationId,
+    license_expired_at: licesnceExpiredAt,
+    visibility: payload.visibility,
 
     ...(address && { address: address }),
     ...(building_id && { building_id: building_id }),

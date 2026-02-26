@@ -1,10 +1,7 @@
 import z from "zod";
 
 const imageFile = z
-  .instanceof(File)
-  .refine((file) => file.size <= 5_000_000, {
-    message: "Max image size is 5MB",
-  });
+  .instanceof(File);
 
 export const CreateEmployeeContract = z.object({
   first_name: z.string().min(2),

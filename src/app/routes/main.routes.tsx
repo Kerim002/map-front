@@ -12,6 +12,7 @@ import { Building } from "@/pages/building";
 import { FacilityChildListPage, FacilityPage } from "@/pages/facility";
 import { SidebarLayout } from "../layouts/sidebar-layout";
 import { EmployeeDetailPage, EmployeeFilesPage, EmployeePage } from "@/pages/employee";
+import { Specialization } from "@/pages/specialization";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -215,6 +216,19 @@ const mainRoutes = createBrowserRouter([
                 element: (
                   <Suspense>
                     <Building />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
+          {
+            path: "/specialization",
+            children: [
+              {
+                path: ":currentPage",
+                element: (
+                  <Suspense>
+                    <Specialization />
                   </Suspense>
                 ),
               },

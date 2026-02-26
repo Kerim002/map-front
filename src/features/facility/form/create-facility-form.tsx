@@ -21,11 +21,14 @@ import { PerformanceFormField } from "@/features/company/form/performance-form-f
 import { useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { facilityApi } from "@/entities/facility/api/facility.api";
+import { SpecFormField } from "./spec-form-field";
+import { SwitchFormField } from "@/shared/ui/switch-form-field";
 export const CreateFacilityForm = () => {
 
 
   const { pathname } = useLocation()
   const isInChild = pathname.includes("/childs")
+  console.log(isInChild)
   const form = useForm({
     resolver: zodResolver(createFacilityContract(isInChild)),
   });
@@ -88,6 +91,11 @@ export const CreateFacilityForm = () => {
             </div>
             <div className="grid grid-cols-2 gap-3">
 
+              <SpecFormField form={form} label={t("specialization")} name="specialization" />
+              <TimeFormField form={form} label={t("license-expired-at")} name="licenseExpiredAt" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+
               <TimeFormField label={t("fire-incpect-at")} form={form} name="fireInspectAt" />
               <NumberFormField label={t("total-area")} form={form} name="area" />
 
@@ -98,6 +106,11 @@ export const CreateFacilityForm = () => {
               <NumberFormField label={t("totol-parking-place")} form={form} name="parking" />
 
             </div>
+            {isInChild &&
+              <div>
+                <SwitchFormField control={form.control} label={t("visibility")} name="visibility" />
+              </div>
+            }
             <TextAreaFormField form={form} label={t("address")} name="address" />
             <TextAreaFormField form={form} label={t("additional-information")} name="note" />
           </div>

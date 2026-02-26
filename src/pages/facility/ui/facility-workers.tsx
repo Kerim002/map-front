@@ -181,7 +181,7 @@ export const FacilityWorkers = () => {
                         <QuickActionButton
                             icon={MapPin}
                             label={t("edit-location")}
-                            onClick={() => setQuery([{ key: "location-id", value: facilityId }])}
+                            onClick={() => setQuery([{ key: "location-id", value:facilityChildId ? facilityChildId: facilityId }])}
                             colorClass="bg-orange-500/10 text-orange-500 group-hover:bg-orange-500 group-hover:text-white"
                         />
 

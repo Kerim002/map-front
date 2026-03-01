@@ -27,7 +27,8 @@ export type FacilityDto = {
     parent:{
     id: string;
     name: string;
-  } | null
+  } | null,
+  rental:boolean
 };
 
 

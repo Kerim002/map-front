@@ -183,7 +183,10 @@ export const MapMarker = ({ item }: Props) => {
         open={!!draggedCoords}
         onOpenChange={(open) => { if (!open && !isUpdating) handleCancelMove(); }}
       >
-        <AlertDialogContent>
+        <AlertDialogContent
+        
+        
+        >
           <AlertDialogHeader>
             <AlertDialogTitle>{t("Confirm Move")}</AlertDialogTitle>
             <AlertDialogDescription>

@@ -28,6 +28,7 @@ export type Facility = {
     id: string;
     name: string;
   } | null
+  rental:boolean
 };
 
 type AttriubtesFacility = {

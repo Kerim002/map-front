@@ -9,7 +9,7 @@
   "authority": "Authority",
   "building": "Building",
   "ownership": "Ownership",
-  "performance": "Performance",
+  "performance": "Object type",
   "region": "Region",
   "search": "Search",
   "total-documents": "Total documnets",
@@ -106,7 +106,7 @@
   "this-folder-is-empty": "This folder is empty",
   "cuncel": "Cuncel",
   "facilities": "Facilities",
-  "all-performances": "All performances",
+  "all-performances": "All objects",
   "all-ownerships": "All ownerships",
   "all-authority": "All authority",
   "total-regions": "Total Regions",
@@ -117,7 +117,7 @@
   "total-companies": "Total Companies",
   "total-authorities": "Total Authorities",
   "total-ownerships": "Total Ownerships",
-  "total-performances": "Total Performances",
+  "total-performances": "Total objects",
   "total-items": "Total Facilites",
   "registered": "Registered Locations",
   "locations-distribution": "Location Distribution",
@@ -154,5 +154,6 @@
   "sub-facilities": "Sub-facilities",
   "overview": "Overview",
   "specialization": "Specialization",
-  "license-expired-at":"License expired at"
+  "license-expired-at":"License expired at",
+  "rental":"Rental"
 }

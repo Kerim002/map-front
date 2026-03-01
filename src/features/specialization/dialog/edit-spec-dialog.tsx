@@ -19,7 +19,9 @@ export const EditSpecDialog = () => {
         }
       }}
     >
-      <DialogContent>
+      <DialogContent
+      onPointerDownOutside={e => e.preventDefault()}
+      >
         <DialogDescription hidden />
         <DialogTitle hidden />
         <EditSpecForm />

@@ -70,7 +70,11 @@ export const FileUploadDialog = ({ locationId, path, trigger, onSuccess }: FileU
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md rounded-[2rem] border-0 bg-card/90 backdrop-blur-xl shadow-2xl">
+            <DialogContent
+
+            
+            onPointerDownOutside={e => e.preventDefault()}
+            className="sm:max-w-md rounded-[2rem] border-0 bg-card/90 backdrop-blur-xl shadow-2xl">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-black uppercase tracking-tight">{t("upload-new-document")}</DialogTitle>
                 </DialogHeader>

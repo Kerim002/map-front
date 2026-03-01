@@ -16,7 +16,9 @@ export const CreateOwnershipDialog = () => {
       <DialogTrigger asChild>
         <Button>{t("create")}</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent
+      onPointerDownOutside={e => e.preventDefault()}
+      >
         <DialogDescription hidden />
         <DialogTitle hidden />
         <CreateOwnershipForm />

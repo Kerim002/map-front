@@ -19,7 +19,9 @@ export const UpdateCompanyDialog = () => {
         }
       }}
     >
-      <DialogContent>
+      <DialogContent
+      onPointerDownOutside={e => e.preventDefault()}
+      >
         <DialogDescription hidden />
         <DialogTitle hidden />
         <UpdateCompanyForm />

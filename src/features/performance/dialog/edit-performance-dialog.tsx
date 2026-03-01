@@ -19,7 +19,9 @@ export const EditPerformanceDialog = () => {
         }
       }}
     >
-      <DialogContent>
+      <DialogContent
+      onPointerDownOutside={e => e.preventDefault()}
+      >
         <DialogDescription hidden />
         <DialogTitle hidden />
         <EditPerformanceForm />

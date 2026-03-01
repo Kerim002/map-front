@@ -170,18 +170,26 @@ export const FacilityWorkers = () => {
 
                     <div className="grid grid-cols-2 gap-3">
                         {!pathname.includes("/childs") && (
-                            <QuickActionButton
-                                icon={Layers}
-                                label={t("facilities")}
-                                onClick={() => navigate("childs/1")}
-                                colorClass="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
-                            />
+                            <>
+                                <QuickActionButton
+                                    icon={Layers}
+                                    label={t("facilities")}
+                                    onClick={() => navigate("childs/1?rental=false")}
+                                    colorClass="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
+                                />
+                                <QuickActionButton
+                                    icon={Layers}
+                                    label={t("rental")}
+                                    onClick={() => navigate("childs/1?rental=true")}
+                                    colorClass="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
+                                />
+                            </>
                         )}
 
                         <QuickActionButton
                             icon={MapPin}
                             label={t("edit-location")}
-                            onClick={() => setQuery([{ key: "location-id", value:facilityChildId ? facilityChildId: facilityId }])}
+                            onClick={() => setQuery([{ key: "location-id", value: facilityChildId ? facilityChildId : facilityId }])}
                             colorClass="bg-orange-500/10 text-orange-500 group-hover:bg-orange-500 group-hover:text-white"
                         />
 

@@ -28,7 +28,6 @@ export const CreateFacilityForm = () => {
 
   const { pathname } = useLocation()
   const isInChild = pathname.includes("/childs")
-  console.log(isInChild)
   const form = useForm({
     resolver: zodResolver(createFacilityContract(isInChild)),
   });
@@ -42,12 +41,12 @@ export const CreateFacilityForm = () => {
 
   const onSubmit: SubmitHandler<FaciltyMutation> = (body) => {
 
-
     mutate(
       {
         ...body,
         geom,
-        parent_id: isInChild ? facilityId : undefined
+        parent_id: isInChild ? facilityId : undefined,
+        rental:getQuery("rental") ? getQuery("rental") === "true" ? true : false : undefined
       },
       {
         onSuccess: () => {

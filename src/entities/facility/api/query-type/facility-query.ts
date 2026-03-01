@@ -17,7 +17,8 @@ export type FacilitySearchQuery = {
   building_id?: string,
   page: number,
   limit: number,
-  parent_id?: string
+  parent_id?: string,
+  rental?:boolean
 }
 
 

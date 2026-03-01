@@ -95,7 +95,9 @@ const [preview, setPreview] = useState<string | null>(oldImage || null);
 
       {/* Crop Modal */}
       <Dialog open={!!imageSrc} onOpenChange={() => setImageSrc(null)}>
-        <DialogContent className="sm:max-w-[450px]">
+        <DialogContent
+        onPointerDownOutside={e => e.preventDefault()}
+        className="sm:max-w-[450px]">
           {/* Increased container height slightly to better fit portrait crop UI */}
           <div className="relative h-[400px] w-full bg-black rounded-lg overflow-hidden">
             <Cropper

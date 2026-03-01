@@ -113,7 +113,9 @@ export const ImageOrderDialog = ({ images, facilityId }: { images: FacilityImage
           <Edit />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] h-[70vh] flex flex-col">
+      <DialogContent 
+      onPointerDownOutside={e => e.preventDefault()}
+      className="sm:max-w-[600px] h-[70vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>{t("reorder-images")}</DialogTitle>
         </DialogHeader>

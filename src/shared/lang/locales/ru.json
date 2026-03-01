@@ -9,7 +9,7 @@
   "authority": "Ведомство",
   "building": "Здание",
   "ownership": "Собственность",
-  "performance": "Показатели",
+  "performance": "Тип объект",
   "region": "Регион",
   "search": "Поиск",
   "total-documents": "Всего документов",
@@ -109,7 +109,7 @@
   "this-folder-is-empty": "Эта папка пуста",
   "cuncel": "Отмена",
   "facilities": "Удобства",
-  "all-performances": "Все выступления",
+  "all-performances": "Все объект",
   "all-ownerships": "Все права собственности",
   "all-authority": "Вся власть",
   "total-regions": "Всего регионов",
@@ -120,7 +120,7 @@
   "total-companies": "Всего компаний",
   "total-authorities": "Всего органов власти",
   "total-ownerships": "Всего форм собственности",
-  "total-performances": "Всего показателей",
+  "total-performances": "Всего объект",
   "total-items": "Всего объектов",
   "registered": "Зарегистрированные локации",
   "locations-distribution": "Распределение локаций",
@@ -157,5 +157,6 @@
   "sub-facilities": "Подразделения",
   "overview": "Обзор",
   "specialization": "Специализация",
-  "license-expired-at":"Срок лицензии"
+  "license-expired-at":"Срок лицензии",
+    "rental":"Аренда"
 }

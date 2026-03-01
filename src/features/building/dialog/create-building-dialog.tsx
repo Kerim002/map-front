@@ -14,7 +14,9 @@ export const CreateBuildingDialog = () => {
       <DialogTrigger asChild>
         <Button className="mb-2">{t("create")}</Button>
       </DialogTrigger>
-      <DialogContent className="p-0 overflow-hidden sm:max-w-md">
+      <DialogContent
+      onPointerDownOutside={e => e.preventDefault()}
+      className="p-0 overflow-hidden sm:max-w-md">
         <CreateBuildingForm />
       </DialogContent>
     </Dialog>

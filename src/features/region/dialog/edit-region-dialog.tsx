@@ -19,7 +19,9 @@ export const EditRegionDialog = () => {
         }
       }}
     >
-      <DialogContent>
+      <DialogContent
+      onPointerDownOutside={e => e.preventDefault()}
+      >
         <DialogDescription hidden />
         <DialogTitle hidden />
         <EditRegionForm />

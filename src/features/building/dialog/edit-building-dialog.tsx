@@ -19,7 +19,9 @@ export const EditBuildingDialog = () => {
         }
       }}
     >
-      <DialogContent>
+      <DialogContent
+      
+      onPointerDownOutside={e => e.preventDefault()}>
         <DialogDescription hidden />
         <DialogTitle hidden />
         <EditBuildingForm />

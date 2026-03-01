@@ -25,11 +25,12 @@ export type CreateBody = {
   parent_id?: string
   specialization_id?: string
   license_expired_at?: string
-  visibility?: boolean
+  visibility?: boolean,
+  rental?:boolean
 };
 
 export const createFacility = async (
-  payload: FaciltyMutation & { geom: Geom, parent_id?: string }
+  payload: FaciltyMutation & { geom: Geom, parent_id?: string, rental?:boolean }
 ) => {
   const performanceId = payload?.performance?.id;
   const authorityId = payload.auhtority.id;
@@ -54,6 +55,8 @@ export const createFacility = async (
     specialization_id: specializationId,
     license_expired_at: licesnceExpiredAt,
     visibility: payload.visibility,
+    rental:payload.rental,
+
 
     ...(address && { address: address }),
     ...(building_id && { building_id: building_id }),

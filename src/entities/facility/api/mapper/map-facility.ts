@@ -28,7 +28,8 @@ export const mapFacility = (dto: FacilityDto): Facility => {
     specialization:dto.specialization ?? undefined,
     licenseExpiredAt:dto.license_expired_at ? dto.license_expired_at.split('T')[0] : null,
     visibility:dto.visibility,
-    parent:dto.parent
+    parent:dto.parent,
+    rental:dto.rental
     
   };
 };

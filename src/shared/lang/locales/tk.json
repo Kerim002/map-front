@@ -9,7 +9,7 @@
   "authority": "Häkimiýet",
   "building": "Bina",
   "ownership": "Eýeçilik",
-  "performance": "Netijelilik",
+  "performance": "Desganyň görnüşi",
   "region": "Sebit",
   "search": "Gözleg",
   "total-documents": "Jemi resminamalar",
@@ -109,7 +109,7 @@
   "this-folder-is-empty": "Bu bukja boş",
   "cuncel": "Ýatyr",
   "facilities": "Desgalar",
-  "all-performances": "Ähli netijelilik",
+  "all-performances": "Ähli görnüşler",
   "all-ownerships": "Ähli eýeçilik",
   "all-authority": "Ähli häkimiýet",
   "total-regions": "Ähli regionlar",
@@ -120,7 +120,7 @@
   "total-companies": "Ähli kärhanalar",
   "total-authorities": "Ähli edaralar",
   "total-ownerships": "Ähli eýeçilik görnüşleri",
-  "total-performances": "Ähli görkezijiler",
+  "total-performances": "Ähli görnüşler",
   "total-items": "Ähli desgalar",
   "registered": "Hasaba alnan ýerler",
   "locations-distribution": "Ýerleşiş paýlanyşy",
@@ -156,6 +156,7 @@
   "workers": "Işgärler",
   "sub-facilities": "Kiçi desgalar",
   "overview": "Umumy",
-  "specialization": "Specializasiýa",
-  "license-expired-at":"Ygtyýarnamanyň möhleti"
+  "specialization": "Desganyň hünär ugry",
+  "license-expired-at":"Ygtyýarnamanyň möhleti",
+  "rental":"Kärende"
 }

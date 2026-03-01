@@ -11,7 +11,9 @@ export const FacilityDetailDialog = () => {
 
   return (
     <Dialog open={!!getQuery("id")} onOpenChange={() => deleteQuery(["id"])}>
-      <DialogContent>
+      <DialogContent
+      onPointerDownOutside={e => e.preventDefault()}
+      >
         <DialogHeader className="hidden">
           <DialogTitle />
         </DialogHeader>

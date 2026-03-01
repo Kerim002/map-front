@@ -60,7 +60,7 @@ export const UpdateFacilityForm = () => {
         parking: data.parking,
         specialization: data.specialization,
         licenseExpiredAt: data.licenseExpiredAt || "",
-        visibility: data.visibility
+        visibility: data.visibility,
       });
     }
   }, [data, form])
@@ -71,7 +71,9 @@ export const UpdateFacilityForm = () => {
     mutate(
       {
         body,
-        id: getQuery("location-id") ?? ""
+        id: getQuery("location-id") ?? "",
+        parent_id:data?.parent?.id,
+        rental:getQuery("rental") ? getQuery("rental") === "true" ? true : false : undefined
       },
       {
         onSuccess: () => {

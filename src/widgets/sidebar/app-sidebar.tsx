@@ -34,7 +34,6 @@ import { useQueryClient } from "@tanstack/react-query";
 const routes = [
   { path: "/", icon: Home, name: "home" },
   { path: "/map", icon: Map, name: "map" },
-  // { path: "/company/1", icon: Building2, name: "company" },
   { path: "/authority/1", icon: IdCard, name: "authority" },
   { path: "/building/1", icon: Building, name: "building" },
   { path: "/ownership/1", icon: Shield, name: "ownership" },

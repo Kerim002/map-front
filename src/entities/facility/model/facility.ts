@@ -1,40 +1,39 @@
 export type Facility = {
+  id: string;
+  name: string;
   geom: {
     lng: number;
     lat: number;
   };
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  address: null | string;
-  company: AttriubtesFacility;
-  building: AttriubtesFacility,
-  region: AttriubtesFacility,
   cadaster: null | string,
   note: string | null,
-  area: number,
-  floor: number,
-  fireInspectionAt: null | string,
-  parking: null | number,
+  address: null | string;
+  visibility: boolean,
+  rental: boolean
+  performance: AttriubtesFacility
   authority: AttriubtesFacility
   ownership: AttriubtesFacility
-  performance: AttriubtesFacility
   specialization: AttriubtesFacility,
-  licenseExpiredAt: null | string,
-  visibility: boolean,
-  hasChildren:boolean,
-  parent:{
+  building: AttriubtesFacility,
+  region: AttriubtesFacility,
+  parent: {
     id: string;
     name: string;
   } | null
-  rental:boolean
+  hasChildren: boolean,
+  area: number,
+  floor: number,
+  parking: null | number,
+  fireInspectionAt: null | string,
+  licenseExpiredAt: null | string,
+  createdAt: string;
+  updatedAt: string;
 };
 
 type AttriubtesFacility = {
-    id: string;
-    type: string
-  } | undefined
+  id: string;
+  type: string
+} | undefined
 
 
 export type FacilityPagionation = {

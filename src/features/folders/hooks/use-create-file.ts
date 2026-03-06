@@ -1,4 +1,4 @@
-import { facilityUploadFile } from "@/entities/facility/api/mutations/facility-upload-file";
+import { facilityUploadFile } from "@/entities/folders/api/mutations/create-file";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

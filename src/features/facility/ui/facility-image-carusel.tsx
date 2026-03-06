@@ -100,7 +100,7 @@ export const FacilityImageCarusel = () => {
         />
 
         {data && facilityId && (
-          <ImageOrderDialog images={data} facilityId={facilityId} />
+          <ImageOrderDialog images={data} facilityId={facilityChildId ? facilityChildId : facilityId} />
         )}
       </div>
       <div className="w-full relative group">

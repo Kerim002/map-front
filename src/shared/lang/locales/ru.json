@@ -158,5 +158,13 @@
   "overview": "Обзор",
   "specialization": "Специализация",
   "license-expired-at":"Срок лицензии",
-    "rental":"Аренда"
+  "rental":"Аренда",
+  "in-map":"На карте",
+  "visible":"Видимый",
+  "hidden":"Скрытый",
+  "has-sub-facilities":"Есть подуслуги",
+  "note":"Примечание",
+  "yes":"Да",
+  "no":"Нет",
+  "parent-facility":"Основной объект"
 }

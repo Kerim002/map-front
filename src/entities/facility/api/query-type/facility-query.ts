@@ -3,7 +3,6 @@ export type FacilityQuery = {
   maxLat: number;
   minLng: number;
   maxLng: number;
-  companyId?: string;
   regionId?: string;
   buildingId?: string;
 
@@ -12,7 +11,6 @@ export type FacilityQuery = {
 
 export type FacilitySearchQuery = {
   q?: string,
-  company_id?: string,
   region_id?: string,
   building_id?: string,
   page: number,
@@ -27,7 +25,6 @@ export type FacilityZoomQuery = {
   lat: number;
   lng: number;
   zoom: number;
-  company_id?: string,
   region_id?: string,
   building_id?: string,
   performance_id?:string

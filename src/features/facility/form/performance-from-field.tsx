@@ -14,6 +14,7 @@ import type {
   PathValue,
   UseFormReturn,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 type Props<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -32,35 +33,34 @@ export const PerformanceFormField = <T extends FieldValues>({
   const dropDownRef = useRef<HTMLDivElement>(null);
   useClickOutside([boxRef, dropDownRef], () => setIsOpen(false));
   const debounceText = useDebounce(search, 300);
-  const { data: regionList } = useQuery(
+  const { data: performanceList } = useQuery(
     performanceApi.list({ limit: 20, page: 1, search: debounceText })
   );
 
   const selectedItem = form.watch(name);
   const handleSelect = ({
     id,
-    regionName,
+    valueName,
   }: {
     id: string;
-    regionName: string;
+    valueName: string;
   }) => {
-    form.setValue(name, { id, type: regionName } as PathValue<T, Path<T>>, {
-      // This ensures the error disappears immediately after selecting
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-    setSearch(regionName);
+    form.setValue(name, { id, type: valueName } as PathValue<T, Path<T>>);
+    setSearch(valueName);
     setIsOpen(false);
   };
 
+  const { i18n } = useTranslation();
+  const currentLang = (i18n.language || "ru") as "en" | "ru" | "tk"
+
   useEffect(() => {
-    if (selectedItem?.id) {
+    if (selectedItem) {
       setSearch(selectedItem.type);
     }
-  }, [selectedItem?.id]);
+  }, [selectedItem]);
 
   const handleRemove = () => {
-    handleSelect({ regionName: "", id: "" });
+    handleSelect({ valueName: "", id: "" });
 
     setSearch("");
   };
@@ -73,18 +73,8 @@ export const PerformanceFormField = <T extends FieldValues>({
         onClick={() => setIsOpen((prev) => !prev)}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="h-10 bg-white"
+        className="h-10"
       />
-      {form.formState.errors[name] && (
-        <p className="text-sm text-red-500">
-          {/* If 'name' is 'region', RHF might put the error on 
-       errors.region.message OR errors.region.id.message 
-    */}
-          {(form.formState.errors[name] as any)?.message ||
-            (form.formState.errors[name] as any)?.id?.message ||
-            (form.formState.errors[name] as any)?.type?.message}
-        </p>
-      )}
       <Button
         onClick={handleRemove}
         type="button"
@@ -105,18 +95,18 @@ export const PerformanceFormField = <T extends FieldValues>({
           ref={dropDownRef}
           className="max-h-72  overflow-auto space-y-2 absolute left-0 right-0 top-16 border rounded-lg p-2 bg-white dark:bg-zinc-900 z-10"
         >
-          {regionList?.data?.map((item) => (
+          {performanceList?.data?.map((item) => (
             <p
               onClick={() =>
-                handleSelect({ id: item.id, regionName: item.type })
+                handleSelect({ id: item.id, valueName: item[currentLang] })
               }
               key={item.id}
               className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${selectedItem?.id === item.id
-                ? "dark:bg-zinc-800 bg-gray-200"
-                : ""
+                  ? "dark:bg-zinc-800 bg-gray-200"
+                  : ""
                 }`}
             >
-              {item.type}
+              {item[currentLang] || item.ru}
             </p>
           ))}
         </div>

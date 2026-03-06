@@ -8,6 +8,13 @@ import { Map, Landmark, Users, FileText } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { cn } from "@/shared/lib/utils";
 
+// Helper function to truncate strings
+const truncate = (str: string | undefined, length: number) => {
+    if (!str) return "...";
+    if (str.length <= length) return str;
+    return str.slice(0, length) + "...";
+};
+
 interface FacilityPageHeaderProps {
     className?: string;
 }
@@ -31,9 +38,14 @@ export const FacilityPageHeader = ({ className }: FacilityPageHeaderProps) => {
     // Fetch employee data if we are on employee detail page
     const { data: employee } = useQuery(employeeApi.detail(employeeId));
 
+    // Determine the current flow type: rentals vs childs
+    const isRentalPath = pathname.includes("/rentals");
+    const pathSegment = isRentalPath ? "rentals" : "childs";
+    const subEntityLabel = isRentalPath ? t("rental") : t("sub-facilities");
+
     const isWorkersPage = pathname.includes("/employee") && !employeeId;
     const isFilesPage = pathname.includes("/files");
-    const isChildListPage = pathname.includes("/childs") && !facilityChildId;
+    const isSubListPage = (pathname.includes("/childs") || pathname.includes("/rentals")) && !facilityChildId;
     const isEmployeeDetailPage = !!employeeId;
 
     const breadcrumbs: BreadcrumbItem[] = [
@@ -48,29 +60,29 @@ export const FacilityPageHeader = ({ className }: FacilityPageHeaderProps) => {
     if (facilityChildId && parentFacility) {
         // Map > Parent
         breadcrumbs.push({
-            label: parentFacility.name,
+            label: truncate(parentFacility.name, 17),
             href: `/map/${facilityId}`,
             icon: <Landmark className="size-3" />
         });
 
-        // Map > Parent > Sub-facilities
+        // Map > Parent > Sub-facilities/Rentals
         breadcrumbs.push({
-            label: t("sub-facilities"),
-            href: `/map/${facilityId}/childs/1`,
+            label: subEntityLabel,
+            href: `/map/${facilityId}/${pathSegment}/1`,
             icon: <Landmark className="size-3" />
         });
 
-        const facilityHref = `/map/${facilityId}/childs/1/${facilityChildId}`;
+        const facilityHref = `/map/${facilityId}/${pathSegment}/1/${facilityChildId}`;
 
         if (isWorkersPage || isFilesPage || isEmployeeDetailPage) {
             breadcrumbs.push({
-                label: currentFacility?.name || "...",
+                label: truncate(currentFacility?.name, 17),
                 href: facilityHref,
                 icon: <Landmark className="size-3" />
             });
         } else {
             breadcrumbs.push({
-                label: currentFacility?.name || "...",
+                label: truncate(currentFacility?.name, 17),
                 active: true,
                 icon: <Landmark className="size-3" />
             });
@@ -79,24 +91,25 @@ export const FacilityPageHeader = ({ className }: FacilityPageHeaderProps) => {
         // Map > Parent (current is parent)
         const facilityHref = `/map/${facilityId}`;
 
-        if (isWorkersPage || isFilesPage || isEmployeeDetailPage || isChildListPage) {
+        if (isWorkersPage || isFilesPage || isEmployeeDetailPage || isSubListPage) {
             breadcrumbs.push({
-                label: currentFacility.name,
+                label: truncate(currentFacility.name, 17),
                 href: facilityHref,
                 icon: <Landmark className="size-3" />
             });
         } else {
             breadcrumbs.push({
-                label: currentFacility.name,
+                label: truncate(currentFacility.name, 17),
                 active: true,
                 icon: <Landmark className="size-3" />
             });
         }
     }
 
-    if (isChildListPage) {
+    // Push the list page breadcrumb if we are viewing the list of childs or rentals
+    if (isSubListPage) {
         breadcrumbs.push({
-            label: t("sub-facilities"),
+            label: subEntityLabel,
             active: true,
             icon: <Landmark className="size-3" />
         });
@@ -104,7 +117,7 @@ export const FacilityPageHeader = ({ className }: FacilityPageHeaderProps) => {
 
     if (isWorkersPage || isEmployeeDetailPage) {
         const workersHref = facilityChildId
-            ? `/map/${facilityId}/childs/1/${facilityChildId}/employee/1`
+            ? `/map/${facilityId}/${pathSegment}/1/${facilityChildId}/employee/1`
             : `/map/${facilityId}/employee/1`;
 
         if (isEmployeeDetailPage) {
@@ -114,7 +127,9 @@ export const FacilityPageHeader = ({ className }: FacilityPageHeaderProps) => {
                 icon: <Users className="size-3" />
             });
             breadcrumbs.push({
-                label: employee ? `${employee.firstName} ${employee.lastName}` : "...",
+                label: employee 
+                    ? truncate(`${employee.firstName} ${employee.lastName}`, 17)
+                    : "...",
                 active: true,
                 icon: <Users className="size-3" />
             });
@@ -136,8 +151,9 @@ export const FacilityPageHeader = ({ className }: FacilityPageHeaderProps) => {
     const currentTab = (isWorkersPage || isEmployeeDetailPage) ? "workers" : isFilesPage ? "files" : "overview";
 
     const handleTabChange = (value: string) => {
+        // Build base path dynamically depending on whether it's childs or rentals
         const basePath = facilityChildId
-            ? `/map/${facilityId}/childs/1/${facilityChildId}`
+            ? `/map/${facilityId}/${pathSegment}/1/${facilityChildId}`
             : `/map/${facilityId}`;
 
         if (value === "overview") navigate(basePath);
@@ -150,7 +166,7 @@ export const FacilityPageHeader = ({ className }: FacilityPageHeaderProps) => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <Breadcrumb items={breadcrumbs} />
 
-                {!isChildListPage && (
+                {!isSubListPage && (
                     <Tabs value={currentTab} onValueChange={handleTabChange}>
                         <TabsList className="bg-card/40 backdrop-blur-md border border-border/50 rounded-2xl h-11 p-1">
                             <TabsTrigger

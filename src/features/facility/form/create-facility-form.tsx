@@ -6,7 +6,6 @@ import type { FaciltyMutation } from "@/entities/facility/contract";
 import { RegionFormField } from "./region-form-field";
 import { BuildingpFormField } from "./building-form-field";
 import { TextAreaFormField } from "./textarea-form-field";
-import { NameFormField } from "@/features/company/form/name-form-field";
 import { useCreateFacility } from "../hook/use-create-facility";
 import useQueryParam from "@/shared/hooks/use-query-param";
 import { useRef } from "react";
@@ -17,17 +16,19 @@ import { NumberFormField } from "./number-form-field";
 import { useTranslation } from "react-i18next";
 import { OwnershipFormField } from "./ownership-form-field";
 import { AuthorityFormField } from "./authority-form-field";
-import { PerformanceFormField } from "@/features/company/form/performance-form-field";
 import { useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { facilityApi } from "@/entities/facility/api/facility.api";
 import { SpecFormField } from "./spec-form-field";
 import { SwitchFormField } from "@/shared/ui/switch-form-field";
+import { TextFormField } from "@/features/employee/form/text-from-field";
+import { PerformanceFormField } from "./performance-from-field";
 export const CreateFacilityForm = () => {
 
 
   const { pathname } = useLocation()
   const isInChild = pathname.includes("/childs")
+  const isInRental = pathname.includes("/rentals")
   const form = useForm({
     resolver: zodResolver(createFacilityContract(isInChild)),
   });
@@ -37,7 +38,7 @@ export const CreateFacilityForm = () => {
   const { mutate } = useCreateFacility();
   const { t } = useTranslation()
   const { data } = useQuery(facilityApi.detail(facilityId))
-  const geom = isInChild ? { lat: data?.geom.lat ?? 0, lng: data?.geom.lng ?? 0 } : { lat: Number(getQuery("lat")), lng: Number(getQuery("lng")) }
+  const geom = isInChild || isInRental ? { lat: data?.geom.lat ?? 0, lng: data?.geom.lng ?? 0 } : { lat: Number(getQuery("lat")), lng: Number(getQuery("lng")) }
 
   const onSubmit: SubmitHandler<FaciltyMutation> = (body) => {
 
@@ -45,8 +46,8 @@ export const CreateFacilityForm = () => {
       {
         ...body,
         geom,
-        parent_id: isInChild ? facilityId : undefined,
-        rental:getQuery("rental") ? getQuery("rental") === "true" ? true : false : undefined
+        parent_id: isInChild || isInRental ? facilityId : undefined,
+        rental:isInRental
       },
       {
         onSuccess: () => {
@@ -69,19 +70,17 @@ export const CreateFacilityForm = () => {
           </div>
 
           <div className="space-y-4 overflow-auto">
-            <NameFormField form={form} label={t("location-name")} name="name" />
-            <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
+            <TextFormField form={form} label={t("location-name")} name="name" />
+             <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
               {
-                !isInChild && <NameFormField form={form} label={t("cadester-code")} name="cadaster" />
+                !isInChild && <TextFormField form={form} label={t("cadester-code")} name="cadaster" />
               }
               <OwnershipFormField form={form} label={t("ownership")} name="ownership" />
-              {/* <CompanyFormField form={form} label={t("company")} name="company" /> */}
             </div>
             <div className="grid grid-cols-2 gap-3">
 
               <AuthorityFormField form={form} label={t("authority")} name="auhtority" />
               <PerformanceFormField form={form} label={t("performance")} name="performance" />
-              {/* <CompanyFormField form={form} label={t("company")} name="company" /> */}
             </div>
             <div className="grid grid-cols-2 gap-3">
 

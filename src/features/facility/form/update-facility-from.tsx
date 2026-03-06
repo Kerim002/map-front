@@ -6,7 +6,6 @@ import type { FaciltyMutation } from "@/entities/facility/contract";
 import { RegionFormField } from "./region-form-field";
 import { BuildingpFormField } from "./building-form-field";
 import { TextAreaFormField } from "./textarea-form-field";
-import { NameFormField } from "@/features/company/form/name-form-field";
 import useQueryParam from "@/shared/hooks/use-query-param";
 import { useEffect, useRef } from "react";
 import { Button } from "@/shared/ui/button";
@@ -19,16 +18,18 @@ import { NumberFormField } from "./number-form-field";
 import { useTranslation } from "react-i18next";
 import { OwnershipFormField } from "./ownership-form-field";
 import { AuthorityFormField } from "./authority-form-field";
-import { PerformanceFormField } from "@/features/company/form/performance-form-field";
 import { useLocation } from "react-router-dom";
 import { SpecFormField } from "./spec-form-field";
 import { SwitchFormField } from "@/shared/ui/switch-form-field";
+import { TextFormField } from "@/features/employee/form/text-from-field";
+import { PerformanceFormField } from "./performance-from-field";
 
 
 
 export const UpdateFacilityForm = () => {
   const { pathname } = useLocation()
   const isInChild = pathname.includes("/childs")
+    const isInRental = pathname.includes("/rentals")
   const form = useForm({
     resolver: zodResolver(createFacilityContract(isInChild)),
     defaultValues: {
@@ -73,7 +74,7 @@ export const UpdateFacilityForm = () => {
         body,
         id: getQuery("location-id") ?? "",
         parent_id:data?.parent?.id,
-        rental:getQuery("rental") ? getQuery("rental") === "true" ? true : false : undefined
+        rental: isInRental
       },
       {
         onSuccess: () => {
@@ -93,10 +94,10 @@ export const UpdateFacilityForm = () => {
 
 
           <div className="space-y-4 overflow-auto">
-            <NameFormField form={form} label={t("location-name")} name="name" />
-            <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
+            <TextFormField form={form} label={t("location-name")} name="name" />
+             <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
               {
-                !isInChild && <NameFormField form={form} label={t("cadester-code")} name="cadaster" />
+                !isInChild && <TextFormField form={form} label={t("cadester-code")} name="cadaster" />
               }
               <OwnershipFormField form={form} label={t("ownership")} name="ownership" />
             </div>

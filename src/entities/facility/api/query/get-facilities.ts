@@ -9,7 +9,6 @@ type FacilityQueryDto = {
   max_lat: number;
   min_lon: number;
   max_lon: number;
-  company_id?: string;
   region_id?: string;
   building_id?: string;
 };
@@ -23,7 +22,6 @@ export const getFacility = async (
     min_lon: query.minLng,
     building_id: query.buildingId,
     region_id: query.regionId,
-    company_id: query.companyId,
   };
 
   const res = await apiInstance<FacilityDto[]>("/location/", { params });

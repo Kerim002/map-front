@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Map } from "@/pages/map";
 import { NavbarProvider } from "../provider/navbar-provider";
 import { Region } from "@/pages/region";
 import { Home } from "@/pages/home";
@@ -9,142 +8,17 @@ import { Authority } from "@/pages/authority";
 import { Performance } from "@/pages/performance";
 import { Ownership } from "@/pages/ownership";
 import { Building } from "@/pages/building";
-import { FacilityChildListPage, FacilityPage } from "@/pages/facility";
 import { SidebarLayout } from "../layouts/sidebar-layout";
-import { EmployeeDetailPage, EmployeeFilesPage, EmployeePage } from "@/pages/employee";
+
 import { Specialization } from "@/pages/specialization";
+import { mapRoutes } from "./map.routes";
 
 const mainRoutes = createBrowserRouter([
   {
     path: "/",
     element: <SidebarLayout />,
     children: [
-      {
-        path: "/map",
-
-        children: [
-          {
-            index: true,
-            element: (
-              <Suspense>
-                <Map />
-              </Suspense>
-            ),
-          },
-          {
-            path: ":facilityId",
-            element: <NavbarProvider />,
-            children: [
-              {
-                index: true,
-                element: (
-                  <Suspense>
-                    <FacilityPage />
-                  </Suspense>
-                ),
-              },
-              {
-                path: "childs",
-                children: [
-                  {
-                    path: ":currentPage",
-                    element: (
-                      <Suspense>
-                        <FacilityChildListPage />
-                      </Suspense>)
-
-                  },
-                  {
-                    path: ":currentPage/:facilityChildId",
-
-                    children: [
-                      {
-                        index: true,
-                        element: (
-                          <Suspense>
-                            <FacilityPage />
-                          </Suspense>
-                        ),
-                      },
-                      {
-                        path: "employee",
-                        children: [
-                          {
-                            path: ":currentPage",
-                            element: (
-                              <Suspense>
-                                <EmployeePage />
-                              </Suspense>
-                            )
-                          }
-                        ]
-                      },
-
-                      {
-                        path: "files",
-                        children: [
-                          {
-                            path: ":currentPage",
-                            element: (
-                              <Suspense>
-                                <EmployeeFilesPage />
-                              </Suspense>
-                            )
-                          }
-                        ]
-                      },
-                      {
-                        path: "employees/:employeeId",
-                        element: (
-                          <Suspense>
-                            <EmployeeDetailPage />
-                          </Suspense>
-                        )
-                      }
-                    ]
-                  }
-
-                ]
-              },
-              {
-                path: "employee",
-                children: [
-                  {
-                    path: ":currentPage",
-                    element: (
-                      <Suspense>
-                        <EmployeePage />
-                      </Suspense>
-                    )
-                  }
-                ]
-              },
-
-              {
-                path: "files",
-                children: [
-                  {
-                    path: ":currentPage",
-                    element: (
-                      <Suspense>
-                        <EmployeeFilesPage />
-                      </Suspense>
-                    )
-                  }
-                ]
-              },
-              {
-                path: "employees/:employeeId",
-                element: (
-                  <Suspense>
-                    <EmployeeDetailPage />
-                  </Suspense>
-                )
-              }
-            ],
-          },
-        ],
-      },
+      ...mapRoutes,
       {
         element: <NavbarProvider />,
         children: [
@@ -234,19 +108,6 @@ const mainRoutes = createBrowserRouter([
               },
             ],
           },
-          // {
-          //   path: "company",
-          //   children: [
-          //     {
-          //       path: ":currentPage",
-          //       element: (
-          //         <Suspense>
-          //           <Company />
-          //         </Suspense>
-          //       ),
-          //     },
-          //   ],
-          // },
 
           {
             path: "/test",

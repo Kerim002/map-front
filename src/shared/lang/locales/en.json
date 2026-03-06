@@ -155,5 +155,13 @@
   "overview": "Overview",
   "specialization": "Specialization",
   "license-expired-at":"License expired at",
-  "rental":"Rental"
+  "rental":"Rental",
+  "in-map":"In map",
+  "visible":"visible",
+  "hidden":"hidden",
+  "has-sub-facilities":"Has sub facility",
+  "note":"Note",
+  "yes":"Yes",
+  "no":"No",
+  "parent-facility":"Parent facility"
 }

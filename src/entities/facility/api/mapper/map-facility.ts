@@ -12,7 +12,6 @@ export const mapFacility = (dto: FacilityDto): Facility => {
     updatedAt: dto.updated_at ?? "",
     address: dto.address,
     building: dto.building ?? undefined,
-    company: dto.company ?? undefined,
     name: dto.name,
     region: dto.region ?? undefined,
     area:dto.area,

@@ -158,5 +158,13 @@
   "overview": "Umumy",
   "specialization": "Desganyň hünär ugry",
   "license-expired-at":"Ygtyýarnamanyň möhleti",
-  "rental":"Kärende"
+  "rental":"Kärende",
+  "in-map":"Kartada",
+  "visible":"Görünýän",
+  "hidden":"Gizlin",
+  "has-sub-facilities":"Kiçi desgalar bar",
+  "note":"Bellik",
+  "yes":"Hawa",
+  "no":"Ýok",
+  "parent-facility":"Esasy desga"
 }

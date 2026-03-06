@@ -54,7 +54,7 @@ export const createFacility = async (
     parent_id: payload.parent_id,
     specialization_id: specializationId,
     license_expired_at: licesnceExpiredAt,
-    visibility: payload.visibility,
+    visibility: payload.parent_id ? false : true,
     rental:payload.rental,
 
 

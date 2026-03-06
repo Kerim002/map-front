@@ -8,6 +8,8 @@ type MapStore = {
   pendingPopupId: string | null;
   mapRef: L.Map | null;
   markerPos: L.LatLng | null;
+  viewCenter: [number, number]; // [lat, lng]
+  viewZoom: number;
 };
 
 type MapAction = {
@@ -20,6 +22,7 @@ type MapAction = {
     coords: { lat: number; lng: number },
     zoom?: number
   ) => void;
+  setView: (center: [number, number], zoom: number) => void;
 };
 
 export const useMapStore = create<MapStore & MapAction>((set, get) => ({
@@ -29,7 +32,10 @@ export const useMapStore = create<MapStore & MapAction>((set, get) => ({
   pendingPopupId: null,
   mapRef: null,
   markerPos: null,
+  viewCenter: [37.95, 58.38],
+  viewZoom: 13,
 
+  setView: (viewCenter, viewZoom) => set({ viewCenter, viewZoom }),
   /* ---------- ACTIONS ---------- */
 
   setEditMap: (value: boolean) =>

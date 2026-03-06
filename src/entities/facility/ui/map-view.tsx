@@ -111,10 +111,12 @@ const MapFetcher = ({
 }: {
   onDataLoaded: Dispatch<SetStateAction<Facility[]>>;
 }) => {
+  const setView = useMapStore((s) => s.setView);
   const map = useMapEvents({
     moveend: () => {
       // handleFetch();
       handleFetchByZoom();
+      setView([center.lat, center.lng], zoom);
     },
     // zoomend: handleFetch,
     zoomend: handleFetchByZoom,
@@ -139,7 +141,6 @@ const MapFetcher = ({
       zoom,
       region_id: getQuery("regionId") || undefined,
       building_id: getQuery("buildingId") || undefined,
-      company_id: getQuery("companyId") || undefined,
       authority_id:getQuery("authorityId"),
       ownership_id:getQuery("ownershipId"),
       performance_id:getQuery("performanceId")
@@ -154,7 +155,7 @@ const MapFetcher = ({
 };
 
 export const MapView = ({ className }: Props) => {
-  const { isEditMap, setMarkerPos, markerPos } = useMapStore();
+  const { isEditMap, setMarkerPos, markerPos, viewCenter, viewZoom } = useMapStore();
   const { t } = useTranslation();
   const { setQuery } = useQueryParam();
   const [fetchedMarkers, setFetchedMarkers] = useState<Facility[]>([]);
@@ -171,8 +172,9 @@ export const MapView = ({ className }: Props) => {
       <MapContainer
         // whenCreated={(map) => useMapStore.getState().setMapRef(map)}
 
-        center={[37.95, 58.38]}
-        zoom={13}
+        center={viewCenter}
+        
+        zoom={viewZoom}
         minZoom={7}
         className="h-full w-full cursor-pointer map-container-reverter"
         boxZoom={false}
@@ -183,6 +185,7 @@ export const MapView = ({ className }: Props) => {
           url={`${import.meta.env.VITE_MAP_URL
             }/styles/test-style/{z}/{x}/{y}.png`}
         />
+        <SyncStoredView />
         <MapRefController />
         <ResizeMap />
         <SearchResultController />
@@ -229,13 +232,25 @@ const ResizeMap = () => {
   return null;
 };
 
-export const MapRefController = () => {
+const MapRefController = () => {
   const map = useMap();
   const setMapRef = useMapStore((s) => s.setMapRef);
 
   useEffect(() => {
     setMapRef(map);
   }, [map, setMapRef]);
+
+  return null;
+};
+
+const SyncStoredView = () => {
+  const map = useMap();
+  const { viewCenter, viewZoom } = useMapStore();
+
+  useEffect(() => {
+    // This runs once when the map component mounts
+    map.setView(viewCenter, viewZoom);
+  }, []); // Empty dependency array: only on mount
 
   return null;
 };

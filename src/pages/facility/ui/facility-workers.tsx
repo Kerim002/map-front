@@ -169,18 +169,18 @@ export const FacilityWorkers = () => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
-                        {!pathname.includes("/childs") && (
+                        {!pathname.includes("/childs") && !pathname.includes("/rentals") && (
                             <>
                                 <QuickActionButton
                                     icon={Layers}
                                     label={t("facilities")}
-                                    onClick={() => navigate("childs/1?rental=false")}
+                                    onClick={() => navigate("childs/1")}
                                     colorClass="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
                                 />
                                 <QuickActionButton
                                     icon={Layers}
                                     label={t("rental")}
-                                    onClick={() => navigate("childs/1?rental=true")}
+                                    onClick={() => navigate("rentals/1")}
                                     colorClass="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
                                 />
                             </>

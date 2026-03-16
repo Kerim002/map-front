@@ -47,7 +47,7 @@ export const CreateFacilityForm = () => {
         ...body,
         geom,
         parent_id: isInChild || isInRental ? facilityId : undefined,
-        rental:isInRental
+        rental: isInRental
       },
       {
         onSuccess: () => {
@@ -71,37 +71,41 @@ export const CreateFacilityForm = () => {
 
           <div className="space-y-4 overflow-auto">
             <TextFormField form={form} label={t("location-name")} name="name" />
-             <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
+            <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
+              <AuthorityFormField form={form} label={t("authority")} name="auhtority" />
+              <RegionFormField form={form} label={t("region")} name="region" />
+
+            </div>
+            <div className="grid grid-cols-2 gap-3">
               {
                 !isInChild && <TextFormField form={form} label={t("cadester-code")} name="cadaster" />
               }
+
               <OwnershipFormField form={form} label={t("ownership")} name="ownership" />
             </div>
             <div className="grid grid-cols-2 gap-3">
-
-              <AuthorityFormField form={form} label={t("authority")} name="auhtority" />
               <PerformanceFormField form={form} label={t("performance")} name="performance" />
+
+              <SpecFormField form={form} label={t("specialization")} name="specialization" />
             </div>
             <div className="grid grid-cols-2 gap-3">
 
               <BuildingpFormField form={form} label={t("building")} name="building" />
-              <RegionFormField form={form} label={t("region")} name="region" />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-
-              <SpecFormField form={form} label={t("specialization")} name="specialization" />
-              <TimeFormField form={form} label={t("license-expired-at")} name="licenseExpiredAt" />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-
-              <TimeFormField label={t("fire-incpect-at")} form={form} name="fireInspectAt" />
-              <NumberFormField label={t("total-area")} form={form} name="area" />
-
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-
               <NumberFormField label={t("total-floor")} form={form} name="floor" />
+
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+
+              <NumberFormField label={t("total-area")} form={form} name="area" />
               <NumberFormField label={t("totol-parking-place")} form={form} name="parking" />
+
+
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <TimeFormField form={form} label={t("license-expired-at")} name="licenseExpiredAt" />
+              <TimeFormField label={t("fire-incpect-at")} form={form} name="fireInspectAt" />
+
+              {/* <NumberFormField label={t("totol-parking-place")} form={form} name="parking" /> */}
 
             </div>
             {isInChild &&

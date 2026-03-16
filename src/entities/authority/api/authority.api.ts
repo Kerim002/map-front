@@ -1,5 +1,5 @@
 
-import { keepPreviousData, queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions, keepPreviousData, queryOptions } from "@tanstack/react-query";
 import { getAuthority } from "./get.authority";
 import { getAuthorityDetail } from "./get.authority-detail";
 
@@ -21,4 +21,15 @@ export const authorityApi = {
       enabled: !!id,
     });
   },
+    getAuthorityInfitityQuery: (params: PageBaseQuery) => {
+    return infiniteQueryOptions({
+      queryKey: [...authorityApi.all(), "list","infinite",  params],
+      queryFn: ({ pageParam }) => getAuthority({ limit: pageParam.limit, page: pageParam.page, search: params.search }),
+      initialPageParam: { page: 1, limit: params.limit },
+      getNextPageParam: (data, _, { page }) => {
+        if (data.pageInfo.hasNextPage) return { limit: params.limit, page: page + 1 }
+        return undefined
+      },
+    })
+  }
 };

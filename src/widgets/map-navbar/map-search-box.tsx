@@ -149,7 +149,7 @@ export const MapSearchBox = () => {
                         : "opacity-0 scale-95 -translate-y-4 invisible"
                         }`}
                 >
-                    <div className="rounded-[1.5rem] bg-background/60 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-border/50 overflow-hidden py-2">
+                    <div className="rounded-[1.5rem] overflow-auto bg-background/60 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-border/50 overflow-hidden py-2">
                         <div className="px-4 py-2 text-[10px] font-black text-muted-foreground/40 uppercase tracking-widest border-b border-border/10 mb-1">
                             {t("search-results")}
                         </div>
@@ -162,7 +162,7 @@ export const MapSearchBox = () => {
                                 {t("no-results-found")}
                             </div>
                         ) : (
-                            <ul className="space-y-1 px-2">
+                            <ul className="space-y-1 px-2 h-96 overflow-auto">
                                 {data?.data.map((item, i) => (
                                     <li
                                         key={i}

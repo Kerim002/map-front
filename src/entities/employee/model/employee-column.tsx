@@ -48,7 +48,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
                         </div>
                     )}
                 >
-                    <PhotoView src={imageUrl}>
+                    <PhotoView src={storageUrlCreate("user", avatarUrl ?? "", "xmd")}>
                         <Avatar className="rounded-sm h-20 w-full aspect-3/4 cursor-pointer hover:opacity-80 transition-opacity">
                             <AvatarImage
                                 className="object-cover "

@@ -83,15 +83,15 @@ export const FacilityWorkers = () => {
                         </div>
                     </CardHeader>
                     <CardContent className="px-6 pb-6 flex flex-col flex-1">
-                        <PhotoProvider>
-                            <div className="space-y-3 min-h-[552px] flex-1">
-                                {workersData?.data.map((worker) => (
-                                    <div
-                                        key={worker.id}
-                                        className="flex items-center justify-between p-4 rounded-2xl bg-muted/30 border border-border/50 hover:bg-muted/50 transition-all duration-300 group"
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <PhotoView src={storageUrlCreate("user", worker.avatarUrl ?? "", "md")}>
+                        {/* <PhotoProvider> */}
+                        <div className="space-y-3 min-h-[552px] flex-1">
+                            {workersData?.data.map((worker) => (
+                                <div
+                                    key={worker.id}
+                                    className="flex items-center justify-between p-4 rounded-2xl bg-muted/30 border border-border/50 hover:bg-muted/50 transition-all duration-300 group"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        {/* <PhotoView src={storageUrlCreate("user", worker.avatarUrl ?? "", "xmd")}>
                                                 <Avatar className="h-12 w-12 cursor-pointer hover:ring-4 ring-primary/20 transition-all duration-300 ring-offset-background ring-offset-2">
                                                     <AvatarImage
                                                         className="object-cover"
@@ -102,50 +102,72 @@ export const FacilityWorkers = () => {
                                                         {worker.firstName.charAt(0)}
                                                     </AvatarFallback>
                                                 </Avatar>
-                                            </PhotoView>
+                                            </PhotoView> */}
 
-                                            <div className="space-y-0.5">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="font-black text-sm text-foreground">
-                                                        {worker.firstName} {worker.lastName}
-                                                    </span>
-                                                </div>
-                                                <p className="text-[11px] font-bold text-muted-foreground/60 uppercase tracking-wider">
-                                                    {worker.position}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-center gap-6">
-                                            {worker.phone && (
-                                                <div className="hidden sm:flex items-center gap-2 text-muted-foreground/60">
-                                                    <Phone className="h-3 w-3" />
-                                                    <span className="text-xs font-bold tabular-nums">{worker.phone}</span>
+                                        <PhotoProvider
+                                            overlayRender={() => (
+                                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-4 py-1 rounded-md text-sm">
+                                                    {worker.firstName} {worker.lastName}
                                                 </div>
                                             )}
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-                                                onClick={() => navigate(`employees/${worker.id}`)}
-                                            >
-                                                <ChevronRight className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
-                                {(!workersData?.data || workersData.data.length === 0) && (
-                                    <div className="flex-1 flex items-center justify-center border-2 border-dashed border-border/30 rounded-3xl min-h-[400px]">
-                                        <div className="text-center space-y-2">
-                                            <Users className="h-8 w-8 text-muted-foreground/30 mx-auto" />
-                                            <p className="text-sm font-bold text-muted-foreground/40 uppercase tracking-widest">
-                                                {t("no-data-found")}
+                                        >
+                                            <PhotoView  src={storageUrlCreate("user", worker.avatarUrl ?? "", "xmd")}>
+                                                <Avatar className="h-12 w-12 cursor-pointer hover:ring-4 ring-primary/20 transition-all duration-300 ring-offset-background ring-offset-2">
+                                                    <AvatarImage
+                                                        className="object-cover "
+                                                        // src={imageUrl}
+                                                         src={storageUrlCreate("user", worker.avatarUrl ?? "", "sm")}
+                                                        // alt={fullName}
+                                                    />
+                                                    <AvatarFallback className="rounded-sm">
+                                                        {worker.firstName.charAt(0)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                            </PhotoView>
+                                        </PhotoProvider>
+
+                                        <div className="space-y-0.5">
+                                            <div className="flex items-center gap-2">
+                                                <span className="font-black text-sm text-foreground">
+                                                    {worker.firstName} {worker.lastName}
+                                                </span>
+                                            </div>
+                                            <p className="text-[11px] font-bold text-muted-foreground/60 uppercase tracking-wider">
+                                                {worker.position}
                                             </p>
                                         </div>
                                     </div>
-                                )}
-                            </div>
-                        </PhotoProvider>
+
+                                    <div className="flex items-center gap-6">
+                                        {worker.phone && (
+                                            <div className="hidden sm:flex items-center gap-2 text-muted-foreground/60">
+                                                <Phone className="h-3 w-3" />
+                                                <span className="text-xs font-bold tabular-nums">{worker.phone}</span>
+                                            </div>
+                                        )}
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                                            onClick={() => navigate(`employees/${worker.id}`)}
+                                        >
+                                            <ChevronRight className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))}
+                            {(!workersData?.data || workersData.data.length === 0) && (
+                                <div className="flex-1 flex items-center justify-center border-2 border-dashed border-border/30 rounded-3xl min-h-[400px]">
+                                    <div className="text-center space-y-2">
+                                        <Users className="h-8 w-8 text-muted-foreground/30 mx-auto" />
+                                        <p className="text-sm font-bold text-muted-foreground/40 uppercase tracking-widest">
+                                            {t("no-data-found")}
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        {/* </PhotoProvider> */}
 
                         <Button
                             onClick={() => navigate("employee/1")}

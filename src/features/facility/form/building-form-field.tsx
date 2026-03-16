@@ -4,10 +4,10 @@ import { useDebounce } from "@/shared/hooks/use-debouncer";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
-import { useQuery } from "@tanstack/react-query";
-import { X } from "lucide-react";
-import { useRef, useState } from "react";
-import { useEffect } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { X, Loader2 } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { useInView } from "react-intersection-observer"; // npm i react-intersection-observer
 import type {
   FieldValues,
   Path,
@@ -31,13 +31,39 @@ export const BuildingpFormField = <T extends FieldValues>({
   const [search, setSearch] = useState("");
   const boxRef = useRef<HTMLInputElement>(null);
   const dropDownRef = useRef<HTMLDivElement>(null);
+  
+  // Hook to detect when user reaches the bottom
+  const { ref: loadMoreRef, inView } = useInView();
+
   useClickOutside([boxRef, dropDownRef], () => setIsOpen(false));
   const debounceText = useDebounce(search, 300);
-  const { data: ownershipList } = useQuery(
-    buildingApi.list({ limit: 20, page: 1, search: debounceText })
-  );
+
+  // 1. Setup Infinite Query
+  const { 
+    data, 
+    fetchNextPage, 
+    hasNextPage, 
+    isFetchingNextPage 
+  } = useInfiniteQuery({
+    ...buildingApi.getBuildingInfitityQuery({ 
+      limit: 20, 
+      page: 1, 
+      search: debounceText 
+    }),
+    enabled: isOpen,
+  });
+
+  // 2. Flatten data pages
+  const items = data?.pages.flatMap((page: any) => page.data) ?? [];
 
   const selectedItem = form.watch(name);
+
+  // 3. Trigger next page on scroll
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   const handleSelect = ({
     id,
@@ -47,7 +73,6 @@ export const BuildingpFormField = <T extends FieldValues>({
     valueName: string;
   }) => {
     form.setValue(name, { id, type: valueName } as PathValue<T, Path<T>>, {
-      // This ensures the error disappears immediately after selecting
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -55,75 +80,87 @@ export const BuildingpFormField = <T extends FieldValues>({
     setIsOpen(false);
   };
 
-    const { i18n } = useTranslation();
-    const currentLang = (i18n.language || "ru") as "en" | "ru" | "tk"
+  const { i18n } = useTranslation();
+  const currentLang = (i18n.language || "ru") as "en" | "ru" | "tk";
 
   useEffect(() => {
     if (selectedItem?.id) {
       setSearch(selectedItem.type);
     }
-  }, [selectedItem?.id]);
+  }, [selectedItem?.id, selectedItem?.type]);
 
-  const handleRemove = () => {
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation();
     handleSelect({ valueName: "", id: "" });
-
     setSearch("");
   };
 
   return (
     <div className="space-y-2 relative flex-1">
       <Label>{label}</Label>
-      <Input
-        ref={boxRef}
-        onClick={() => setIsOpen((prev) => !prev)}
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="h-10 bg-white"
-      />
+      <div className="relative">
+        <Input
+          ref={boxRef}
+          onFocus={() => setIsOpen(true)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="h-10 bg-white pr-10"
+        />
+        {selectedItem?.id && (
+          <Button
+            onClick={handleRemove}
+            type="button"
+            className="absolute right-0 top-0 h-10 w-10 hover:bg-transparent"
+            variant="ghost"
+          >
+            <X size={16} />
+          </Button>
+        )}
+      </div>
+
       {form.formState.errors[name] && (
         <p className="text-sm text-red-500">
-          {/* If 'name' is 'region', RHF might put the error on 
-       errors.region.message OR errors.region.id.message 
-    */}
           {(form.formState.errors[name] as any)?.message ||
-            (form.formState.errors[name] as any)?.id?.message ||
-            (form.formState.errors[name] as any)?.type?.message}
+            (form.formState.errors[name] as any)?.id?.message}
         </p>
       )}
-      <Button
-        onClick={handleRemove}
-        type="button"
-        className="absolute top-6 right-0"
-        variant={"ghost"}
-      >
-        <X />
-      </Button>
-      {form.formState.errors[name] && (
-        <p className="text-sm text-red-500">
-          {Object.entries(form?.formState?.errors[name]).map(
-            ([_, value]) => value && <>{value?.message}</>
-          )}
-        </p>
-      )}
+
       {isOpen && (
         <div
           ref={dropDownRef}
-          className="max-h-72  overflow-auto space-y-2 absolute left-0 right-0 top-16 border rounded-lg p-2 bg-white dark:bg-zinc-900 z-10"
+          className="max-h-64 overflow-y-auto absolute left-0 right-0 top-[74px] border rounded-lg p-1 bg-white dark:bg-zinc-900 z-50 shadow-xl"
         >
-          {ownershipList?.data?.map((item) => (
-            <p
-              onClick={() =>
-                handleSelect({ id: item.id, valueName: item[currentLang] || item.ru })
-              }
+          {items.length === 0 && !isFetchingNextPage && (
+            <div className="p-4 text-center text-sm text-muted-foreground">
+              Ничего не найдено
+            </div>
+          )}
+
+          {items.map((item: any) => (
+            <div
               key={item.id}
-              className={`dark:hover:bg-zinc-800 hover:bg-gray-200 rounded-lg p-2 ${selectedItem?.id === item.id
-                ? "dark:bg-zinc-800 bg-gray-200"
-                : ""
-                }`}
+              onClick={() =>
+                handleSelect({ 
+                  id: item.id, 
+                  valueName: item[currentLang] || item.ru 
+                })
+              }
+              className={`cursor-pointer rounded-md p-2 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800 ${
+                selectedItem?.id === item.id 
+                  ? "bg-gray-200 dark:bg-zinc-800 font-medium" 
+                  : ""
+              }`}
             >
               {item[currentLang] || item.ru}
-            </p>
+            </div>
           ))}
+
+          {/* Infinite Scroll Trigger */}
+          <div ref={loadMoreRef} className="h-10 flex items-center justify-center">
+            {isFetchingNextPage && (
+              <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+            )}
+          </div>
         </div>
       )}
     </div>

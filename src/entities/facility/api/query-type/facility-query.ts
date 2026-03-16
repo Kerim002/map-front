@@ -30,5 +30,8 @@ export type FacilityZoomQuery = {
   performance_id?:string
   authority_id?:string
   ownership_id?:string
+  specialization_id?:string
+  viewport_width?:number
+  viewport_height?:number
 }
 

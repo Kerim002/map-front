@@ -3,100 +3,96 @@ import { buildingApi } from '@/entities/building/api/building.api'
 import { ownershipApi } from '@/entities/ownership/api/ownership.api'
 import { performanceApi } from '@/entities/performance/api/performance.api'
 import { regionApi } from '@/entities/region'
-import useQueryParam from '@/shared/hooks/use-query-param'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select'
-import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { SearchFilterSelect } from './search-select'
+import { specApi } from '@/entities/specialization/api'
 
 export const MapFilters = () => {
-    const { data: regions } = useQuery(regionApi.list({ limit: 20, page: 1 }))
-    const { data: buildings } = useQuery(buildingApi.list({ limit: 20, page: 1 }))
-    const {data: perfoemances}= useQuery(performanceApi.list({limit:20, page:1}))
-    const {data: authority}= useQuery(authorityApi.list({limit:20, page:1}))
-    const {data: owmership}= useQuery(ownershipApi.list({limit:20, page:1}))
-    const { deleteQuery, getQuery, setQuery } = useQueryParam()
-    const { i18n, t } = useTranslation();
-    const currentLang = (i18n.language || "ru") as "en" | "ru" | "tk"
-    const handleChange = (key: string, value: string) => {
-        if (value === 'all') {
-            deleteQuery([key])
-            return
-        } else {
-            setQuery([{ key: key, value }])
+
+
+  const { i18n, t } = useTranslation();
+  const currentLang = (i18n.language || "ru") as "en" | "ru" | "tk"
+
+
+
+  return (
+    <div className="flex gap-3">
+
+      <SearchFilterSelect
+        filterKey="regionId"
+        placeholder={t("region")}
+        query={(search: string) =>
+          regionApi.getRegionInfitityQuery({ limit: 20, page: 1, search })
         }
-    }
+        getItems={(d: any) => d?.list ?? []}
+        getValue={(r: any) => r.id}
+        getLabel={(r: any) => r[currentLang] || r.ru}
+        getById={(id: string) => regionApi.detail(id)}
+      />
+
+      <SearchFilterSelect
+        filterKey="buildingId"
+        placeholder={t("building")}
+        query={(search: string) =>
+          buildingApi.getBuildingInfitityQuery({limit:20, page:1, search})
+        }
+        getItems={(d: any) => d?.data ?? []}
+        getValue={(r: any) => r.id}
+        getLabel={(r: any) => r[currentLang] || r.ru}
+        getById={(id: string) => buildingApi.detail(id)}
+
+      />
 
 
-    return (
-        <div className='flex items-center gap-3'>
-            <Select value={getQuery("regionId") || "all"} onValueChange={(value) => handleChange("regionId", value)}>
-                <SelectTrigger className=' w-44'>
-                    <SelectValue className='' placeholder="Region" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">{t("all-regions")}</SelectItem>
-                    {regions?.list.map(region => (
-                        <SelectItem value={region.id} key={region.id}>
-                            {region[currentLang] || region.ru}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            <Select value={getQuery("buildingId") || "all"} onValueChange={(value) => handleChange("buildingId", value)}>
-                <SelectTrigger className=' w-44'>
-                    <SelectValue className='' placeholder="Building" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">{t("all-buildings")}</SelectItem>
-                    {buildings?.data.map(building => (
-                        <SelectItem value={building.id} key={building.id}>
-                            {building[currentLang] || building.ru}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            <Select value={getQuery("performanceId") || "all"} onValueChange={(value) => handleChange("performanceId", value)}>
-                <SelectTrigger className=' w-44'>
-                    <SelectValue className='' placeholder="Performance" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">{t('all-performances')}</SelectItem>
-                    {perfoemances?.data.map(building => (
-                        <SelectItem value={building.id} key={building.id}>
-  
-                            {building[currentLang] || building.ru}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            <Select value={getQuery("authorityId") || "all"} onValueChange={(value) => handleChange("authorityId", value)}>
-                <SelectTrigger className=' w-44'>
-                    <SelectValue className='' placeholder="Authority" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">{t('all-authority')}</SelectItem>
-                    {authority?.data.map(building => (
-                        <SelectItem value={building.id} key={building.id}>
-                            {building[currentLang] || building.ru}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            <Select value={getQuery("ownershipId") || "all"} onValueChange={(value) => handleChange("ownershipId", value)}>
-                <SelectTrigger className=' w-44'>
-                    <SelectValue className='' placeholder="Performance" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">{t('all-ownerships')}</SelectItem>
-                    {owmership?.data.map(building => (
-                        <SelectItem value={building.id} key={building.id}>
-  
-                            {building[currentLang] || building.ru}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
+      <SearchFilterSelect
+        filterKey="performanceId"
+        placeholder={t("performance")}
+        query={(search: string) =>
+          performanceApi.getPerformanceInfitityQuery({ limit: 20, page: 1, search })
+        }
+        getItems={(d: any) => d?.data ?? []}
+        getValue={(r: any) => r.id}
+        getLabel={(r: any) => r[currentLang] || r.ru}
+        getById={(id: string) => performanceApi.detail(id)} />
 
-        </div>
-    )
+      <SearchFilterSelect
+        filterKey="authorityId"
+        placeholder={t("authority")}
+        query={(search: string) =>
+          authorityApi.getAuthorityInfitityQuery({ limit: 20, page: 1, search })
+        }
+        getItems={(d: any) => d?.data ?? []}
+        getValue={(r: any) => r.id}
+        getLabel={(r: any) => r[currentLang] || r.ru}
+        getById={(id: string) => authorityApi.detail(id)}
+
+      />
+
+      <SearchFilterSelect
+        filterKey="ownershipId"
+        placeholder={t("ownership")}
+        query={(search: string) =>
+          ownershipApi.getOwnershipInfitityQuery({ limit: 20, page: 1, search })
+        }
+        getItems={(d: any) => d?.data ?? []}
+        getValue={(r: any) => r.id}
+        getLabel={(r: any) => r[currentLang] || r.ru}
+        getById={(id: string) => ownershipApi.detail(id)}
+
+      />
+      <SearchFilterSelect
+        filterKey="specId"
+        placeholder={t("specialization")}
+        query={(search: string) =>
+          specApi.getSpecInfitityQuery({ limit: 20, page: 1, search })
+        }
+        getItems={(d: any) => d?.list ?? []}
+        getValue={(r: any) => r.id}
+        getLabel={(r: any) => r[currentLang] || r.ru}
+        getById={(id: string) => specApi.detail(id)}
+
+      />
+
+    </div>
+  )
 }

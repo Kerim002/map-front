@@ -16,7 +16,7 @@ export const CreateFacilitySheet = () => {
       </SheetTrigger>
       <SheetContent
       onPointerDownOutside={e => e.preventDefault()}
-      className="p-0 sm:max-w-lg overflow-auto">
+      className="p-0 sm:max-w-xl w-full overflow-auto">
         <CreateFacilityForm />
       </SheetContent>
     </Sheet>

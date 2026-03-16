@@ -141,7 +141,7 @@ export const FacilityImageCarusel = () => {
 
           <DialogContent
           onPointerDownOutside={e => e.preventDefault()}
-          className="sm:max-w-[95vw] w-full h-[90vh] p-0 border-none flex items-center justify-center bg-black/95">
+          className="sm:max-w-[100vw] w-full h-screen p-0 border-none flex items-center justify-center bg-black/95">
             <Carousel className="w-full max-w-5xl" opts={{ startIndex: current - 1 }}>
               <CarouselContent>
                 {data.map((item) => (

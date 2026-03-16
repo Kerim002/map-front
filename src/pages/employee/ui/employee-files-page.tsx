@@ -12,6 +12,7 @@ import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/shared/
 import { useTranslation } from "react-i18next";
 import { useDeleteFile } from "@/features/folders/hooks/use-delete-file";
 import { FacilityPageHeader } from "@/widgets/facility/ui/facility-page-header";
+import { API_URL } from "@/shared/config/url";
 
 // Constants for format checking
 const ONLYOFFICE_EXTS = ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "txt"];
@@ -56,7 +57,7 @@ export const EmployeeFilesPage = () => {
     const { isDoc, isImage } = getFileInfo(item.name);
 
     if (isDoc) {
-      const viewerUrl = `http://216.250.12.42:1010/api/v0/onlyoffice/view/${item.id}?mode=view&lang=ru`;
+      const viewerUrl = `${API_URL}/v0/onlyoffice/view/${item.id}?mode=view&lang=ru`;
       window.open(viewerUrl, "_blank", "noopener,noreferrer");
     } else if (isImage) {
       // Logic to open your Dialog

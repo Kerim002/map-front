@@ -1,4 +1,4 @@
-import { keepPreviousData, queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions, keepPreviousData, queryOptions } from "@tanstack/react-query";
 import { getRegions } from "./get.regions";
 import { getRegionDetails } from "./get.region-details";
 
@@ -19,4 +19,16 @@ export const regionApi = {
       queryFn: () => getRegionDetails(id),
       enabled: !!id,
     }),
+
+  getRegionInfitityQuery: (params: PageBaseQuery) => {
+    return infiniteQueryOptions({
+      queryKey: [...regionApi.all(), "list","infinite", params],
+      queryFn: ({ pageParam }) => getRegions({ limit: pageParam.limit, page: pageParam.page, search: params.search }),
+      initialPageParam: { page: 1, limit: params.limit },
+      getNextPageParam: (data, _, { page }) => {
+        if (data.pageInfo.hasNextPage) return { limit: params.limit, page: page + 1 }
+        return undefined
+      },
+    })
+  }
 };

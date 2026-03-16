@@ -19,6 +19,7 @@ import {
 import { FileUploadDialog } from "@/features/folders/ui/file-upload-dialog";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { useDeleteFile } from "@/features/folders/hooks/use-delete-file";
+import { API_URL } from "@/shared/config/url";
 
 const ONLYOFFICE_EXTS = ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "txt"];
 const IMAGE_EXTS = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
@@ -62,7 +63,7 @@ export const EmployeeFolderExplorer = ({ employee }: { employee: Employee }) => 
         const { isDoc, isImage } = getFileInfo(item.name);
 
         if (isDoc) {
-            const viewerUrl = `http://216.250.12.42:1010/api/v0/onlyoffice/view/${item.id}?mode=view&lang=ru`;
+            const viewerUrl = `${API_URL}/v0/onlyoffice/view/${item.id}?mode=view&lang=ru`;
             window.open(viewerUrl, "_blank", "noopener,noreferrer");
         } else if (isImage) {
             setPreviewImage(storageUrlCreate("fileDownload", item.url ?? ""));

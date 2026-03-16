@@ -7,7 +7,7 @@ import { RegionFormField } from "./region-form-field";
 import { BuildingpFormField } from "./building-form-field";
 import { TextAreaFormField } from "./textarea-form-field";
 import useQueryParam from "@/shared/hooks/use-query-param";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Button } from "@/shared/ui/button";
 import { SheetClose } from "@/shared/ui/sheet";
 import { useQuery } from "@tanstack/react-query";
@@ -26,22 +26,29 @@ import { PerformanceFormField } from "./performance-from-field";
 
 
 
+
 export const UpdateFacilityForm = () => {
-  const { pathname } = useLocation()
-  const isInChild = pathname.includes("/childs")
-    const isInRental = pathname.includes("/rentals")
+  const { getQuery, deleteQuery } = useQueryParam();
+  const { data } = useQuery(facilityApi.detail(getQuery("location-id")))
+ const { pathname } = useLocation();
+  
+  const isInChild = pathname.includes("/childs") || !!data?.parent?.id;
+  const isInRental = pathname.includes("/rentals") || data?.rental
+
+  const resolver = useMemo(() => zodResolver(createFacilityContract(isInChild)), [isInChild]);
+
   const form = useForm({
-    resolver: zodResolver(createFacilityContract(isInChild)),
+    resolver: resolver,
     defaultValues: {
       name: "",
       address: "",
+      cadaster: "",
     },
   });
-  const { t } = useTranslation()
+
+  const { t } = useTranslation();
   const closeRef = useRef<HTMLButtonElement>(null);
-  const { getQuery, deleteQuery } = useQueryParam();
-  const { mutate } = useUpdateFacilityPatch()
-  const { data } = useQuery(facilityApi.detail(getQuery("location-id")))
+  const { mutate } = useUpdateFacilityPatch();
 
   useEffect(() => {
     if (data) {
@@ -51,7 +58,7 @@ export const UpdateFacilityForm = () => {
         region: data.region,
         building: data.building,
         area: data.area || "",
-        cadaster: data.cadaster || "",
+        cadaster: data.cadaster || "", 
         fireInspectAt: data.fireInspectionAt || "",
         floor: data.floor,
         note: data.note || "",
@@ -64,7 +71,7 @@ export const UpdateFacilityForm = () => {
         visibility: data.visibility,
       });
     }
-  }, [data, form])
+  }, [data, form]);
 
 
 
@@ -96,36 +103,36 @@ export const UpdateFacilityForm = () => {
           <div className="space-y-4 overflow-auto">
             <TextFormField form={form} label={t("location-name")} name="name" />
              <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
-              {
+               <AuthorityFormField form={form} label={t("authority")} name="auhtority" />
+               <RegionFormField form={form} label={t("region")} name="region" />
+   
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+           {
                 !isInChild && <TextFormField form={form} label={t("cadester-code")} name="cadaster" />
               }
               <OwnershipFormField form={form} label={t("ownership")} name="ownership" />
             </div>
             <div className="grid grid-cols-2 gap-3">
-
-              <AuthorityFormField form={form} label={t("authority")} name="auhtority" />
               <PerformanceFormField form={form} label={t("performance")} name="performance" />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-
-              <BuildingpFormField form={form} label={t("building")} name="building" />
-              <RegionFormField form={form} label={t("region")} name="region" />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
 
               <SpecFormField form={form} label={t("specialization")} name="specialization" />
-              <TimeFormField form={form} label={t("license-expired-at")} name="licenseExpiredAt" />
             </div>
             <div className="grid grid-cols-2 gap-3">
-
-              <TimeFormField label={t("fire-incpect-at")} form={form} name="fireInspectAt" />
-              <NumberFormField label={t("total-area")} form={form} name="area" />
-
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-
+              <BuildingpFormField form={form} label={t("building")} name="building" />
               <NumberFormField label={t("total-floor")} form={form} name="floor" />
+
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+
+              <NumberFormField label={t("total-area")} form={form} name="area" />
               <NumberFormField label={t("totol-parking-place")} form={form} name="parking" />
+
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <TimeFormField form={form} label={t("license-expired-at")} name="licenseExpiredAt" />
+              <TimeFormField label={t("fire-incpect-at")} form={form} name="fireInspectAt" />
+
             </div>
             {data?.parent !== null &&
               <div>

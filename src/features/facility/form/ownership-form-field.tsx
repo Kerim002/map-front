@@ -7,7 +7,7 @@ import { Label } from "@/shared/ui/label";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { X, Loader2 } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
-import { useInView } from "react-intersection-observer"; // npm i react-intersection-observer
+import { useInView } from "react-intersection-observer";
 import type {
   FieldValues,
   Path,

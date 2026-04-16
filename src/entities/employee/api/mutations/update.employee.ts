@@ -5,7 +5,7 @@ export const updateEmployee = async (body: EmployeCreateMutation & { location_id
     const { id, ...rest } = body
 
     const res = await apiInstance(`/employee/${id}`, {
-        method: "PATCH",
+        method: "PUT",
         json: { ...rest }
     })
 

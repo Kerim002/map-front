@@ -7,6 +7,8 @@ type MapFilters = {
   ownershipId?: string
   performanceId?: string
   specId?:string
+  cityId?:string,
+  districtId?:string
 }
 
 type MapFilterStore = {

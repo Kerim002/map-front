@@ -8,7 +8,7 @@ export const mapFacilityImage = (dto:FacilityImageDto) :FacilityImage => {
         id:dto.id,
         path:dto.bucket_name,
         order:dto.order,
-        objectPath:dto.object_path
+        url:dto.url
 
     }
 }

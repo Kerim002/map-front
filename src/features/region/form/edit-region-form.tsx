@@ -49,7 +49,7 @@ export const EditRegionForm = () => {
         </div>
         <DialogClose ref={closeRef} />
         <Button disabled={isPending} className="w-full mt-3">
-          {t("edit")}
+          {t("update")}
         </Button>
       </form>
     </Form>

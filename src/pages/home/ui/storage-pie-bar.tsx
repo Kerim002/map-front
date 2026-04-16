@@ -36,6 +36,7 @@ export function StoragePieChart() {
     const { t } = useTranslation();
     const { data, isLoading } = useQuery(dashboardApi.getStorage());
 
+
     const chartData = React.useMemo(() => {
         if (!data) return [];
         return [

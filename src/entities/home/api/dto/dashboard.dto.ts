@@ -30,16 +30,19 @@ export type LocationCategoryItemDto = {
 // 
 
 export type DashboardStorageDto = {
-    total_files: number,
-    total_folders: number,
-    total_size_bytes: number
+    
+    data: {
+        total_files: number,
+            total_folders: number,
+                total_size_bytes: number
+    }
 }
 
 //
 
 export type DashboardLocationsChartDto = {
-    data:{
-        date:string,
-        count:string
+    data: {
+        date: string,
+        count: string
     }[]
 }

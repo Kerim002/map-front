@@ -38,8 +38,6 @@ export const RegionFormField = <T extends FieldValues>({
   useClickOutside([boxRef, dropDownRef], () => setIsOpen(false));
   const debounceText = useDebounce(search, 300);
 
-  // 1. Using useInfiniteQuery
-  // Ensure regionApi.getRegionInfinityQuery exists and uses a unique QueryKey
   const { 
     data, 
     fetchNextPage, 

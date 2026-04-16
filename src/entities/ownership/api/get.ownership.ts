@@ -6,7 +6,7 @@ import type { OwnershipPagintionDto } from "./dto/ownership-dto";
 export const getOwnerships = async (
   params: PageBaseQuery
 ): Promise<OwnershipPagintion> => {
-  const res = await apiInstance<OwnershipPagintionDto>(`/ownership/`, {
+  const res = await apiInstance<OwnershipPagintionDto>(`/ownership`, {
     params,
   });
 

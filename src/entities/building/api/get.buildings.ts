@@ -6,7 +6,7 @@ import { mapBuilding } from "./mapper/map-building";
 export const getBuildings = async (
   params: PageBaseQuery
 ): Promise<BuildingPagination> => {
-  const res = await apiInstance<BuildingPaginationDto>("/building/", {
+  const res = await apiInstance<BuildingPaginationDto>("/building", {
     params,
   });
   const { has_next_page, has_previous_page, limit, page, total_pages } =

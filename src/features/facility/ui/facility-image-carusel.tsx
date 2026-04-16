@@ -23,6 +23,8 @@ export const FacilityImageCarusel = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutate: createImage } = useCreateFacilityImage()
 
+  console.log(data)
+
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -112,7 +114,7 @@ export const FacilityImageCarusel = () => {
                   <DialogTrigger asChild>
                     <div className="cursor-zoom-in overflow-hidden aspect-video relative bg-muted">
                       <img
-                        src={storageUrlCreate("image", item.objectPath, "md")}
+                        src={storageUrlCreate("image", item.url, "md")}
                         alt={`Facility ${index}`}
                         className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
                         onError={(e) => {
@@ -147,7 +149,7 @@ export const FacilityImageCarusel = () => {
                 {data.map((item) => (
                   <CarouselItem key={item.id} className="flex items-center w-full justify-center h-[85vh]">
                     <img
-                      src={storageUrlCreate("image", item.objectPath, "md")}
+                      src={storageUrlCreate("image", item.url, "md")}
                       className="max-h-full w-full h-full max-w-full object-contain"
                     />
                   </CarouselItem>

@@ -33,5 +33,23 @@ export type FacilityZoomQuery = {
   specialization_id?:string
   viewport_width?:number
   viewport_height?:number
+  city_id?:string
+  district_id?:string
+}
+
+
+export type FacilityBoundQuery = {
+  min_lat:number;
+  min_lng:number;
+  max_lat:number;
+  max_lng:number;
+  region_id?: string,
+  building_id?: string,
+  performance_id?:string
+  authority_id?:string
+  ownership_id?:string
+  specialization_id?:string
+  city_id?:string
+  district_id?:string
 }
 

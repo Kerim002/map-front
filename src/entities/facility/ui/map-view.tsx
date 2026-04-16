@@ -111,45 +111,55 @@ const MapFetcher = ({
 }: {
   onDataLoaded: Dispatch<SetStateAction<Facility[]>>;
 }) => {
-  const setView = useMapStore((s) => s.setView)
+  // const setView = useMapStore((s) => s.setView)
   const filters = useMapFilterStore((s) => s.filters)
 
   const map = useMapEvents({
     moveend: () => {
       handleFetchByZoom()
-      setView([center.lat, center.lng], zoom)
+      // setView([center.lat, center.lng], zoom)
     },
     zoomend: handleFetchByZoom,
   })
 
-  const [center, setCenter] = useState(() => map.getCenter())
-  const [zoom, setZoom] = useState(() => map.getZoom())
+  // const [center, setCenter] = useState(() => map.getCenter())
+  // const [zoom, setZoom] = useState(() => map.getZoom())
+
+  const [bounds, setBounds] = useState(() => map.getBounds());
   function handleFetchByZoom() {
-    setCenter(map.getCenter())
-    setZoom(map.getZoom())
+    // setCenter(map.getCenter())
+    // setZoom(map.getZoom())
+    setBounds(map.getBounds());
   }
 
+  const min_lat = bounds.getSouth();
+  const min_lng = bounds.getWest();
+  const max_lat = bounds.getNorth();
+  const max_lng = bounds.getEast();
 
 
-
-  const lat = center.lat
-  const lng = center.lng
+  // const lat = center.lat
+  // const lng = center.lng
 
   const { data } = useQuery(
-    facilityApi.facilityZoom({
-      lat,
-      lng,
-      zoom,
+    facilityApi.facilityBound({
+      min_lat,
+      min_lng,
+      max_lat,
+      max_lng,
       region_id: filters.regionId,
       building_id: filters.buildingId,
       authority_id: filters.authorityId,
       ownership_id: filters.ownershipId,
       performance_id: filters.performanceId,
+      city_id: filters.cityId,
+      district_id: filters.districtId,
       specialization_id: filters.specId,
-      viewport_height: map.getSize().y,
-      viewport_width: map.getSize().x,
     })
   )
+
+  console.log(data)
+
 
   useEffect(() => {
     onDataLoaded(data ?? [])
@@ -158,7 +168,8 @@ const MapFetcher = ({
   return null
 }
 export const MapView = ({ className }: Props) => {
-  const { isEditMap, setMarkerPos, markerPos, viewCenter, viewZoom } = useMapStore();
+  const { isEditMap, setMarkerPos, markerPos } = useMapStore();
+  // const { isEditMap, setMarkerPos, markerPos, viewCenter, viewZoom } = useMapStore();
   const { t } = useTranslation();
   const { setQuery } = useQueryParam();
   const [fetchedMarkers, setFetchedMarkers] = useState<Facility[]>([]);
@@ -177,9 +188,12 @@ export const MapView = ({ className }: Props) => {
       <MapContainer
         // whenCreated={(map) => useMapStore.getState().setMapRef(map)}
 
-        center={viewCenter}
+        // center={viewCenter}
+        center={[37.95, 58.38]}
+        // center={[37.485892221826084, 53.994884490966804]}
 
-        zoom={viewZoom}
+        // zoom={viewZoom}
+        zoom={13}
         minZoom={7}
         className="h-full w-full cursor-pointer map-container-reverter"
         boxZoom={false}

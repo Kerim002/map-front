@@ -1,11 +1,12 @@
 import { keepPreviousData, queryOptions } from "@tanstack/react-query";
-import type { FacilityQuery, FacilitySearchQuery, FacilityZoomQuery } from "./query-type/facility-query";
+import type { FacilityBoundQuery, FacilityQuery, FacilitySearchQuery, FacilityZoomQuery } from "./query-type/facility-query";
 import { getFacility } from "./query/get-facilities";
 import { getDetailFacility } from "./query/get.detail.facility";
 import { getFacilityImages } from "./query/get.facility-images";
 import { getFacilitiesSearch } from "./query/get-facilities-search";
 import { getFacilitiesByZoom } from "./query/get-facilities-by-zoom";
 import { getFacilitesList } from "./query/get-facilities-list";
+import { getFacilitiesByBound } from "./query/get-facilities-by-bound";
 
 export const facilityApi = {
   all: ["locations"],
@@ -20,6 +21,12 @@ export const facilityApi = {
     queryOptions({
       queryKey: [...facilityApi.all, params],
       queryFn: () => getFacilitiesByZoom(params),
+      placeholderData: keepPreviousData,
+    }),
+  facilityBound: (params: FacilityBoundQuery) =>
+    queryOptions({
+      queryKey: [...facilityApi.all, params],
+      queryFn: () => getFacilitiesByBound(params),
       placeholderData: keepPreviousData,
     }),
 

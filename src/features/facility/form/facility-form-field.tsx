@@ -82,9 +82,7 @@ export const FacilityFormField = <T extends FieldValues>({
       />
       {form.formState.errors[name] && (
         <p className="text-sm text-red-500">
-          {/* If 'name' is 'region', RHF might put the error on 
-       errors.region.message OR errors.region.id.message 
-    */}
+
           {(form.formState.errors[name] as any)?.message ||
             (form.formState.errors[name] as any)?.id?.message ||
             (form.formState.errors[name] as any)?.type?.message}

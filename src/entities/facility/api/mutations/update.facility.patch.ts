@@ -11,7 +11,7 @@ export const updateFacilityPatch = async ({ body, id, lat, lng, parent_id, renta
         address: body?.address,
         building_id: body?.building?.id,
         region_id: body?.region?.id,
-        fire_inspect_at: body?.fireInspectAt ? new Date(body?.fireInspectAt).toISOString() : undefined,
+        fire_inspection_at: body?.fireInspectAt ? new Date(body?.fireInspectAt).toISOString() : undefined,
         area: body?.area,
         cadaster: body?.cadaster,
         floor: body?.floor,
@@ -28,7 +28,7 @@ export const updateFacilityPatch = async ({ body, id, lat, lng, parent_id, renta
     }
 
     await apiInstance(`/location/${id}`, {
-        method: "PATCH",
+        method: "PUT",
         json
     })
 

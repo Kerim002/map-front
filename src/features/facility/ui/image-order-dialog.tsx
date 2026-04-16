@@ -51,7 +51,7 @@ const SortableRow = ({ image, facilityId }: { image: FacilityImage, facilityId: 
       </TableCell>
       <TableCell className="w-[100px]">
         <img
-          src={storageUrlCreate("image", image.objectPath, "md")}
+          src={storageUrlCreate("image", image.url, "md")}
           className="h-12 w-16 object-cover rounded border"
           alt="Preview"
         />
@@ -101,7 +101,7 @@ export const ImageOrderDialog = ({ images, facilityId }: { images: FacilityImage
       mutate({
         facilityId,
         imageId: active.id as string,
-        order: newIndex + 1
+        order: newIndex
       });
     }
   };

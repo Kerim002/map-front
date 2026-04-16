@@ -163,5 +163,7 @@
   "note":"Note",
   "yes":"Yes",
   "no":"No",
-  "parent-facility":"Parent facility"
+  "parent-facility":"Parent facility",
+  "district":"District",
+  "city":"City"
 }

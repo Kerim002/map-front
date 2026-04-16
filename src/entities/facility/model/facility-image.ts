@@ -3,5 +3,5 @@ export type FacilityImage = {
     path: string,
     createdAt: string,
     order:number,
-    objectPath:string
+    url:string
 }

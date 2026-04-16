@@ -6,7 +6,7 @@ import { mapSpec } from "./mapper/map-spec";
 export const getSpecs = async (
   params: PageBaseQuery
 ): Promise<SpecPagination> => {
-  const res = await apiInstance<SpecPaginationDto>("/specialization/", { params });
+  const res = await apiInstance<SpecPaginationDto>("/specialization", { params });
 
   return {
     list: res.data.map(mapSpec) ?? [],

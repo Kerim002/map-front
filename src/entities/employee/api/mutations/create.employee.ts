@@ -32,5 +32,5 @@ export const createEmployee = async (body: EmployeCreateMutation & { location_id
         };
     }
 
-    await apiInstance(`/employee${hasFile ? "/with-avatar" : ""}`, requestConfig);
+    await apiInstance(`/employee${hasFile ? "/avatar" : ""}`, requestConfig);
 };

@@ -23,6 +23,8 @@ import { SpecFormField } from "./spec-form-field";
 import { SwitchFormField } from "@/shared/ui/switch-form-field";
 import { TextFormField } from "@/features/employee/form/text-from-field";
 import { PerformanceFormField } from "./performance-from-field";
+import { CityFormField } from "./city-form-field";
+import { DistrictFormField } from "./district-form-field";
 
 
 
@@ -30,8 +32,8 @@ import { PerformanceFormField } from "./performance-from-field";
 export const UpdateFacilityForm = () => {
   const { getQuery, deleteQuery } = useQueryParam();
   const { data } = useQuery(facilityApi.detail(getQuery("location-id")))
- const { pathname } = useLocation();
-  
+  const { pathname } = useLocation();
+
   const isInChild = pathname.includes("/childs") || !!data?.parent?.id;
   const isInRental = pathname.includes("/rentals") || data?.rental
 
@@ -58,7 +60,7 @@ export const UpdateFacilityForm = () => {
         region: data.region,
         building: data.building,
         area: data.area || "",
-        cadaster: data.cadaster || "", 
+        cadaster: data.cadaster || "",
         fireInspectAt: data.fireInspectionAt || "",
         floor: data.floor,
         note: data.note || "",
@@ -69,6 +71,8 @@ export const UpdateFacilityForm = () => {
         specialization: data.specialization,
         licenseExpiredAt: data.licenseExpiredAt || "",
         visibility: data.visibility,
+        city: data.city,
+        district: data.district
       });
     }
   }, [data, form]);
@@ -80,7 +84,7 @@ export const UpdateFacilityForm = () => {
       {
         body,
         id: getQuery("location-id") ?? "",
-        parent_id:data?.parent?.id,
+        parent_id: data?.parent?.id,
         rental: isInRental
       },
       {
@@ -102,13 +106,17 @@ export const UpdateFacilityForm = () => {
 
           <div className="space-y-4 overflow-auto">
             <TextFormField form={form} label={t("location-name")} name="name" />
-             <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
-               <AuthorityFormField form={form} label={t("authority")} name="auhtority" />
-               <RegionFormField form={form} label={t("region")} name="region" />
-   
+            <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
+              <AuthorityFormField form={form} label={t("authority")} name="auhtority" />
+              <RegionFormField form={form} label={t("region")} name="region" />
+
+            </div>
+            <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
+              <CityFormField form={form} label={t("city")} name="city" />
+              <DistrictFormField form={form} label={t("district")} name="district" />
             </div>
             <div className="grid grid-cols-2 gap-3">
-           {
+              {
                 !isInChild && <TextFormField form={form} label={t("cadester-code")} name="cadaster" />
               }
               <OwnershipFormField form={form} label={t("ownership")} name="ownership" />

@@ -7,7 +7,7 @@ type Props = {
 }
 
 export const updateFacilityImageOrder = async ({ facilityId, imageId, order }: Props) => {
-    await apiInstance(`/location/${facilityId}/image/${imageId}`, {
+    await apiInstance(`/location/${facilityId}/image/${imageId}/order`, {
         method: "PATCH",
         json: {
             order

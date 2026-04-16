@@ -6,7 +6,7 @@ export const updateOwnership = async (
 ) => {
   const {id, ...rest} = body
   await apiInstance(`/ownership/${id}`, {
-    method: "PATCH",
+    method: "PUT",
     json: rest
   });
 };

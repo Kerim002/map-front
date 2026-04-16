@@ -38,8 +38,10 @@ const routes = [
   { path: "/building/1", icon: Building, name: "building" },
   { path: "/ownership/1", icon: Shield, name: "ownership" },
   { path: "/performance/1", icon: BadgeCheck, name: "performance" },
-  { path: "/region/1", icon: LandPlot, name: "region" },
   { path: "/specialization/1", icon: Focus, name: "specialization" },
+  { path: "/region/1", icon: LandPlot, name: "region" },
+  { path: "/district/1", icon: LandPlot, name: "district" },
+  { path: "/city/1", icon: LandPlot, name: "city" },
 ];
 
 export function AppSidebar() {

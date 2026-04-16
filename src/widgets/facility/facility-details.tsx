@@ -1,26 +1,26 @@
 import { facilityApi } from "@/entities/facility/api/facility.api";
 import { useDeleteFacility } from "@/features/facility/hook/use-delete-facility";
-import { 
-    AlertDialog, 
-    AlertDialogAction, 
-    AlertDialogCancel, 
-    AlertDialogContent, 
-    AlertDialogDescription, 
-    AlertDialogFooter, 
-    AlertDialogHeader, 
-    AlertDialogTitle, 
-    AlertDialogTrigger 
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
 } from "@/shared/ui/alert-dialog";
 import { Button } from "@/shared/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { 
-    Building2, 
-    Car, 
-    FireExtinguisherIcon, 
-    MapPin,  
-    ShieldCheck, 
-    Landmark, 
-    BarChart3, 
+import {
+    Building2,
+    Car,
+    FireExtinguisherIcon,
+    MapPin,
+    ShieldCheck,
+    Landmark,
+    BarChart3,
     Fingerprint,
     Briefcase,
     FileWarning,
@@ -86,7 +86,7 @@ export const FacilityDetails = ({ filter }: { filter?: "main" | "extra" }) => {
                 {renderItem(<div className="size-4 flex items-center justify-center font-bold text-[10px]">m²</div>, "total-area", data?.area ? `${data.area}m²` : null, "bg-blue-500/10 text-blue-500")}
                 {renderItem(<Building2 className="h-4 w-4" />, "floor", data?.floor, "bg-violet-500/10 text-violet-500")}
                 {renderItem(<Car className="h-4 w-4" />, "parking", data?.parking, "bg-emerald-500/10 text-emerald-500")}
-                
+
                 {/* Newly Added Extra Items */}
                 {renderItem(<Eye className="h-4 w-4" />, "in-map", data?.visibility !== undefined ? (data.visibility ? t("visible") : t("hidden")) : null, "bg-teal-500/10 text-teal-500")}
                 {renderItem(<Key className="h-4 w-4" />, "rental", renderBoolean(data?.rental), "bg-yellow-500/10 text-yellow-500")}
@@ -108,12 +108,39 @@ export const FacilityDetails = ({ filter }: { filter?: "main" | "extra" }) => {
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-muted-foreground/60 text-sm font-semibold italic">
                         <div className="flex items-center gap-2">
                             <span className="not-italic text-foreground/80">{data?.region?.type}</span>
-                            <span className="text-border">/</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4 text-primary" />
-                            <span className="not-italic text-foreground/80">{data?.address}</span>
-                        </div>
+                        {
+                            data?.city?.type &&
+
+                            <div className="flex items-center gap-2">
+                                <span className="text-border">/</span>
+                                <MapPin className="h-4 w-4 text-primary" />
+                                <span className="not-italic text-foreground/80">{data?.city.type}</span>
+                            </div>
+                        }
+
+                        {
+                            data?.district?.type &&
+                            <div className="flex items-center gap-2">
+                                <span className="text-border">/</span>
+
+                                <MapPin className="h-4 w-4 text-primary" />
+                                <span className="not-italic text-foreground/80">{data?.district.type}</span>
+                            </div>
+                        }
+
+                        {
+                            data?.address &&
+
+
+                            <div className="flex items-center gap-2">
+                                <span className="text-border">/</span>
+
+                                <MapPin className="h-4 w-4 text-primary" />
+                                <span className="not-italic text-foreground/80">{data?.address}</span>
+                            </div>
+                        }
+
                     </div>
                 </div>
 

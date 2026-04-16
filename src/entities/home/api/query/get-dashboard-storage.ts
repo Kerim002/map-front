@@ -6,8 +6,8 @@ export const getDashboardStorage =async ():Promise<DashboardStorage>=> {
     const res = await apiInstance<DashboardStorageDto>("/dashboard/storage")
 
     return {
-        totalFiles:res.total_files,
-        totalFolders:res.total_folders,
-        totalSizeBytes:res.total_size_bytes
+        totalFiles:res.data.total_files,
+        totalFolders:res.data.total_folders,
+        totalSizeBytes:res.data.total_size_bytes
     }
 } 

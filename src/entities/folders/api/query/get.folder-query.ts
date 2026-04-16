@@ -5,7 +5,8 @@ import { mapFolder } from "../mapper/map-folder";
 import type { FolderPagionation } from "../../model/facility-folder";
 
 export const getFacilityFolders = async (params: FacilityFolderQuery): Promise<FolderPagionation> => {
-    const res = await apiInstance<FolderPaginationDto>(`/item/${params.location_id}/folder`, { params: { ...params, is_folder: false } })
+    const {location_id, ...rest} = params
+    const res = await apiInstance<FolderPaginationDto>(`/item/${location_id}/folder`, { params: { ...rest, is_folder: false } })
 
     return {
         data: res.data.map(mapFolder),
@@ -18,3 +19,4 @@ export const getFacilityFolders = async (params: FacilityFolderQuery): Promise<F
         }
     }
 }
+

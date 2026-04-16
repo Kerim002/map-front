@@ -23,6 +23,8 @@ import { SpecFormField } from "./spec-form-field";
 import { SwitchFormField } from "@/shared/ui/switch-form-field";
 import { TextFormField } from "@/features/employee/form/text-from-field";
 import { PerformanceFormField } from "./performance-from-field";
+import { CityFormField } from "./city-form-field";
+import { DistrictFormField } from "./district-form-field";
 export const CreateFacilityForm = () => {
 
 
@@ -75,6 +77,10 @@ export const CreateFacilityForm = () => {
               <AuthorityFormField form={form} label={t("authority")} name="auhtority" />
               <RegionFormField form={form} label={t("region")} name="region" />
 
+            </div>
+            <div className={`grid gap-3 ${isInChild ? "grid-cols-1" : "grid-cols-2"}`}>
+              <CityFormField form={form} label={t("city")} name="city" />
+              <DistrictFormField form={form} label={t("district")} name="district" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               {

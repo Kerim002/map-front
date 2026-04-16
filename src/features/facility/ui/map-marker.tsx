@@ -31,7 +31,8 @@ type Props = {
 
 const getIcon = (colorClass: string) => new L.Icon({
   iconUrl: '/marker-icon.png',
-  shadowUrl: '/marker-shadow.png',
+  // shadowUrl: '/marker-shadow.png',
+  shadowUrl: '',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   className: colorClass // This applies the CSS filter class to the <img> tag
@@ -60,7 +61,7 @@ export const MapMarker = ({ item }: Props) => {
 
   const firstImage = images?.[0];
   const imageUrl = firstImage
-    ? storageUrlCreate("image", firstImage?.objectPath ?? "", 'md') 
+    ? storageUrlCreate("image", firstImage?.url ?? "", 'md') 
     : null;
 
 

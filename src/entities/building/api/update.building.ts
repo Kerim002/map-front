@@ -6,7 +6,7 @@ export const updateBuilding = async (
 ) => {
   const {id, ...rest} = body
   await apiInstance(`/building/${id}`, {
-    method: "PATCH",
+    method: "PUT",
     json: rest,
   });
 };

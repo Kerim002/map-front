@@ -12,6 +12,8 @@ import { SidebarLayout } from "../layouts/sidebar-layout";
 
 import { Specialization } from "@/pages/specialization";
 import { mapRoutes } from "./map.routes";
+import { CityPage } from "@/pages/city";
+import { DistrictPage } from "@/pages/district";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -103,6 +105,32 @@ const mainRoutes = createBrowserRouter([
                 element: (
                   <Suspense>
                     <Specialization />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
+          {
+            path: "/city",
+            children: [
+              {
+                path: ":currentPage",
+                element: (
+                  <Suspense>
+                    <CityPage />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
+          {
+            path: "/district",
+            children: [
+              {
+                path: ":currentPage",
+                element: (
+                  <Suspense>
+                    <DistrictPage />
                   </Suspense>
                 ),
               },

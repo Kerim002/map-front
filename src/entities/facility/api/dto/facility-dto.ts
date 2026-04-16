@@ -16,6 +16,8 @@ export type FacilityDto = {
   specialization: AttriubtesFacility,
   building: AttriubtesFacility
   region:AttriubtesFacility
+  city:AttriubtesFacility,
+  district:AttriubtesFacility
   parent:{
     id: string;
     name: string;

@@ -6,7 +6,7 @@ import { mapRegion } from "./mapper/map-region";
 export const getRegions = async (
   params: PageBaseQuery
 ): Promise<RegionPagination> => {
-  const res = await apiInstance<RegionPaginationDto>("/region/", { params });
+  const res = await apiInstance<RegionPaginationDto>("/region", { params });
 
   return {
     list: res.data.map(mapRegion) ?? [],

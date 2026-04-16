@@ -8,7 +8,6 @@ export const SidebarLayout = () => {
   const {pathname} = useLocation()
   // const { t} = useTranslation()
 
-  console.log(pathname)
   return (
     <SidebarProvider>
       <Toaster richColors />

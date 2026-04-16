@@ -169,3 +169,49 @@
 .marker-blue {
   filter: none;
 }
+
+
+@layer base {
+  :root {
+    /* Light Mode Colors */
+    --sb-track: #f1f1f1;
+    --sb-thumb: #888;
+    --sb-thumb-hover: #555;
+    --sb-thumb-border: #f1f1f1;
+  }
+
+  .dark {
+    /* Dark Mode Colors */
+    --sb-track: #020202;
+    --sb-thumb: #302f2f;
+    --sb-thumb-hover: #555;
+    --sb-thumb-border: #464646;
+  }
+
+  /* Global Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--sb-track);
+    border-radius: 14px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb);
+    border-radius: 4px;
+    border: 2px solid var(--sb-thumb-border);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-thumb-hover);
+  }
+
+  /* Firefox Support */
+  * {
+    scrollbar-width: thick;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+  }
+}

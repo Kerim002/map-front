@@ -17,7 +17,7 @@ export type CreateBody = {
   floor?: number,
   area?: number,
   note?: string,
-  fire_inspect_at?: string,
+  fire_inspection_at?: string,
   performance_id?: string,
   authority_id?: string
   ownership_id?: string
@@ -27,25 +27,29 @@ export type CreateBody = {
   license_expired_at?: string
   visibility?: boolean,
   rental?:boolean
+  city_id?:string,
+  district_id?:string
 };
 
 export const createFacility = async (
   payload: FaciltyMutation & { geom: Geom, parent_id?: string, rental?:boolean }
 ) => {
   const performanceId = payload?.performance?.id;
-  const authorityId = payload.auhtority.id;
-  const ownershipId = payload.ownership.id;
+  const authorityId = payload.auhtority?.id;
+  const ownershipId = payload.ownership?.id;
   const building_id = payload.building?.id;
+  const city_id = payload.city?.id
+  const district_id = payload.district?.id
   const address = payload.address;
   const region_id = payload.region?.id;
-  const specializationId = payload.specialization.id
+  const specializationId = payload.specialization?.id
   const licesnceExpiredAt = payload.licenseExpiredAt ? new Date(payload.licenseExpiredAt).toISOString() : undefined;
 
   const json: CreateBody = {
     name: payload.name,
     lat: payload.geom.lat,
     lng: payload.geom.lng,
-    fire_inspect_at: payload.fireInspectAt ? new Date(payload.fireInspectAt).toISOString() : undefined,
+    fire_inspection_at: payload.fireInspectAt ? new Date(payload.fireInspectAt).toISOString() : undefined,
     area: payload.area,
     cadaster: payload.cadaster ?? "",
     floor: payload.floor,
@@ -64,10 +68,12 @@ export const createFacility = async (
     ...(region_id && { region_id: region_id }),
     ...(authorityId && { authority_id: authorityId }),
     ...(performanceId && { performance_id: performanceId }),
+    ...(city_id && { city_id: city_id }),
+    ...(district_id && { district_id: district_id }),
 
 
 
   };
 
-  await apiInstance("/location/", { json, method: "POST" });
+  await apiInstance("/location", { json, method: "POST" });
 };

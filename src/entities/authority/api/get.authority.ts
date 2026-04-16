@@ -6,7 +6,7 @@ import { mapAuthority } from "./mapper/map-authority";
 export const getAuthority = async (
   params: PageBaseQuery
 ): Promise<AuthorityPagionation> => {
-  const res = await apiInstance<AuthorityPagionationDto>(`/authority/`, {
+  const res = await apiInstance<AuthorityPagionationDto>(`/authority`, {
     params,
   });
 

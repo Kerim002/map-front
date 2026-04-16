@@ -6,7 +6,7 @@ import { mapPerformance } from "./mapper/map-performance";
 export const getPerformance = async (
   params: PageBaseQuery
 ): Promise<PerformancePagination> => {
-  const res = await apiInstance<PerformancePaginationDto>(`/performance/`, {
+  const res = await apiInstance<PerformancePaginationDto>(`/performance`, {
     params,
   });
 

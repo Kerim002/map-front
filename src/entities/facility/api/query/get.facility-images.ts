@@ -5,7 +5,7 @@ import { mapFacilityImage } from "../mapper/map-facility-image";
 
 export const getFacilityImages = async (id:string):Promise<FacilityImage[]> => {
 
-    const res = await apiInstance<{data:FacilityImageDto[]}>(`/location/${id}/images`)
+    const res = await apiInstance<{data:FacilityImageDto[]}>(`/location/${id}/image`)
 
     return res.data.map(mapFacilityImage).sort((a,b) => a.order - b.order)
 

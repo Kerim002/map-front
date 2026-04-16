@@ -6,7 +6,7 @@ export const updateAuthority = async (
 ) => {
   const {id, ...rest} = body
   await apiInstance(`/authority/${id}`, {
-    method: "PATCH",
+    method: "PUT",
     json: rest,
   });
 };

@@ -4,7 +4,7 @@ import type { RegionMutation } from "../contract";
 export const updateRegion = async (body: RegionMutation & { id: string }) => {
   const {id, ...rest} = body
   await apiInstance(`/region/${body.id}`, {
-    method: "PATCH",
+    method: "PUT",
     json: rest,
   });
 };

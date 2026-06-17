@@ -5,7 +5,7 @@ import type { FacilitySearchQuery } from "../query-type/facility-query"
 import { mapFacility } from "../mapper/map-facility"
 
 export const getFacilitesList = async (params: FacilitySearchQuery): Promise<FacilityPagionation> => {
-    const res = await apiInstance<FacilityPagionationDto>("/location/list", { params })
+    const res = await apiInstance<FacilityPagionationDto>("/location", { params })
 
     return {
         data: res.data.map(mapFacility),

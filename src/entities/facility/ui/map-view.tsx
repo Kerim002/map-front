@@ -158,8 +158,6 @@ const MapFetcher = ({
     })
   )
 
-  console.log(data)
-
 
   useEffect(() => {
     onDataLoaded(data ?? [])

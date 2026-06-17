@@ -2,8 +2,7 @@ import { apiInstance } from "@/shared/api/interceptor";
 import type { FaciltyMutation } from "../../contract";
 
 
-export const updateFacilityPatch = async ({ body, id, lat, lng, parent_id, rental }: { body?: Partial<FaciltyMutation>; id: string, lat?: number, lng?: number, rental?:boolean, parent_id?:string }) => {
-
+export const updateFacilityPatch = async ({ body, id, lat, lng, parent_id, rental }: { body?: Partial<FaciltyMutation>; id: string, lat?: number, lng?: number, rental?: boolean, parent_id?: string }) => {
     const json = {
         lat,
         lng,
@@ -18,14 +17,17 @@ export const updateFacilityPatch = async ({ body, id, lat, lng, parent_id, renta
         note: body?.note,
         performance_id: body?.performance?.id,
         authority_id: body?.auhtority?.id,
-        ownership_id: body?.ownership?.id,
+        // ownership_id: body?.ownership?.id,
         parking: body?.parking,
         specialization_id: body?.specialization?.id,
         license_expired_at: body?.licenseExpiredAt ? new Date(body?.licenseExpiredAt).toISOString() : undefined,
         visibility: body?.visibility,
-        rental:rental,
-        parent_id
+        rental: rental,
+        parent_id,
+        city_id: body?.city?.id,
+        district_id: body?.district?.id,
     }
+
 
     await apiInstance(`/location/${id}`, {
         method: "PUT",

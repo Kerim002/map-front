@@ -18,7 +18,7 @@ export interface KeyMetric {
 export const DashboardCards = () => {
     const { t } = useTranslation();
     const { data, isLoading } = useQuery(dashboardApi.getOverview());
-
+    console.log(data)
     // Map your API response to the display metrics
 const metrics: KeyMetric[] = [
     { title: "total-regions", value: data?.totalRegions, icon: Map },

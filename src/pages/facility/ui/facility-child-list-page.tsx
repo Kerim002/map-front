@@ -7,7 +7,7 @@ export const FacilityChildListPage = () => {
       <FacilityPageHeader />
 
       <div className="bg-card/60 backdrop-blur-md rounded-[3rem] border border-border/50 p-6 shadow-2xl shadow-primary/5">
-        <FacilityTable />
+        <FacilityTable /> 
       </div>
     </div>
   )

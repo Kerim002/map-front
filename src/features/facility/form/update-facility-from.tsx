@@ -16,7 +16,6 @@ import { useUpdateFacilityPatch } from "../hook/use-update-facility-patch";
 import { TimeFormField } from "./time-form-field";
 import { NumberFormField } from "./number-form-field";
 import { useTranslation } from "react-i18next";
-import { OwnershipFormField } from "./ownership-form-field";
 import { AuthorityFormField } from "./authority-form-field";
 import { useLocation } from "react-router-dom";
 import { SpecFormField } from "./spec-form-field";
@@ -65,14 +64,16 @@ export const UpdateFacilityForm = () => {
         floor: data.floor,
         note: data.note || "",
         auhtority: data.authority,
-        ownership: data.ownership,
+        // ownership: data.ownership,
         performance: data.performance,
         parking: data.parking,
         specialization: data.specialization,
         licenseExpiredAt: data.licenseExpiredAt || "",
         visibility: data.visibility,
         city: data.city,
-        district: data.district
+        district: data.district,
+        lat:data.geom.lat,
+        lng:data.geom.lng
       });
     }
   }, [data, form]);
@@ -80,12 +81,15 @@ export const UpdateFacilityForm = () => {
 
 
   const onSubmit: SubmitHandler<FaciltyMutation> = (body) => {
+    console.log(body)
     mutate(
       {
         body,
         id: getQuery("location-id") ?? "",
         parent_id: data?.parent?.id,
-        rental: isInRental
+        rental: isInRental,
+        lat:body.lat,
+        lng:body.lng
       },
       {
         onSuccess: () => {
@@ -115,11 +119,13 @@ export const UpdateFacilityForm = () => {
               <CityFormField form={form} label={t("city")} name="city" />
               <DistrictFormField form={form} label={t("district")} name="district" />
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               {
                 !isInChild && <TextFormField form={form} label={t("cadester-code")} name="cadaster" />
               }
-              <OwnershipFormField form={form} label={t("ownership")} name="ownership" />
+              <NumberFormField label={"Lat"} form={form} name="lat" />
+              <NumberFormField label={"Lng"} form={form} name="lng" />
+              {/* <OwnershipFormField form={form} label={t("ownership")} name="ownership" /> */}
             </div>
             <div className="grid grid-cols-2 gap-3">
               <PerformanceFormField form={form} label={t("performance")} name="performance" />

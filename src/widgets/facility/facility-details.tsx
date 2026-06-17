@@ -19,7 +19,6 @@ import {
     FireExtinguisherIcon,
     MapPin,
     ShieldCheck,
-    Landmark,
     BarChart3,
     Fingerprint,
     Briefcase,
@@ -150,7 +149,7 @@ export const FacilityDetails = ({ filter }: { filter?: "main" | "extra" }) => {
                         {renderItem(<Briefcase className="h-4 w-4" />, "specialization", data?.specialization?.type, "bg-fuchsia-500/10 text-fuchsia-500")}
                         {renderItem(<Building2 className="h-4 w-4" />, "building", data?.building?.type, "bg-indigo-500/10 text-indigo-500")}
                         {renderItem(<ShieldCheck className="h-4 w-4" />, "authority", data?.authority?.type, "bg-amber-500/10 text-amber-500")}
-                        {renderItem(<Landmark className="h-4 w-4" />, "ownership", data?.ownership?.type, "bg-rose-500/10 text-rose-500")}
+                        {/* {renderItem(<Landmark className="h-4 w-4" />, "ownership", data?.ownership?.type, "bg-rose-500/10 text-rose-500")} */}
                         {renderItem(<BarChart3 className="h-4 w-4" />, "performance", data?.performance?.type, "bg-cyan-500/10 text-cyan-500")}
                         {!filter && renderItem(<Fingerprint className="h-4 w-4" />, "id", data?.cadaster, "bg-primary/10 text-primary")}
                         {renderItem(<FireExtinguisherIcon className="h-4 w-4" />, "fire-inspection-at", formatDate(data?.fireInspectionAt), "bg-orange-500/10 text-orange-500")}

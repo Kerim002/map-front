@@ -12,16 +12,16 @@ export const createFacilityContract = (isInChild: boolean) =>
       .object({
         type: z.string(),
         id: z.string(),
-      }).optional(),
+      }),
     performance: z
       .object({
         type: z.string(),
         id: z.string(),
       }).optional(),
-    ownership: z.object({
-      type: z.string(),
-      id: z.string(),
-    }).optional(),
+    // ownership: z.object({
+    //   type: z.string(),
+    //   id: z.string(),
+    // }).optional(),
     auhtority: z.object({
       type: z.string(),
       id: z.string(),
@@ -48,4 +48,6 @@ export const createFacilityContract = (isInChild: boolean) =>
       id: z.string(),
     }).optional(),
     note: z.string().optional(),
+    lat: z.coerce.number(),
+    lng: z.coerce.number(),
   });

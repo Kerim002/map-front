@@ -21,7 +21,7 @@ export const mapFacility = (dto: FacilityDto): Facility => {
     note: dto.note,
     parking: dto.parking,
     authority: dto.authority ?? undefined,
-    ownership: dto.ownership ?? undefined,
+    // ownership: dto.ownership ?? undefined,
     performance: dto.performance ?? undefined,
     hasChildren: dto.has_children,
     specialization: dto.specialization ?? undefined,

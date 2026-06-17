@@ -1,4 +1,4 @@
-import { keepPreviousData, queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions, keepPreviousData, queryOptions } from "@tanstack/react-query";
 import type { FacilityBoundQuery, FacilityQuery, FacilitySearchQuery, FacilityZoomQuery } from "./query-type/facility-query";
 import { getFacility } from "./query/get-facilities";
 import { getDetailFacility } from "./query/get.detail.facility";
@@ -44,7 +44,7 @@ export const facilityApi = {
     enabled: !!id && enabled
   }),
   facilitySearch: (params: FacilitySearchQuery & { enabled: boolean }) => {
-    const {enabled, ...rest} = params
+    const { enabled, ...rest } = params
     return queryOptions({
       queryKey: ["facility-search", rest],
       queryFn: () => getFacilitiesSearch(rest),
@@ -52,12 +52,26 @@ export const facilityApi = {
       enabled: enabled
     })
   },
-  facilityList:(params:FacilitySearchQuery & { enabled: boolean }) => {
-     const {enabled, ...rest} = params
+  facilitySearchInfitityQuery: (params: FacilitySearchQuery & { enabled: boolean }) => {
+    const { limit, page, enabled, ...rest } = params
+    return infiniteQueryOptions({
+      queryKey: [...facilityApi.all, "list", "infinite-search", params],
+      queryFn: ({ pageParam }) => getFacilitiesSearch({ limit: pageParam.limit, page: pageParam.page, ...rest }),
+      initialPageParam: { page, limit },
+      getNextPageParam: (data, _, { page }) => {
+        if (data.pageInfo.hasNextPage) return { limit, page: page + 1 }
+        return undefined
+      },
+      enabled: enabled
+
+    })
+  },
+  facilityList: (params: FacilitySearchQuery & { enabled: boolean }) => {
+    const { enabled, ...rest } = params
     return queryOptions({
-      queryKey:[...facilityApi.all,"facility-list", rest],
-      queryFn:()=> getFacilitesList(params),
-      placeholderData:keepPreviousData,
+      queryKey: [...facilityApi.all, "facility-list", rest],
+      queryFn: () => getFacilitesList(params),
+      placeholderData: keepPreviousData,
       enabled
     })
   }

@@ -18,7 +18,7 @@ type Props<T> = {
 }
 
 // Popover width in px — wider than the trigger input
-const POPOVER_WIDTH = 320
+const POPOVER_WIDTH = 620
 
 export function SearchFilterSelect<T>({
   filterKey,
@@ -139,7 +139,7 @@ export function SearchFilterSelect<T>({
       {isOpen && (
         <div
           ref={dropdownRef}
-          style={{ width: POPOVER_WIDTH }}
+          style={{ maxWidth: POPOVER_WIDTH, width: "max-content", minWidth:200 }}
           className={[
             "absolute top-11 bg-popover border shadow-xl rounded-xl z-50 overflow-hidden",
             popoverAlign === "left" ? "left-0" : "right-0",

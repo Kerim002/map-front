@@ -19,6 +19,7 @@ export function ChartAreaInteractive() {
   // 1. Fetching real data
   const { data, isLoading } = useQuery(dashboardApi.getLocationsChart());
 
+
   // 2. Handle loading state
   if (isLoading) return <div className="h-[320px] w-full flex items-center justify-center">Loading...</div>;
 

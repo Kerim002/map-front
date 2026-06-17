@@ -20,7 +20,7 @@ export type CreateBody = {
   fire_inspection_at?: string,
   performance_id?: string,
   authority_id?: string
-  ownership_id?: string
+  // ownership_id?: string
   parking?: number,
   parent_id?: string
   specialization_id?: string
@@ -36,7 +36,7 @@ export const createFacility = async (
 ) => {
   const performanceId = payload?.performance?.id;
   const authorityId = payload.auhtority?.id;
-  const ownershipId = payload.ownership?.id;
+  // const ownershipId = payload.ownership?.id;
   const building_id = payload.building?.id;
   const city_id = payload.city?.id
   const district_id = payload.district?.id
@@ -58,13 +58,13 @@ export const createFacility = async (
     parent_id: payload.parent_id,
     specialization_id: specializationId,
     license_expired_at: licesnceExpiredAt,
-    visibility: payload.parent_id ? false : true,
+    visibility: payload.visibility,
     rental:payload.rental,
 
 
     ...(address && { address: address }),
     ...(building_id && { building_id: building_id }),
-    ...(ownershipId && { ownership_id: ownershipId }),
+    // ...(ownershipId && { ownership_id: ownershipId }),
     ...(region_id && { region_id: region_id }),
     ...(authorityId && { authority_id: authorityId }),
     ...(performanceId && { performance_id: performanceId }),

@@ -12,7 +12,7 @@ export type Facility = {
   rental: boolean
   performance: AttriubtesFacility
   authority: AttriubtesFacility
-  ownership: AttriubtesFacility
+  // ownership: AttriubtesFacility
   specialization: AttriubtesFacility,
   building: AttriubtesFacility,
   region: AttriubtesFacility,

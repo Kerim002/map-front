@@ -1,13 +1,14 @@
 import { facilityApi } from "@/entities/facility/api/facility.api";
 import { useMapStore } from "@/entities/store/use-map-store";
 import { Input } from "@/shared/ui/input";
-import { useQuery } from "@tanstack/react-query";
-import { MapIcon, Search } from "lucide-react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { MapIcon, Search, Loader2 } from "lucide-react"; // Added Loader2 for the fetching indicator
 import {
     useEffect,
     useRef,
     useState,
     type ChangeEvent,
+    type UIEvent,
 } from "react";
 import { useTranslation } from "react-i18next";
 import useQueryParam from "@/shared/hooks/use-query-param";
@@ -66,14 +67,16 @@ export const MapSearchBox = () => {
     /* API Search (disabled for coords) */
     /* ---------------------------------- */
 
-    const { data } = useQuery(
-        facilityApi.facilitySearch({
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
+        facilityApi.facilitySearchInfitityQuery({
             q: debouncedQuery,
             limit: 20,
-            page: 1,
+            page: 1, 
             enabled: debouncedQuery.length > 2 && !isCoords,
         })
     );
+    
+    const items = data?.pages?.flatMap((page) => page.data ?? []) ?? [];
 
     /* ---------------------------------- */
     /* Fly to coords (SAFE) */
@@ -105,6 +108,18 @@ export const MapSearchBox = () => {
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value);
         setOpen(true);
+    };
+
+    // Infinite Scroll Handler
+    const handleScroll = (e: UIEvent<HTMLUListElement>) => {
+        const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
+        
+        // Check if user has scrolled within 50px of the bottom
+        const isNearBottom = scrollHeight - scrollTop <= clientHeight + 50;
+        
+        if (isNearBottom && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
     };
 
     useEffect(() => {
@@ -154,7 +169,7 @@ export const MapSearchBox = () => {
                             {t("search-results")}
                         </div>
 
-                        {data?.data.length === 0 ? (
+                        {items?.length === 0 ? (
                             <div className="p-8 text-xs font-bold text-muted-foreground/60 text-center flex flex-col items-center gap-2">
                                 <div className="p-3 bg-muted/20 rounded-2xl">
                                     <Search className="size-5 opacity-20" />
@@ -162,8 +177,11 @@ export const MapSearchBox = () => {
                                 {t("no-results-found")}
                             </div>
                         ) : (
-                            <ul className="space-y-1 px-2 h-96 overflow-auto">
-                                {data?.data.map((item, i) => (
+                            <ul 
+                                className="space-y-1 px-2 h-96 overflow-auto" 
+                                onScroll={handleScroll}
+                            >
+                                {items?.map((item, i) => (
                                     <li
                                         key={i}
                                         className="cursor-pointer px-4 py-3 text-sm flex items-center justify-between group/item hover:bg-primary/5 rounded-xl transition-all border border-transparent hover:border-primary/10"
@@ -191,6 +209,13 @@ export const MapSearchBox = () => {
                                         </div>
                                     </li>
                                 ))}
+                                
+                                {/* Loading Indicator for infinite scroll */}
+                                {isFetchingNextPage && (
+                                    <li className="py-4 flex justify-center items-center text-muted-foreground">
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                    </li>
+                                )}
                             </ul>
                         )}
                     </div>

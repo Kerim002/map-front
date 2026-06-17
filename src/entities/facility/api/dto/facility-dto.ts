@@ -12,7 +12,7 @@ export type FacilityDto = {
   rental:boolean
   performance: AttriubtesFacility
   authority: AttriubtesFacility
-  ownership: AttriubtesFacility
+  // ownership: AttriubtesFacility
   specialization: AttriubtesFacility,
   building: AttriubtesFacility
   region:AttriubtesFacility

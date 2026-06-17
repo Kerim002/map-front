@@ -63,7 +63,7 @@ export const EmployeeFolderExplorer = ({ employee }: { employee: Employee }) => 
         const { isDoc, isImage } = getFileInfo(item.name);
 
         if (isDoc) {
-            const viewerUrl = `${API_URL}/v0/onlyoffice/view/${item.id}?mode=view&lang=ru`;
+            const viewerUrl = `${API_URL}/v0/gotenberg/view/${item.id}`;
             window.open(viewerUrl, "_blank", "noopener,noreferrer");
         } else if (isImage) {
             setPreviewImage(storageUrlCreate("fileDownload", item.url ?? ""));

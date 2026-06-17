@@ -16,8 +16,9 @@ export default defineConfig({
       process.env.NODE_ENV === "development"
         ? {
           "/api": {
-            target: "https://dev.tmsoft12.cloud/",
-            // target: "https://api.tmsoft12.cloud",
+            // target: "https://dev.tmsoft12.cloud/",
+            // target: "http://216.250.12.42:1010/",
+            target: "https://api.tmsoft12.cloud",
             changeOrigin: true,
             secure: false,
           },

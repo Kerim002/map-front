@@ -9,7 +9,6 @@ import {
   LandPlot,
   Map,
   Moon,
-  Shield,
   Sun,
 } from "lucide-react";
 
@@ -36,7 +35,7 @@ const routes = [
   { path: "/map", icon: Map, name: "map" },
   { path: "/authority/1", icon: IdCard, name: "authority" },
   { path: "/building/1", icon: Building, name: "building" },
-  { path: "/ownership/1", icon: Shield, name: "ownership" },
+  // { path: "/ownership/1", icon: Shield, name: "ownership" },
   { path: "/performance/1", icon: BadgeCheck, name: "performance" },
   { path: "/specialization/1", icon: Focus, name: "specialization" },
   { path: "/region/1", icon: LandPlot, name: "region" },

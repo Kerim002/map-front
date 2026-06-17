@@ -4,17 +4,17 @@ import type { DashboardOverviewDto } from "../dto/dashboard.dto";
 
 export const getDashboardOverview = async():Promise<DashboardOverview> => {
     const res = await apiInstance<DashboardOverviewDto>("/dashboard/overview")
-
+    console.log(res)
     return {
-        totalAreaSqm:res.total_area_sqm,
-        totalAuthorities:res.total_authorities,
-        totalBuildings:res.total_buildings,
-        totalCompanies:res.total_companies,
-        totalEmployees:res.total_employees,
-        totalItems:res.total_items,
-        totalLocations:res.total_locations,
-        totalOwnerships:res.total_ownerships,
-        totalPerformances:res.total_performances,
-        totalRegions:res.total_regions
+        totalAreaSqm:res.data.total_area_sqm,
+        totalAuthorities:res.data.total_authorities,
+        totalBuildings:res.data.total_buildings,
+        totalCompanies:res.data.total_companies,
+        totalEmployees:res.data.total_employees,
+        totalItems:res.data.total_items,
+        totalLocations:res.data.total_locations,
+        totalOwnerships:res.data.total_ownerships,
+        totalPerformances:res.data.total_performances,
+        totalRegions:res.data.total_regions
     }
 }

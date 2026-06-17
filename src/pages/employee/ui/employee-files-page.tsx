@@ -56,8 +56,10 @@ export const EmployeeFilesPage = () => {
 
     const { isDoc, isImage } = getFileInfo(item.name);
 
+    // https://dev.tmsoft12.cloud/api/v0/gotenberg/view/e880c70c-0fa9-4049-8967-3b4a1758891e
     if (isDoc) {
-      const viewerUrl = `${API_URL}/v0/onlyoffice/view/${item.id}?mode=view&lang=ru`;
+      // const viewerUrl = `${API_URL}/v0/onlyoffice/view/${item.id}?mode=view&lang=ru`;
+      const viewerUrl = `${API_URL}/v0/gotenberg/view/${item.id}`;
       window.open(viewerUrl, "_blank", "noopener,noreferrer");
     } else if (isImage) {
       // Logic to open your Dialog

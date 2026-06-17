@@ -66,7 +66,7 @@ export const FacilityImageCarusel = () => {
     return (
       <>
         <div className="flex justify-end items-center gap-2">
-          <Button variant={"outline"} onClick={handleButtonClick} className="text-white" size="icon">
+          <Button variant={"outline"} onClick={handleButtonClick} className="dark:text-white text-black" size="icon">
             <Upload />
           </Button>
           <input
@@ -89,7 +89,7 @@ export const FacilityImageCarusel = () => {
   return (
     <>
       <div className="flex justify-end items-center gap-2">
-        <Button variant={"outline"} onClick={handleButtonClick} className="text-white" size="icon">
+        <Button variant={"outline"} onClick={handleButtonClick} className="dark:text-white text-black" size="icon">
           <Upload />
         </Button>
         <input

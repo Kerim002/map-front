@@ -6,10 +6,10 @@ export const getLocationsByCategory = async ():Promise<LocationsByCategory> => {
     const res = await apiInstance<LocationsByCategoryDto>("/dashboard/locations/by-category")
 
     return {
-        byAuthority:res.by_authority,
-        byBuilding:res.by_building,
-        byOwnership:res.by_ownership,
-        byPerformance:res.by_performance,
-        byRegion:res.by_region
+        byAuthority:res.data.by_authority,
+        byBuilding:res.data.by_building,
+        byOwnership:res.data.by_ownership,
+        byPerformance:res.data.by_performance,
+        byRegion:res.data.by_region
     }
 }

@@ -219,7 +219,7 @@ export const FacilityWorkers = () => {
                             icon={Upload}
                             label={t("upload-new-document")}
                             onClick={() => navigate("files/1")}
-                            colorClass="bg-white/20 text-white"
+                            colorClass="bg-white/20 dark:text-white"
                             className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
                         />
                         {/* <div className="col-span-2"> */}

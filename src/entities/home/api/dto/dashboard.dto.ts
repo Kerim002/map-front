@@ -1,4 +1,4 @@
-export type DashboardOverviewDto = {
+export type DashboardOverviewDto = {data: {
     total_locations: number,
     total_employees: number,
     total_items: number,
@@ -9,16 +9,16 @@ export type DashboardOverviewDto = {
     total_ownerships: number,
     total_performances: number,
     total_area_sqm: number
-}
+}}
 
 // 
 
 export type LocationsByCategoryDto = {
-    by_region: LocationCategoryItemDto[],
+    data: {by_region: LocationCategoryItemDto[],
     by_building: LocationCategoryItemDto[],
     by_authority: LocationCategoryItemDto[],
     by_ownership: LocationCategoryItemDto[],
-    by_performance: LocationCategoryItemDto[]
+    by_performance: LocationCategoryItemDto[]}
 }
 
 export type LocationCategoryItemDto = {

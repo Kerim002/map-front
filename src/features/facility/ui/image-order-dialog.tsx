@@ -109,7 +109,7 @@ export const ImageOrderDialog = ({ images, facilityId }: { images: FacilityImage
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="text-white" size="icon">
+        <Button variant="outline" className="dark:text-white text-black" size="icon">
           <Edit />
         </Button>
       </DialogTrigger>

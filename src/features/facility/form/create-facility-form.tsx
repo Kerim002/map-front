@@ -8,13 +8,12 @@ import { BuildingpFormField } from "./building-form-field";
 import { TextAreaFormField } from "./textarea-form-field";
 import { useCreateFacility } from "../hook/use-create-facility";
 import useQueryParam from "@/shared/hooks/use-query-param";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Button } from "@/shared/ui/button";
 import { SheetClose } from "@/shared/ui/sheet";
 import { TimeFormField } from "./time-form-field";
 import { NumberFormField } from "./number-form-field";
 import { useTranslation } from "react-i18next";
-import { OwnershipFormField } from "./ownership-form-field";
 import { AuthorityFormField } from "./authority-form-field";
 import { useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -42,12 +41,24 @@ export const CreateFacilityForm = () => {
   const { data } = useQuery(facilityApi.detail(facilityId))
   const geom = isInChild || isInRental ? { lat: data?.geom.lat ?? 0, lng: data?.geom.lng ?? 0 } : { lat: Number(getQuery("lat")), lng: Number(getQuery("lng")) }
 
-  const onSubmit: SubmitHandler<FaciltyMutation> = (body) => {
 
+
+  useEffect(()=>{
+    form.reset({
+      lng:geom.lng,
+      lat: geom.lat
+    })
+  }, [])
+
+
+  const onSubmit: SubmitHandler<FaciltyMutation> = (body) => {
     mutate(
       {
         ...body,
-        geom,
+        geom:{
+          lat:body.lat,
+          lng:body.lng
+        },
         parent_id: isInChild || isInRental ? facilityId : undefined,
         rental: isInRental
       },
@@ -82,12 +93,14 @@ export const CreateFacilityForm = () => {
               <CityFormField form={form} label={t("city")} name="city" />
               <DistrictFormField form={form} label={t("district")} name="district" />
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               {
                 !isInChild && <TextFormField form={form} label={t("cadester-code")} name="cadaster" />
               }
-
-              <OwnershipFormField form={form} label={t("ownership")} name="ownership" />
+              <NumberFormField label={"Lat"} form={form} name="lat" />
+              <NumberFormField label={"Lng"} form={form} name="lng" />
+              
+              {/* <OwnershipFormField form={form} label={t("ownership")} name="ownership" /> */}
             </div>
             <div className="grid grid-cols-2 gap-3">
               <PerformanceFormField form={form} label={t("performance")} name="performance" />

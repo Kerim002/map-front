@@ -30,7 +30,6 @@ type Props = { item: Facility };
 export const MapMarker = React.memo(({ item }: Props) => {
   const markerRef = useRef<L.Marker>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [draggedCoords, setDraggedCoords] = useState<L.LatLng | null>(null);
 
   // ✅ Only the state/refs this component actually needs
   const { pendingPopupId, setPendingPopupId, isEditMap } = useMapStore();
@@ -55,24 +54,16 @@ export const MapMarker = React.memo(({ item }: Props) => {
       eventHandlers={{
         popupopen: () => setIsOpen(true),
         popupclose: () => setIsOpen(false),
-        dragend() { // ✅ drag handled here where markerRef lives
-          if (markerRef.current) {
-            setDraggedCoords(markerRef.current.getLatLng());
-          }
-        },
+
       }}
     >
       <Popup>
-        {/* 
-          ✅ Key insight: MarkerPopupContent only mounts when isOpen=true
-          So useQuery, useMutation, AlertDialog only exist for the ONE open popup
-        */}
+
         {isOpen && (
           <MarkerPopupContent 
           item={item} 
-          markerRef={markerRef}
-           draggedCoords={draggedCoords}
-            onClearDrag={() => setDraggedCoords(null)} />
+
+             />
         )}
       </Popup>
     </Marker>
@@ -81,8 +72,6 @@ export const MapMarker = React.memo(({ item }: Props) => {
   // Only re-render if these specific things change
   return (
     prev.item.id === next.item.id &&
-    prev.item.geom.lat === next.item.geom.lat &&
-    prev.item.geom.lng === next.item.geom.lng &&
     prev.item.hasChildren === next.item.hasChildren
   );
 });

@@ -1,5 +1,7 @@
 import { facilityApi } from "@/entities/facility/api/facility.api";
 import { useDeleteFacility } from "@/features/facility/hook/use-delete-facility";
+import { useProfileQuery } from "@/features/user/hooks/use-profile-query";
+import { hasPermission } from "@/shared/lib/has-permission";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -46,6 +48,8 @@ export const FacilityDetails = ({ filter }: { filter?: "main" | "extra" }) => {
     const { data } = useQuery(facilityApi.detail(facilityChildId ? facilityChildId : facilityId));
     const { mutate } = useDeleteFacility();
     const navigate = useNavigate();
+    const { data: profile } = useProfileQuery()
+
 
     const handleDelete = () => {
         mutate(facilityId ?? "", {
@@ -173,30 +177,33 @@ export const FacilityDetails = ({ filter }: { filter?: "main" | "extra" }) => {
                 </div>
             </div>
 
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button variant="destructive" className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-xs shadow-lg shadow-destructive/20 hover:shadow-destructive/40 transition-all mt-6 shrink-0">
-                        {t("delete-facility")}
-                    </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent className="rounded-[2rem] border-0 bg-card/95 backdrop-blur-xl">
-                    <AlertDialogHeader>
-                        <AlertDialogTitle className="text-2xl font-black tracking-tight">{t("delete-facility-title")}</AlertDialogTitle>
-                        <AlertDialogDescription className="font-medium text-muted-foreground/80">
-                            {t("delete-facility-description")}
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="gap-3 mt-6">
-                        <AlertDialogCancel className="rounded-xl font-black uppercase tracking-widest text-[11px] border-border/50">{t("cancel")}</AlertDialogCancel>
-                        <AlertDialogAction
-                            onClick={handleDelete}
-                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-xl font-black uppercase tracking-widest text-[11px]"
-                        >
-                            {t("confirm-delete")}
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            {hasPermission(profile?.role, "delete:facility") &&
+
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="destructive" className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-xs shadow-lg shadow-destructive/20 hover:shadow-destructive/40 transition-all mt-6 shrink-0">
+                            {t("delete-facility")}
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="rounded-[2rem] border-0 bg-card/95 backdrop-blur-xl">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-2xl font-black tracking-tight">{t("delete-facility-title")}</AlertDialogTitle>
+                            <AlertDialogDescription className="font-medium text-muted-foreground/80">
+                                {t("delete-facility-description")}
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter className="gap-3 mt-6">
+                            <AlertDialogCancel className="rounded-xl font-black uppercase tracking-widest text-[11px] border-border/50">{t("cancel")}</AlertDialogCancel>
+                            <AlertDialogAction
+                                onClick={handleDelete}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-xl font-black uppercase tracking-widest text-[11px]"
+                            >
+                                {t("confirm-delete")}
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            }
         </div>
     );
 };

@@ -8,6 +8,8 @@ import DeletePopover from "@/shared/ui/delete-popover";
 import { useNavigate } from "react-router-dom";
 import useQueryParam from "@/shared/hooks/use-query-param";
 import { useDeleteFacility } from "@/features/facility/hook/use-delete-facility";
+import { useProfileQuery } from "@/features/user/hooks/use-profile-query";
+import { hasPermission } from "@/shared/lib/has-permission";
 
 export const facilityColumn: ColumnDef<Facility>[] = [
   {
@@ -101,8 +103,9 @@ export const facilityColumn: ColumnDef<Facility>[] = [
       return <p>{t("action")}</p>;
     },
     cell: ({ row }) => {
-      const {setQuery} = useQueryParam()
-      const {mutate} = useDeleteFacility()
+      const { setQuery } = useQueryParam()
+      const { mutate } = useDeleteFacility()
+      const { data } = useProfileQuery()
       return (
         <div>
           <Button
@@ -112,14 +115,17 @@ export const facilityColumn: ColumnDef<Facility>[] = [
           >
             <Edit className="size-4" />
           </Button>
-          <DeletePopover
-              onDelete={() => mutate(row.original.id )}
+          {
+            hasPermission(data?.role, "delete:facility") &&
+            <DeletePopover
+              onDelete={() => mutate(row.original.id)}
 
-          >
-            <Button variant="destructive" size="sm">
-              <Trash className="size-4" />
-            </Button>
-          </DeletePopover>
+            >
+              <Button variant="destructive" size="sm">
+                <Trash className="size-4" />
+              </Button>
+            </DeletePopover>
+          }
         </div>
       )
     }

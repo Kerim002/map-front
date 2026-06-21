@@ -1,12 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
-  BadgeCheck,
-  Building,
-  Focus,
-  Home,
-  IdCard,
-  LandPlot,
+  LogOut,
   Map,
   Moon,
   Sun,
@@ -29,19 +24,11 @@ import { Button } from "@/shared/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 import { useTheme } from "@/app/provider/theme-provider";
 import { useQueryClient } from "@tanstack/react-query";
+import type { UserRoles } from "@/shared/types/user";
+import { SIDEBAR_ROUTES_CONSTANTS } from "@/shared/constants/sidebar-routes-constants";
+import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
+import { useProfileQuery } from "@/features/user/hooks/use-profile-query";
 
-const routes = [
-  { path: "/", icon: Home, name: "home" },
-  { path: "/map", icon: Map, name: "map" },
-  { path: "/authority/1", icon: IdCard, name: "authority" },
-  { path: "/building/1", icon: Building, name: "building" },
-  // { path: "/ownership/1", icon: Shield, name: "ownership" },
-  { path: "/performance/1", icon: BadgeCheck, name: "performance" },
-  { path: "/specialization/1", icon: Focus, name: "specialization" },
-  { path: "/region/1", icon: LandPlot, name: "region" },
-  { path: "/district/1", icon: LandPlot, name: "district" },
-  { path: "/city/1", icon: LandPlot, name: "city" },
-];
 
 export function AppSidebar() {
   const queryClient = useQueryClient()
@@ -51,6 +38,18 @@ export function AppSidebar() {
   const { t, i18n } = useTranslation();
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
+  const { data } = useProfileQuery()
+
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.href = "/login"
+  };
+  const hasAccess = (roles: UserRoles[]) => {
+    if (!roles) return true;
+    if (!data?.role) return false;
+    return roles.includes(data.role);
+  };
 
   const handleLanguageChange = async (newLang: string) => {
     await i18n.changeLanguage(newLang);
@@ -73,7 +72,6 @@ export function AppSidebar() {
             {!isCollapsed && (
               <div className="flex flex-col">
                 <span className="font-extrabold text-base tracking-tight text-foreground leading-none">{t("cadastr")}</span>
-                {/* <span className="text-[10px] font-bold text-primary tracking-widest uppercase mt-0.5 opacity-80">Premium v2</span> */}
               </div>
             )}
           </div>
@@ -84,7 +82,8 @@ export function AppSidebar() {
         <SidebarGroup className="p-0">
           <SidebarGroupContent>
             <SidebarMenu className="gap-2">
-              {routes.map((item) => {
+              {SIDEBAR_ROUTES_CONSTANTS.map((item) => {
+                if (!hasAccess(item.roles)) return null
                 const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
 
                 return (
@@ -136,6 +135,34 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="p-4 border-t border-border/50 bg-muted/20 backdrop-blur-md">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="flex items-center gap-2">
+              <LogOut size={16} />
+              {!isCollapsed &&
+                t('logout')
+              }
+            </Button>
+          </PopoverTrigger>
+
+          <PopoverContent className="w-56 p-4">
+            <div className="space-y-3 text-center">
+              <h3 className="font-medium text-sm">
+                {t('are-you-sure-you-want-to-log-out')}
+              </h3>
+              <div className="flex justify-center gap-2">
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="w-full"
+                >
+                  {t('confirm')}
+                </Button>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
         <div className={`flex flex-col gap-4 ${isCollapsed ? "items-center" : ""}`}>
           <div className={`flex items-center gap-3 ${isCollapsed ? "flex-col" : "justify-between"}`}>
             {/* Language Selection */}

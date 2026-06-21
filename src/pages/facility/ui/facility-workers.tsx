@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
+import { useProfileQuery } from "@/features/user/hooks/use-profile-query";
+import { hasPermission } from "@/shared/lib/has-permission";
 
 export const FacilityWorkers = () => {
     const { t } = useTranslation();
@@ -31,6 +33,7 @@ export const FacilityWorkers = () => {
         })
     );
     const totalPages = workersData?.pageInfo.totalPages ?? 0;
+    const { data } = useProfileQuery()
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
@@ -111,13 +114,13 @@ export const FacilityWorkers = () => {
                                                 </div>
                                             )}
                                         >
-                                            <PhotoView  src={storageUrlCreate("user", worker.avatarUrl ?? "", "xmd")}>
+                                            <PhotoView src={storageUrlCreate("user", worker.avatarUrl ?? "", "xmd")}>
                                                 <Avatar className="h-12 w-12 cursor-pointer hover:ring-4 ring-primary/20 transition-all duration-300 ring-offset-background ring-offset-2">
                                                     <AvatarImage
                                                         className="object-cover "
                                                         // src={imageUrl}
-                                                         src={storageUrlCreate("user", worker.avatarUrl ?? "", "sm")}
-                                                        // alt={fullName}
+                                                        src={storageUrlCreate("user", worker.avatarUrl ?? "", "sm")}
+                                                    // alt={fullName}
                                                     />
                                                     <AvatarFallback className="rounded-sm">
                                                         {worker.firstName.charAt(0)}
@@ -207,21 +210,27 @@ export const FacilityWorkers = () => {
                                 />
                             </>
                         )}
+                        {hasPermission(data?.role, "edit:facility") &&
 
-                        <QuickActionButton
-                            icon={MapPin}
-                            label={t("edit-location")}
-                            onClick={() => setQuery([{ key: "location-id", value: facilityChildId ? facilityChildId : facilityId }])}
-                            colorClass="bg-orange-500/10 text-orange-500 group-hover:bg-orange-500 group-hover:text-white"
-                        />
+                            <QuickActionButton
+                                icon={MapPin}
+                                label={t("edit-location")}
+                                onClick={() => setQuery([{ key: "location-id", value: facilityChildId ? facilityChildId : facilityId }])}
+                                colorClass="bg-orange-500/10 text-orange-500 group-hover:bg-orange-500 group-hover:text-white"
+                            />
+                        }
+                        {
+                            hasPermission(data?.role, "create:files") &&
 
-                        <QuickActionButton
-                            icon={Upload}
-                            label={t("upload-new-document")}
-                            onClick={() => navigate("files/1")}
-                            colorClass="bg-white/20 dark:text-white"
-                            className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
-                        />
+
+                            <QuickActionButton
+                                icon={Upload}
+                                label={t("upload-new-document")}
+                                onClick={() => navigate("files/1")}
+                                colorClass="bg-white/20 dark:text-white"
+                                className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
+                            />
+                        }
                         {/* <div className="col-span-2"> */}
                         <QuickActionButton
                             icon={MapIcon}

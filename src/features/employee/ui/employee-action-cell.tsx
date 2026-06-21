@@ -10,6 +10,8 @@ import useQueryParam from "@/shared/hooks/use-query-param";
 import { useDeleteEmployee } from "../hook/use-delete-employee";
 import { useUpdateEmployeeOrder } from "../hook/use-update-empluyee-order";
 import { useTranslation } from "react-i18next";
+import { useProfileQuery } from "@/features/user/hooks/use-profile-query";
+import { hasPermission } from "@/shared/lib/has-permission";
 // import { useNavigate } from "react-router-dom";
 
 type Props = {
@@ -22,6 +24,7 @@ type Props = {
 export const EmployeeActionCell = ({ id, location_id, currentOrder = 0 }: Props) => {
   const { mutate: deleteEmployee, isPending: isDeleting } = useDeleteEmployee();
   const { mutate: updateOrder, isPending: isUpdating } = useUpdateEmployeeOrder();
+  const { data } = useProfileQuery()
   // const navigate = useNavigate();
   const { setQuery } = useQueryParam();
   const { t } = useTranslation()
@@ -39,22 +42,7 @@ export const EmployeeActionCell = ({ id, location_id, currentOrder = 0 }: Props)
 
   return (
     <div className="flex items-center gap-1">
-      {/* Order Update Popover */}
-      {/* {
-        path ?
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() =>
-              navigate(
-                `/map/${location_id}/files/1?path=${path}`
-              )
-            }
-          >
-            <FolderOpen className="size-4" />
-          </Button>
-          : null
-      } */}
+
       <Popover>
         <PopoverTrigger asChild>
           <Button variant="outline" size="sm">
@@ -97,12 +85,13 @@ export const EmployeeActionCell = ({ id, location_id, currentOrder = 0 }: Props)
         <Edit className="size-4" />
       </Button>
 
-      {/* Delete Button */}
-      <DeletePopover onDelete={() => deleteEmployee(id)}>
-        <Button disabled={isDeleting} variant="destructive" size="sm">
-          <Trash className="size-4" />
-        </Button>
-      </DeletePopover>
+      {hasPermission(data?.role, "delete:employee") &&
+        <DeletePopover onDelete={() => deleteEmployee(id)}>
+          <Button disabled={isDeleting} variant="destructive" size="sm">
+            <Trash className="size-4" />
+          </Button>
+        </DeletePopover>
+      }
     </div>
   );
 };

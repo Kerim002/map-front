@@ -9,13 +9,24 @@ import { Performance } from "@/pages/performance";
 import { Ownership } from "@/pages/ownership";
 import { Building } from "@/pages/building";
 import { SidebarLayout } from "../layouts/sidebar-layout";
-
 import { Specialization } from "@/pages/specialization";
 import { mapRoutes } from "./map.routes";
 import { CityPage } from "@/pages/city";
 import { DistrictPage } from "@/pages/district";
+import { UsersPage } from "@/pages/user";
+import { LoginPage } from "@/pages/login";
+import { ForbiddenPage } from "@/pages/boundary";
+import { ProtectedLayout } from "../layouts/protected-layout";
 
 const mainRoutes = createBrowserRouter([
+  {
+    path: "/login",
+    element: (
+      <Suspense>
+        <LoginPage />
+      </Suspense>
+    ),
+  },
   {
     path: "/",
     element: <SidebarLayout />,
@@ -136,6 +147,21 @@ const mainRoutes = createBrowserRouter([
               },
             ],
           },
+          
+          {
+            path: "/users",
+            element:<ProtectedLayout allowedRoles={["admin", "superadmin"]}/>,
+            children: [
+              {
+                path: ":currentPage",
+                element: (
+                  <Suspense>
+                    <UsersPage />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
 
           {
             path: "/test",
@@ -144,6 +170,14 @@ const mainRoutes = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "/forbidden",
+    element: (
+      <Suspense>
+        <ForbiddenPage />
+      </Suspense>
+    ),
   },
 ]);
 

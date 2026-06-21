@@ -1,0 +1,1 @@
+export type UserRoles = "superadmin" | "admin" | "moderator" | "viewer"

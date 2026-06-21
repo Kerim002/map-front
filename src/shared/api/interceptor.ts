@@ -30,13 +30,20 @@ export const apiInstance = async <T>(
   }
 ): Promise<T> => {
 
-  const locale = typeof window !== "undefined" 
-    ? localStorage.getItem("i18nextLng") || "ru" 
+  const locale = typeof window !== "undefined"
+    ? localStorage.getItem("i18nextLng") || "ru"
     : "ru";
+  const token = localStorage.getItem("token")
+
+
+
   let headers: Record<string, string> = {
     Accept: "application/json",
     "Accept-Language": locale,
+    "authorization":`Bearer ${token}`,
+  
     ...(init?.headers as Record<string, string>),
+
   };
 
   if (init?.json) {
@@ -53,17 +60,7 @@ export const apiInstance = async <T>(
     url = `${url}${searchParams.toString() && "?" + searchParams.toString()}`;
   }
 
-  //   const locale = Cookie.get("i18next") || "en";
 
-  //   const token = getCookie("access_token");
-
-  //   if (token) {
-  //     headers = {
-  //       Authorization: `Bearer ${token}`,
-  //       "Accept-Language": locale,
-  //       ...headers,
-  //     };
-  //   }
 
   const baseUrl = API_URL?.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
   const version = API_VERSION?.startsWith('/') ? API_VERSION : `/${API_VERSION}`;
@@ -75,19 +72,14 @@ export const apiInstance = async <T>(
     headers,
   });
 
-  //   if (result.status === 401 && init?.retry !== false) {
-  //     const refreshed = await refreshAccessToken();
-  //     if (refreshed) {
-  //       return jsonApiInstance<T>(url, { ...init, retry: false });
-  //     } else {
-  //       // Already redirected inside refreshAccessToken
-  //       return Promise.reject(new ApiError(result));
-  //     }
-  //   }
 
   if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({})); 
-  throw new ApiError(result, errorBody);
+    const errorBody = await result.json().catch(() => ({}));
+    if (result.status === 401) {
+      window.location.href = "/login"
+    }
+    throw new ApiError(result, errorBody);
+
   }
 
   try {

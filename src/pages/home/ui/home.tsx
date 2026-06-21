@@ -12,7 +12,6 @@ import { StoragePieChart } from "./storage-pie-bar";
 
 export function Home() {
 
-
   // const totalCompliance = REGIONAL_DATA.reduce(
   //   (sum, item) => sum + item.complianceRate,
   //   0

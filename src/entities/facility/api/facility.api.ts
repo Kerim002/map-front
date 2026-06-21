@@ -26,7 +26,7 @@ export const facilityApi = {
   facilityBound: (params: FacilityBoundQuery) =>
     queryOptions({
       queryKey: [...facilityApi.all, params],
-      queryFn: () => getFacilitiesByBound(params),
+      queryFn: ({ signal }) => getFacilitiesByBound(params,signal),
       placeholderData: keepPreviousData,
     }),
 

@@ -20,6 +20,8 @@ import { FileUploadDialog } from "@/features/folders/ui/file-upload-dialog";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { useDeleteFile } from "@/features/folders/hooks/use-delete-file";
 import { API_URL } from "@/shared/config/url";
+import { useProfileQuery } from "@/features/user/hooks/use-profile-query";
+import { hasPermission } from "@/shared/lib/has-permission";
 
 const ONLYOFFICE_EXTS = ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "txt"];
 const IMAGE_EXTS = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
@@ -255,6 +257,7 @@ const ExplorerItem = ({ item, view, onClick, onDelete, getFileInfo, closeRef }: 
     const { isDoc, isImage, ext } = getFileInfo(item.name);
     const { t } = useTranslation();
     const showEye = !item.isFolder && (isDoc || isImage);
+    const { data: profileData } = useProfileQuery()
 
     if (view === "grid") {
         return (
@@ -295,52 +298,54 @@ const ExplorerItem = ({ item, view, onClick, onDelete, getFileInfo, closeRef }: 
 
                 {/* Action Bar */}
                 <div className="absolute top-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100 z-10" onClick={(e) => e.stopPropagation()}>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button
+                    {hasPermission(profileData?.role, "delete:employee-files") &&
+
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    onClick={(e) => e.stopPropagation()}
+                                    variant="destructive"
+                                    size="icon"
+                                    className="size-8 rounded-xl shadow-lg"
+                                >
+                                    <Trash className="h-3.5 w-3.5" />
+                                </Button>
+                            </PopoverTrigger>
+
+                            <PopoverContent
                                 onClick={(e) => e.stopPropagation()}
-                                variant="destructive"
-                                size="icon"
-                                className="size-8 rounded-xl shadow-lg"
+                                className="w-64 p-5 rounded-[2rem] border-0 bg-card/95 backdrop-blur-xl shadow-2xl"
                             >
-                                <Trash className="h-3.5 w-3.5" />
-                            </Button>
-                        </PopoverTrigger>
+                                <div className="space-y-4">
+                                    <p className="text-xs font-black uppercase tracking-widest text-foreground">{t("are-you-sure")}</p>
+                                    <div className="flex justify-end gap-2">
+                                        <PopoverClose ref={closeRef} asChild>
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                                className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                {t("cancel")}
+                                            </Button>
+                                        </PopoverClose>
 
-                        <PopoverContent
-                            onClick={(e) => e.stopPropagation()}
-                            className="w-64 p-5 rounded-[2rem] border-0 bg-card/95 backdrop-blur-xl shadow-2xl"
-                        >
-                            <div className="space-y-4">
-                                <p className="text-xs font-black uppercase tracking-widest text-foreground">{t("are-you-sure")}</p>
-                                <div className="flex justify-end gap-2">
-                                    <PopoverClose ref={closeRef} asChild>
                                         <Button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onDelete(item.id);
+                                            }}
                                             size="sm"
-                                            variant="outline"
+                                            variant="destructive"
                                             className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest"
-                                            onClick={(e) => e.stopPropagation()}
                                         >
-                                            {t("cancel")}
+                                            {t("delete")}
                                         </Button>
-                                    </PopoverClose>
-
-                                    <Button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            onDelete(item.id);
-                                        }}
-                                        size="sm"
-                                        variant="destructive"
-                                        className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest"
-                                    >
-                                        {t("delete")}
-                                    </Button>
+                                    </div>
                                 </div>
-                            </div>
-                        </PopoverContent>
-                    </Popover>
-
+                            </PopoverContent>
+                        </Popover>
+                    }
                     {!item.isFolder && (
                         <>
                             {showEye && (
@@ -415,49 +420,52 @@ const ExplorerItem = ({ item, view, onClick, onDelete, getFileInfo, closeRef }: 
                         <Download className="size-4" />
                     </Button>
                 </a>
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button
+                {hasPermission(profileData?.role, "delete:employee-files") &&
+
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                                onClick={(e) => e.stopPropagation()}
+                                variant="ghost"
+                                size="icon"
+                                className="size-9 rounded-xl hover:bg-destructive hover:text-white transition-all"
+                            >
+                                <Trash className="size-4" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
                             onClick={(e) => e.stopPropagation()}
-                            variant="ghost"
-                            size="icon"
-                            className="size-9 rounded-xl hover:bg-destructive hover:text-white transition-all"
+                            className="w-64 p-5 rounded-[2rem] border-0 bg-card/95 backdrop-blur-xl shadow-2xl"
                         >
-                            <Trash className="size-4" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                        onClick={(e) => e.stopPropagation()}
-                        className="w-64 p-5 rounded-[2rem] border-0 bg-card/95 backdrop-blur-xl shadow-2xl"
-                    >
-                        <div className="space-y-4">
-                            <p className="text-xs font-black uppercase tracking-widest text-foreground">{t("are-you-sure")}</p>
-                            <div className="flex justify-end gap-2">
-                                <PopoverClose ref={closeRef} asChild>
+                            <div className="space-y-4">
+                                <p className="text-xs font-black uppercase tracking-widest text-foreground">{t("are-you-sure")}</p>
+                                <div className="flex justify-end gap-2">
+                                    <PopoverClose ref={closeRef} asChild>
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {t("cancel")}
+                                        </Button>
+                                    </PopoverClose>
                                     <Button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onDelete(item.id);
+                                        }}
                                         size="sm"
-                                        variant="outline"
+                                        variant="destructive"
                                         className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest"
-                                        onClick={(e) => e.stopPropagation()}
                                     >
-                                        {t("cancel")}
+                                        {t("delete")}
                                     </Button>
-                                </PopoverClose>
-                                <Button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        onDelete(item.id);
-                                    }}
-                                    size="sm"
-                                    variant="destructive"
-                                    className="rounded-xl px-4 font-black uppercase text-[10px] tracking-widest"
-                                >
-                                    {t("delete")}
-                                </Button>
+                                </div>
                             </div>
-                        </div>
-                    </PopoverContent>
-                </Popover>
+                        </PopoverContent>
+                    </Popover>
+                }
             </div>
         </div>
     );

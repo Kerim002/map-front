@@ -19,10 +19,19 @@ import { useTranslation } from "react-i18next";
 import { useSidebar } from "@/shared/ui/sidebar";
 import { MapMarker } from "@/features/facility/ui/map-marker";
 import { useMapFilterStore } from "@/entities/store/use-map-filters-store";
+// import MarkerClusterGroup from 'react-leaflet-cluster';
 
 type Props = {
   className?: string;
 };
+
+function debounce<Args extends any[]>(fn: (...args: Args) => void, delay: number) {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return (...args: Args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), delay);
+  };
+}
 
 const SearchResultController = () => {
   const map = useMap();
@@ -106,40 +115,36 @@ const ClickHandler = ({
   });
   return null;
 };
+import { useMemo } from "react";
+
+
 const MapFetcher = ({
   onDataLoaded,
 }: {
   onDataLoaded: Dispatch<SetStateAction<Facility[]>>;
 }) => {
-  // const setView = useMapStore((s) => s.setView)
   const filters = useMapFilterStore((s) => s.filters)
-
-  const map = useMapEvents({
-    moveend: () => {
-      handleFetchByZoom()
-      // setView([center.lat, center.lng], zoom)
-    },
-    zoomend: handleFetchByZoom,
-  })
-
-  // const [center, setCenter] = useState(() => map.getCenter())
-  // const [zoom, setZoom] = useState(() => map.getZoom())
+  const map = useMap();
 
   const [bounds, setBounds] = useState(() => map.getBounds());
-  function handleFetchByZoom() {
-    // setCenter(map.getCenter())
-    // setZoom(map.getZoom())
-    setBounds(map.getBounds());
-  }
+
+  // Debounce the state update so it waits until the user pauses moving
+  const debouncedSetBounds = useMemo(
+    () => debounce((mapInstance: L.Map) => {
+      setBounds(mapInstance.getBounds());
+    }, 200), // 200ms delay
+    []
+  );
+
+  useMapEvents({
+    moveend: () => debouncedSetBounds(map),
+    zoomend: () => debouncedSetBounds(map),
+  });
 
   const min_lat = bounds.getSouth();
   const min_lng = bounds.getWest();
   const max_lat = bounds.getNorth();
   const max_lng = bounds.getEast();
-
-
-  // const lat = center.lat
-  // const lng = center.lng
 
   const { data } = useQuery(
     facilityApi.facilityBound({
@@ -157,7 +162,6 @@ const MapFetcher = ({
       specialization_id: filters.specId,
     })
   )
-
 
   useEffect(() => {
     onDataLoaded(data ?? [])
@@ -211,9 +215,11 @@ export const MapView = ({ className }: Props) => {
         <ClickHandler isEditMap={isEditMap} onMapClick={handleMapClick} />
 
         {/* Markers from API */}
-        {fetchedMarkers?.map((item) => (
-          <MapMarker key={item.id} item={item} />
-        ))}
+        {/* <MarkerClusterGroup chunkedLoading> */}
+          {fetchedMarkers?.map((item) => (
+            <MapMarker key={item.id} item={item} />
+          ))}
+        {/* </MarkerClusterGroup> */}
 
         {/* Add new marker (edit mode) */}
         {isEditMap && markerPos && (

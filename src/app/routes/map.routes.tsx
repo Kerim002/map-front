@@ -4,193 +4,197 @@ import { Map } from "@/pages/map";
 import { EmployeeDetailPage, EmployeeFilesPage, EmployeePage } from "@/pages/employee";
 import { Suspense } from "react";
 import { NavbarProvider } from "../provider/navbar-provider";
-export const mapRoutes :RouteObject[] = [
-    {
-        path: "/map",
+import { ProtectedLayout } from "../layouts/protected-layout";
+export const mapRoutes: RouteObject[] = [
+
+  {
+    element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator", "viewer"]} />,
+
+    path: "/map",
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense>
+            <Map />
+          </Suspense>
+        ),
+      },
+      {
+        path: ":facilityId",
+        element: <NavbarProvider />,
         children: [
           {
             index: true,
             element: (
               <Suspense>
-                <Map />
+                <FacilityPage />
               </Suspense>
             ),
           },
           {
-            path: ":facilityId",
-            element: <NavbarProvider />,
+            path: "childs",
             children: [
               {
-                index: true,
+                path: ":currentPage",
                 element: (
                   <Suspense>
-                    <FacilityPage />
-                  </Suspense>
-                ),
+                    <FacilityChildListPage />
+                  </Suspense>)
+
               },
               {
-                path: "childs",
+                path: ":currentPage/:facilityChildId",
+
                 children: [
                   {
-                    path: ":currentPage",
+                    index: true,
                     element: (
                       <Suspense>
-                        <FacilityChildListPage />
-                      </Suspense>)
-
+                        <FacilityPage />
+                      </Suspense>
+                    ),
                   },
                   {
-                    path: ":currentPage/:facilityChildId",
-
+                    path: "employee",
                     children: [
                       {
-                        index: true,
+                        path: ":currentPage",
                         element: (
                           <Suspense>
-                            <FacilityPage />
-                          </Suspense>
-                        ),
-                      },
-                      {
-                        path: "employee",
-                        children: [
-                          {
-                            path: ":currentPage",
-                            element: (
-                              <Suspense>
-                                <EmployeePage />
-                              </Suspense>
-                            )
-                          }
-                        ]
-                      },
-
-                      {
-                        path: "files",
-                        children: [
-                          {
-                            path: ":currentPage",
-                            element: (
-                              <Suspense>
-                                <EmployeeFilesPage />
-                              </Suspense>
-                            )
-                          }
-                        ]
-                      },
-                      {
-                        path: "employees/:employeeId",
-                        element: (
-                          <Suspense>
-                            <EmployeeDetailPage />
+                            <EmployeePage />
                           </Suspense>
                         )
                       }
                     ]
-                  }
-
-                ]
-              },
-              {
-                path: "rentals",
-                children: [
-                  {
-                    path: ":currentPage",
-                    element: (
-                      <Suspense>
-                        <FacilityChildListPage />
-                      </Suspense>)
-
                   },
-                  {
-                    path: ":currentPage/:facilityChildId",
 
+                  {
+                    path: "files",
                     children: [
                       {
-                        index: true,
+                        path: ":currentPage",
                         element: (
                           <Suspense>
-                            <FacilityPage />
-                          </Suspense>
-                        ),
-                      },
-                      {
-                        path: "employee",
-                        children: [
-                          {
-                            path: ":currentPage",
-                            element: (
-                              <Suspense>
-                                <EmployeePage />
-                              </Suspense>
-                            )
-                          }
-                        ]
-                      },
-
-                      {
-                        path: "files",
-                        children: [
-                          {
-                            path: ":currentPage",
-                            element: (
-                              <Suspense>
-                                <EmployeeFilesPage />
-                              </Suspense>
-                            )
-                          }
-                        ]
-                      },
-                      {
-                        path: "employees/:employeeId",
-                        element: (
-                          <Suspense>
-                            <EmployeeDetailPage />
+                            <EmployeeFilesPage />
                           </Suspense>
                         )
                       }
                     ]
-                  }
-
-                ]
-              },
-              {
-                path: "employee",
-                children: [
+                  },
                   {
-                    path: ":currentPage",
+                    path: "employees/:employeeId",
                     element: (
                       <Suspense>
-                        <EmployeePage />
+                        <EmployeeDetailPage />
                       </Suspense>
                     )
                   }
                 ]
-              },
+              }
 
+            ]
+          },
+          {
+            path: "rentals",
+            children: [
               {
-                path: "files",
-                children: [
-                  {
-                    path: ":currentPage",
-                    element: (
-                      <Suspense>
-                        <EmployeeFilesPage />
-                      </Suspense>
-                    )
-                  }
-                ]
-              },
-              {
-                path: "employees/:employeeId",
+                path: ":currentPage",
                 element: (
                   <Suspense>
-                    <EmployeeDetailPage />
+                    <FacilityChildListPage />
+                  </Suspense>)
+
+              },
+              {
+                path: ":currentPage/:facilityChildId",
+
+                children: [
+                  {
+                    index: true,
+                    element: (
+                      <Suspense>
+                        <FacilityPage />
+                      </Suspense>
+                    ),
+                  },
+                  {
+                    path: "employee",
+                    children: [
+                      {
+                        path: ":currentPage",
+                        element: (
+                          <Suspense>
+                            <EmployeePage />
+                          </Suspense>
+                        )
+                      }
+                    ]
+                  },
+
+                  {
+                    path: "files",
+                    children: [
+                      {
+                        path: ":currentPage",
+                        element: (
+                          <Suspense>
+                            <EmployeeFilesPage />
+                          </Suspense>
+                        )
+                      }
+                    ]
+                  },
+                  {
+                    path: "employees/:employeeId",
+                    element: (
+                      <Suspense>
+                        <EmployeeDetailPage />
+                      </Suspense>
+                    )
+                  }
+                ]
+              }
+
+            ]
+          },
+          {
+            path: "employee",
+            children: [
+              {
+                path: ":currentPage",
+                element: (
+                  <Suspense>
+                    <EmployeePage />
                   </Suspense>
                 )
               }
-            ],
+            ]
           },
+
+          {
+            path: "files",
+            children: [
+              {
+                path: ":currentPage",
+                element: (
+                  <Suspense>
+                    <EmployeeFilesPage />
+                  </Suspense>
+                )
+              }
+            ]
+          },
+          {
+            path: "employees/:employeeId",
+            element: (
+              <Suspense>
+                <EmployeeDetailPage />
+              </Suspense>
+            )
+          }
         ],
       },
+    ],
+  },
 ]

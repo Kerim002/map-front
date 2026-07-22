@@ -6,6 +6,7 @@ import {
     IdCard,
     LandPlot,
     Map,
+    Trash,
     User,
     type LucideIcon,
 } from "lucide-react";
@@ -28,5 +29,6 @@ export const SIDEBAR_ROUTES_CONSTANTS: SidebarRoute[] = [
     { path: "/region/1", icon: LandPlot, name: "region", roles: ["admin", "superadmin", "moderator"] },
     { path: "/district/1", icon: LandPlot, name: "district", roles: ["admin", "superadmin", "moderator"] },
     { path: "/city/1", icon: LandPlot, name: "city", roles: ["admin", "superadmin", "moderator"] },
-    { path: "/users/1", icon: User, name: "users", roles: ["admin", "superadmin"] }
+    { path: "/users/1", icon: User, name: "users", roles: ["admin", "superadmin"] },
+    { path: "/trash/1?entity=location", icon: Trash, name: "trash", roles: ["superadmin"] }
 ];

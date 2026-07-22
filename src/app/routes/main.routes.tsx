@@ -17,6 +17,7 @@ import { UsersPage } from "@/pages/user";
 import { LoginPage } from "@/pages/login";
 import { ForbiddenPage } from "@/pages/boundary";
 import { ProtectedLayout } from "../layouts/protected-layout";
+import { TrashPage } from "@/pages/trash";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -45,6 +46,7 @@ const mainRoutes = createBrowserRouter([
           },
           {
             path: "region",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
             children: [
               {
                 path: ":currentPage",
@@ -58,6 +60,7 @@ const mainRoutes = createBrowserRouter([
           },
           {
             path: "authority",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
             children: [
               {
                 path: ":currentPage",
@@ -71,6 +74,7 @@ const mainRoutes = createBrowserRouter([
           },
           {
             path: "performance",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
             children: [
               {
                 path: ":currentPage",
@@ -84,6 +88,7 @@ const mainRoutes = createBrowserRouter([
           },
           {
             path: "ownership",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
             children: [
               {
                 path: ":currentPage",
@@ -97,6 +102,7 @@ const mainRoutes = createBrowserRouter([
           },
           {
             path: "building",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
             children: [
               {
                 path: ":currentPage",
@@ -110,6 +116,7 @@ const mainRoutes = createBrowserRouter([
           },
           {
             path: "/specialization",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
             children: [
               {
                 path: ":currentPage",
@@ -123,6 +130,7 @@ const mainRoutes = createBrowserRouter([
           },
           {
             path: "/city",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
             children: [
               {
                 path: ":currentPage",
@@ -136,6 +144,7 @@ const mainRoutes = createBrowserRouter([
           },
           {
             path: "/district",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
             children: [
               {
                 path: ":currentPage",
@@ -147,10 +156,24 @@ const mainRoutes = createBrowserRouter([
               },
             ],
           },
-          
+          {
+            path: "/trash",
+            element: <ProtectedLayout allowedRoles={["superadmin"]} />,
+            children: [
+              {
+                path: ":currentPage",
+                element: (
+                  <Suspense>
+                    <TrashPage />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
+
           {
             path: "/users",
-            element:<ProtectedLayout allowedRoles={["admin", "superadmin"]}/>,
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin"]} />,
             children: [
               {
                 path: ":currentPage",

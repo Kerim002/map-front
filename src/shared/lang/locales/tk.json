@@ -181,5 +181,17 @@
   "password": "Parol",
   "logout": "Çykmak",
   "confirm": "Tassykla",
-  "are-you-sure-you-want-to-log-out": "Çykmak isleýändigiňize ynanýarsyňyzmy?"
+  "are-you-sure-you-want-to-log-out": "Çykmak isleýändigiňize ynanýarsyňyzmy?",
+  "signing-in": "Hasaba girmek",
+  "enter-captcha-code": "Kapça koduny giriziň",
+  "refresh": "Täzele",
+  "captcha": "Captcha",
+  "location": "Ýer",
+  "item": "Faýl",
+  "employee": "Işgär",
+  "label": "Ýarlyk",
+  "deleted-at": "Öçürilen wagty",
+  "expired-at": "Möhleti gutaran wagty",
+  "restore": "Dikeltmek",
+  "trash":"Zibil gutusy"
 }

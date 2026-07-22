@@ -22,9 +22,9 @@ import { useDeleteFile } from "@/features/folders/hooks/use-delete-file";
 import { API_URL } from "@/shared/config/url";
 import { useProfileQuery } from "@/features/user/hooks/use-profile-query";
 import { hasPermission } from "@/shared/lib/has-permission";
+import { getFileInfo } from "@/shared/lib/get-file-info";
+import { createPortal } from "react-dom";
 
-const ONLYOFFICE_EXTS = ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "txt"];
-const IMAGE_EXTS = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
 
 export const EmployeeFolderExplorer = ({ employee }: { employee: Employee }) => {
     const { t } = useTranslation();
@@ -46,14 +46,7 @@ export const EmployeeFolderExplorer = ({ employee }: { employee: Employee }) => 
         })
     );
 
-    const getFileInfo = (fileName: string) => {
-        const ext = fileName.split(".").pop()?.toLowerCase() || "";
-        return {
-            isDoc: ONLYOFFICE_EXTS.includes(ext),
-            isImage: IMAGE_EXTS.includes(ext),
-            ext
-        };
-    };
+
 
     const handleItemClick = (item: any) => {
         if (item.isFolder) {
@@ -232,7 +225,7 @@ export const EmployeeFolderExplorer = ({ employee }: { employee: Employee }) => 
             </CardContent>
 
             {/* Basic Dialog/Modal for Image Preview */}
-            {previewImage && (
+            {previewImage && createPortal(
                 <div
                     className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 animate-in fade-in duration-300"
                     onClick={() => setPreviewImage(null)}
@@ -247,7 +240,8 @@ export const EmployeeFolderExplorer = ({ employee }: { employee: Employee }) => 
                             ✕
                         </button>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </Card>
     );

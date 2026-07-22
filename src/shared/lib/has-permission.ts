@@ -14,6 +14,7 @@ type ACTION_TYPE =
     | "user"
     | "files"
     | "employee-files"
+    | "trash"
 
 type ACTION<T extends ACTION_TYPE> =
     | `view:${T}`
@@ -127,7 +128,9 @@ export const PERMISSIONS: PERMISSIONS_TYPE = {
         ...REGION_CRUD,
         ...SPEC_CRUD,
         ...USER_CRUD,
-        ...FILES_CRUD
+        ...FILES_CRUD,
+        "delete:employee-files",
+        "edit:trash"
     ],
     admin: [
         ...AUTHORITY_CRUD,

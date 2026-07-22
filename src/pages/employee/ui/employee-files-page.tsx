@@ -15,10 +15,9 @@ import { FacilityPageHeader } from "@/widgets/facility/ui/facility-page-header";
 import { API_URL } from "@/shared/config/url";
 import { useProfileQuery } from "@/features/user/hooks/use-profile-query";
 import { hasPermission } from "@/shared/lib/has-permission";
+import { getFileInfo } from "@/shared/lib/get-file-info";
 
-// Constants for format checking
-const ONLYOFFICE_EXTS = ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "txt"];
-const IMAGE_EXTS = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
+
 
 export const EmployeeFilesPage = () => {
   const { facilityId, facilityChildId } = useParams();
@@ -41,14 +40,7 @@ export const EmployeeFilesPage = () => {
     })
   );
 
-  const getFileInfo = (fileName: string) => {
-    const ext = fileName.split(".").pop()?.toLowerCase() || "";
-    return {
-      isDoc: ONLYOFFICE_EXTS.includes(ext),
-      isImage: IMAGE_EXTS.includes(ext),
-      ext
-    };
-  };
+
 
   const handleItemClick = (item: any) => {
     if (item.isFolder) {
@@ -58,9 +50,7 @@ export const EmployeeFilesPage = () => {
 
     const { isDoc, isImage } = getFileInfo(item.name);
 
-    // https://dev.tmsoft12.cloud/api/v0/gotenberg/view/e880c70c-0fa9-4049-8967-3b4a1758891e
     if (isDoc) {
-      // const viewerUrl = `${API_URL}/v0/onlyoffice/view/${item.id}?mode=view&lang=ru`;
       const viewerUrl = `${API_URL}/v0/gotenberg/view/${item.id}`;
       window.open(viewerUrl, "_blank", "noopener,noreferrer");
     } else if (isImage) {

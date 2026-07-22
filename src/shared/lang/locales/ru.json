@@ -14,7 +14,7 @@
   "search": "Поиск",
   "total-documents": "Всего документов",
   "create": "Создать",
-  "name": "Название",
+  "name": "Имя",
   "update": "Обновить",
   "prev": "Назад",
   "next": "Вперед",
@@ -180,5 +180,18 @@
   "password": "Пароль",
   "logout": "Выход из системы",
   "confirm": "Подтверждать",
-  "are-you-sure-you-want-to-log-out": "Вы уверены, что хотите выйти?"
+  "are-you-sure-you-want-to-log-out": "Вы уверены, что хотите выйти?",
+  "signing-in": "Вход в систему",
+  "enter-captcha-code": "Введите код капчи",
+  "refresh": "Обновить",
+  "captcha": "Капча",
+  "location": "Местоположение",
+  "item": "Файл",
+  "employee": "Сотрудник",
+  "label": "Метка",
+  "deleted-at": "Удалено в",
+  "expired-at": "Истекло в",
+  "restore": "Восстановить",
+  "users":"Пользователи",
+  "trash":"Корзина"
 }

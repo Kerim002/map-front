@@ -84,7 +84,9 @@ export function AppSidebar() {
             <SidebarMenu className="gap-2">
               {SIDEBAR_ROUTES_CONSTANTS.map((item) => {
                 if (!hasAccess(item.roles)) return null
-                const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
+                // const isActive = pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path));
+                console.log(item.path.split("/")[1])
+                const isActive = item.path === "/" ? item.path === pathname : pathname.includes(item.path.split("/")[1])
 
                 return (
                   <SidebarMenuItem key={item.path}>

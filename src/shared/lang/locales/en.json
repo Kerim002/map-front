@@ -177,5 +177,18 @@
   "password": "Password",
   "logout": "Logout",
   "confirm": "Confirm",
-  "are-you-sure-you-want-to-log-out": "Are you sure you want to log out?"
+  "are-you-sure-you-want-to-log-out": "Are you sure you want to log out?",
+  "signing-in": "Signing in",
+  "enter-captcha-code": "Enter captcha code",
+  "refresh": "Refresh",
+  "captcha": "Captcha",
+  "location": "Location",
+  "item": "File",
+  "employee": "Employee",
+  "label": "Label",
+  "deleted-at": "Deleted at",
+  "expired-at": "Expired at",
+  "restore": "Restore",
+  "users":"Users",
+  "trash":"Trash"
 }

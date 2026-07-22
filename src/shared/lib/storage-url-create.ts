@@ -1,32 +1,36 @@
-type VariantKeys = "user" | "image" | "fileDownload";
+type VariantKeys = "user" | "image" | "fileDownload" | "trash";
 type SizeKeys = "sm" | "md" | "xmd";
 
 type VariantFunctions = {
   user: (url: string) => Record<SizeKeys, string>;
   image: (url: string) => Record<SizeKeys, string>;
   fileDownload: (url: string) => string;
+  trash:(url:string) => string
 };
 
 const S3URL = import.meta.env.VITE_MINIO_URL;
 
 const variants: VariantFunctions = {
   user: (url: string) => ({
-    sm: `${S3URL}/location-image/${url}/sm.webp?${Date.now()}`,
-    md: `${S3URL}/location-image/${url}/md.webp?${Date.now()}`,
-    xmd: `${S3URL}/location-image/${url}/xmd.webp?${Date.now()}`,
+    sm: `${S3URL}/location-image/${url}/sm.webp?${Date.now().toString().slice(0,8)}`,
+    md: `${S3URL}/location-image/${url}/md.webp?${Date.now().toString().slice(0,8)}`,
+    xmd: `${S3URL}/location-image/${url}/xmd.webp?${Date.now().toString().slice(0,8)}`,
   }),
   image: (url: string) => ({
-    sm: `${S3URL}/location-image/${url}/sm.webp?${Date.now()}`,
-    md: `${S3URL}/location-image/${url}/md.webp?${Date.now()}`,
-    xmd: `${S3URL}/location-image/${url}/xmd.webp?${Date.now()}`,
+    sm: `${S3URL}/location-image/${url}/sm.webp?${Date.now().toString().slice(0,8)}`,
+    md: `${S3URL}/location-image/${url}/md.webp?${Date.now().toString().slice(0,8)}`,
+    xmd: `${S3URL}/location-image/${url}/xmd.webp?${Date.now().toString().slice(0,8)}`,
   }),
-  fileDownload: (url: string) => `${S3URL}/location-files/${url}`
+  fileDownload: (url: string) => `${S3URL}/location-files/${url}`,
+  trash:(url:string) => `${S3URL}/${url}`
+
 };
 
 // Overloads
 export function storageUrlCreate(type: "user", url: string, key: SizeKeys): string;
 export function storageUrlCreate(type: "image", url: string, key: SizeKeys): string;
 export function storageUrlCreate(type: "fileDownload", url: string): string;
+export function storageUrlCreate(type: "trash", url:string):string
 
 // Implementation
 export function storageUrlCreate(

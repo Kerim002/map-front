@@ -207,6 +207,7 @@ export const MapView = ({ className }: Props) => {
             }/styles/test-style/{z}/{x}/{y}.png`}
         />
         <SyncStoredView />
+        <ZoomSync />
         <MapRefController />
         <ResizeMap />
         <SearchResultController />
@@ -274,6 +275,24 @@ const SyncStoredView = () => {
     // This runs once when the map component mounts
     map.setView(viewCenter, viewZoom);
   }, []); // Empty dependency array: only on mount
+
+  return null;
+};
+
+// Keeps viewZoom in the store up to date so marker icons can scale with it.
+const ZoomSync = () => {
+  const map = useMap();
+  const setView = useMapStore((s) => s.setView);
+
+  useEffect(() => {
+    setView([map.getCenter().lat, map.getCenter().lng], map.getZoom());
+  }, []);
+
+  useMapEvents({
+    zoomend: () => {
+      setView([map.getCenter().lat, map.getCenter().lng], map.getZoom());
+    },
+  });
 
   return null;
 };

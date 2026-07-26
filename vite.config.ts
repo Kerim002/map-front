@@ -17,7 +17,7 @@ export default defineConfig({
         ? {
           "/api": {
             // target: "https://dev.tmsoft12.cloud/",
-            // target: "http://216.250.12.42:1010/",
+            // target: "http://192.168.1.74:8000/",
             target: "https://api.tmsoft12.cloud",
             changeOrigin: true,
             secure: false,

@@ -30,6 +30,8 @@ export const mapFacility = (dto: FacilityDto): Facility => {
     parent: dto.parent,
     rental: dto.rental,
     city: dto.city ?? undefined,
-    district: dto.district ?? undefined
+    district: dto.district ?? undefined,
+    color: dto.color,
+    number: dto.number ?? "0"
   };
 };

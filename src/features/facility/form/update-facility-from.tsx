@@ -24,6 +24,7 @@ import { TextFormField } from "@/features/employee/form/text-from-field";
 import { PerformanceFormField } from "./performance-from-field";
 import { CityFormField } from "./city-form-field";
 import { DistrictFormField } from "./district-form-field";
+import { ColorFormField } from "@/shared/ui/color-picker";
 
 
 
@@ -72,24 +73,26 @@ export const UpdateFacilityForm = () => {
         visibility: data.visibility,
         city: data.city,
         district: data.district,
-        lat:data.geom.lat,
-        lng:data.geom.lng
+        lat: data.geom.lat,
+        lng: data.geom.lng,
+        color: isInChild ? undefined : data.color ? data.color : undefined,
+        number: data.number ? data.number : undefined
       });
     }
   }, [data, form]);
 
 
 
+
   const onSubmit: SubmitHandler<FaciltyMutation> = (body) => {
-    console.log(body)
     mutate(
       {
         body,
         id: getQuery("location-id") ?? "",
         parent_id: data?.parent?.id,
         rental: isInRental,
-        lat:body.lat,
-        lng:body.lng
+        lat: body.lat,
+        lng: body.lng
       },
       {
         onSuccess: () => {
@@ -132,9 +135,10 @@ export const UpdateFacilityForm = () => {
 
               <SpecFormField form={form} label={t("specialization")} name="specialization" />
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <BuildingpFormField form={form} label={t("building")} name="building" />
               <NumberFormField label={t("total-floor")} form={form} name="floor" />
+              <TextFormField label={"No"} form={form} name="number" />
 
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -143,9 +147,22 @@ export const UpdateFacilityForm = () => {
               <NumberFormField label={t("totol-parking-place")} form={form} name="parking" />
 
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <TimeFormField form={form} label={t("license-expired-at")} name="licenseExpiredAt" />
-              <TimeFormField label={t("fire-incpect-at")} form={form} name="fireInspectAt" />
+            <div className={`grid  grid-cols-5 gap-3`}>
+              <div className="col-span-2">
+
+                <TimeFormField form={form} label={t("license-expired-at")} name="licenseExpiredAt" />
+              </div>
+              <div className="col-span-2">
+
+                <TimeFormField label={t("fire-incpect-at")} form={form} name="fireInspectAt" />
+              </div>
+              {
+                !isInChild &&
+                <div className="col-span-1">
+                  <ColorFormField form={form} label={t("color")} name="color" />
+
+                </div>
+              }
 
             </div>
             {data?.parent !== null &&

@@ -30,6 +30,8 @@ export type FacilityDto = {
   license_expired_at: null | string,
   created_at: string;
   updated_at: null | string;
+  color:string | null;
+  number:string | null
 };
 
 

@@ -30,6 +30,8 @@ export type Facility = {
   licenseExpiredAt: null | string,
   createdAt: string;
   updatedAt: string;
+    color:string | null;
+  number:string | null
 };
 
 type AttriubtesFacility = {

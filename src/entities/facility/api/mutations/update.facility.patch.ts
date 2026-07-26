@@ -26,6 +26,8 @@ export const updateFacilityPatch = async ({ body, id, lat, lng, parent_id, renta
         parent_id,
         city_id: body?.city?.id,
         district_id: body?.district?.id,
+        color:body?.color,
+        number:body?.number
     }
 
 

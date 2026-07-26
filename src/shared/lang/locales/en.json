@@ -189,6 +189,8 @@
   "deleted-at": "Deleted at",
   "expired-at": "Expired at",
   "restore": "Restore",
-  "users":"Users",
-  "trash":"Trash"
+  "users": "Users",
+  "trash": "Trash",
+  "color": "Color",
+  "facility_name":"Location name"
 }

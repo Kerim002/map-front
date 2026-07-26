@@ -50,4 +50,6 @@ export const createFacilityContract = (isInChild: boolean) =>
     note: z.string().optional(),
     lat: z.coerce.number(),
     lng: z.coerce.number(),
+    color:z.string().optional(),
+    number:z.string().optional()
   });

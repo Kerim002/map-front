@@ -79,9 +79,8 @@ export const MapMarker = React.memo(
             justify-content: center;
             font-weight: bold;
             font-size: ${13 * scale}px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
             border: 2px solid white;
-            box-sizing: border-border-box;
+            box-sizing: border-box;
           ">
             ${displayValue}
           </div>
@@ -96,6 +95,7 @@ export const MapMarker = React.memo(
         icon={markerIcon}
         draggable={isEditMap}
         ref={markerRef}
+        zIndexOffset={item.hasChildren ? 1000 : 0}
         position={[item.geom.lat, item.geom.lng]}
         eventHandlers={{
           popupopen: () => setIsOpen(true),

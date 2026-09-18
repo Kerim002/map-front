@@ -171,6 +171,7 @@ const MapFetcher = ({
 }
 export const MapView = ({ className }: Props) => {
   const { isEditMap, setMarkerPos, markerPos } = useMapStore();
+  const selectedFacility = useMapStore((s) => s.selectedFacility);
   // const { isEditMap, setMarkerPos, markerPos, viewCenter, viewZoom } = useMapStore();
   const { t } = useTranslation();
   const { setQuery } = useQueryParam();
@@ -220,6 +221,14 @@ export const MapView = ({ className }: Props) => {
           {fetchedMarkers?.map((item) => (
             <MapMarker key={item.id} item={item} />
           ))}
+
+          {/* Selected facility (e.g. "View on Map") may be hidden from the
+              bounds endpoint (visibility: false) — render it so its popup shows. */}
+          {selectedFacility &&
+            selectedFacility.geom &&
+            !fetchedMarkers.some((f) => f.id === selectedFacility.id) && (
+              <MapMarker key={selectedFacility.id} item={selectedFacility} />
+            )}
         {/* </MarkerClusterGroup> */}
 
         {/* Add new marker (edit mode) */}

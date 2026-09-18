@@ -15,6 +15,8 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { useProfileQuery } from "@/features/user/hooks/use-profile-query";
 import { hasPermission } from "@/shared/lib/has-permission";
+import { facilityApi } from "@/entities/facility/api/facility.api";
+import { useMapStore } from "@/entities/store/use-map-store";
 
 export const FacilityWorkers = () => {
     const { t } = useTranslation();
@@ -24,6 +26,9 @@ export const FacilityWorkers = () => {
     const { pathname } = useLocation();
     const [page, setPage] = useState(1);
     const limit = 6;
+    const { setSelectedFacility } = useMapStore();
+    const locationId = facilityChildId ? facilityChildId : facilityId;
+    const { data: facility } = useQuery(facilityApi.detail(locationId));
 
     const { data: workersData } = useQuery(
         employeeApi.list({
@@ -235,7 +240,10 @@ export const FacilityWorkers = () => {
                         <QuickActionButton
                             icon={MapIcon}
                             label={t("view-on-map")}
-                            onClick={() => navigate("/map")}
+                            onClick={() => {
+                                if (facility) setSelectedFacility(facility);
+                                navigate("/map");
+                            }}
                             variant="default"
                             colorClass="bg-white/20 text-white"
                             className="!bg-primary !text-primary-foreground shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1"

@@ -4,6 +4,7 @@ import type { Performance } from "./performance";
 import { PerformanceActionCell } from "@/features/performance/ui/performance-action-cell";
 import { useTranslation } from "react-i18next";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
+import { useNavigate } from "react-router-dom";
 
 export const performanceColumn: ColumnDef<Performance>[] = [
   {
@@ -33,10 +34,16 @@ export const performanceColumn: ColumnDef<Performance>[] = [
       const currentLang = (i18n.language || "ru") as keyof Pick<Performance, "en" | "ru" | "tk">;
 
       const displayValue = row.original[currentLang] || row.original.ru;
+      const navigate = useNavigate();
 
       return (
         <div>
-          <p className="font-medium">{displayValue}</p>
+          <p
+            onClick={() => navigate(`/locations/performance/${row.original.id}/1`)}
+            className="font-medium cursor-pointer hover:text-primary hover:underline"
+          >
+            {displayValue}
+          </p>
         </div>
       );
     },

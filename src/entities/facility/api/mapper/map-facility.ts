@@ -32,6 +32,7 @@ export const mapFacility = (dto: FacilityDto): Facility => {
     city: dto.city ?? undefined,
     district: dto.district ?? undefined,
     color: dto.color,
-    number: dto.number ?? "0"
+    number: dto.number ?? "0",
+    order:dto.order
   };
 };

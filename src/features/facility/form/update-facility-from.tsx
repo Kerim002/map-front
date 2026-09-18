@@ -65,7 +65,6 @@ export const UpdateFacilityForm = () => {
         floor: data.floor,
         note: data.note || "",
         auhtority: data.authority,
-        // ownership: data.ownership,
         performance: data.performance,
         parking: data.parking,
         specialization: data.specialization,
@@ -124,7 +123,7 @@ export const UpdateFacilityForm = () => {
             </div>
             <div className="grid grid-cols-3 gap-3">
               {
-                !isInChild && <TextFormField form={form} label={t("cadester-code")} name="cadaster" />
+                isInRental ? <TextFormField form={form} label={t("cadester-code")} name="cadaster" /> : !isInChild && <TextFormField form={form} label={t("cadester-code")} name="cadaster" />
               }
               <NumberFormField label={"Lat"} form={form} name="lat" />
               <NumberFormField label={"Lng"} form={form} name="lng" />

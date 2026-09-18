@@ -17,6 +17,12 @@ export type FacilitySearchQuery = {
   limit: number,
   parent_id?: string,
   rental?:boolean
+  city_id?:string
+  district_id?:string
+  authority_id?:string
+  performance_id?:string
+  ownership_id?:string
+  specialization_id?:string
 }
 
 

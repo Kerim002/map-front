@@ -198,7 +198,11 @@ export const PERMISSIONS: PERMISSIONS_TYPE = {
         "edit:employee-files",
         "view:employee-files",
     ],
-    viewer: []
+    viewer: [
+        "view:employee",
+        "view:employee-files",
+        "view:files",
+    ]
 
 
 } as const;

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 import type { Spec } from "./spec";
 import { SpecActionCell } from "@/features/specialization/ui/spec-action-cell";
+import { useNavigate } from "react-router-dom";
 
 export const specColumn: ColumnDef<Spec>[] = [
   {
@@ -34,10 +35,16 @@ export const specColumn: ColumnDef<Spec>[] = [
       const currentLang = (i18n.language || "ru") as keyof Pick<Spec, "en" | "ru" | "tk">;
 
       const displayValue = row.original[currentLang] || row.original.ru;
+      const navigate = useNavigate();
 
       return (
         <div>
-          <p className="font-medium">{displayValue}</p>
+          <p
+            onClick={() => navigate(`/locations/specialization/${row.original.id}/1`)}
+            className="font-medium cursor-pointer hover:text-primary hover:underline"
+          >
+            {displayValue}
+          </p>
         </div>
       );
     },

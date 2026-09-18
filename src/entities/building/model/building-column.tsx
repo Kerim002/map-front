@@ -4,6 +4,7 @@ import type { Building } from "./building";
 import { BuildingActionCell } from "@/features/building/ui/building-action-cell";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 export const buildingColumn: ColumnDef<Building>[] = [
   {
@@ -33,10 +34,16 @@ export const buildingColumn: ColumnDef<Building>[] = [
       const currentLang = (i18n.language || "ru") as keyof Pick<Building, "en" | "ru" | "tk">;
 
       const displayValue = row.original[currentLang] || row.original.ru;
+      const navigate = useNavigate();
 
       return (
         <div>
-          <p className="font-medium">{displayValue}</p>
+          <p
+            onClick={() => navigate(`/locations/building/${row.original.id}/1`)}
+            className="font-medium cursor-pointer hover:text-primary hover:underline"
+          >
+            {displayValue}
+          </p>
         </div>
       );
     },

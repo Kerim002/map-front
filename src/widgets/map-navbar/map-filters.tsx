@@ -14,7 +14,7 @@ export const MapFilters = () => {
 
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 w-full">
 
       <SearchFilterSelect
         filterKey="regionId"

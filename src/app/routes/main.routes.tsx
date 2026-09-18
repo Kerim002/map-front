@@ -14,6 +14,7 @@ import { mapRoutes } from "./map.routes";
 import { CityPage } from "@/pages/city";
 import { DistrictPage } from "@/pages/district";
 import { UsersPage } from "@/pages/user";
+import { LocationsByFilterPage } from "@/pages/facility";
 import { LoginPage } from "@/pages/login";
 import { ForbiddenPage } from "@/pages/boundary";
 import { ProtectedLayout } from "../layouts/protected-layout";
@@ -186,6 +187,20 @@ const mainRoutes = createBrowserRouter([
             ],
           },
 
+          {
+            path: "/locations/:filterKey/:filterId",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
+            children: [
+              {
+                path: ":currentPage",
+                element: (
+                  <Suspense>
+                    <LocationsByFilterPage />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
           {
             path: "/test",
             element: <TestPage />,

@@ -31,7 +31,8 @@ export type Facility = {
   createdAt: string;
   updatedAt: string;
     color:string | null;
-  number:string | null
+  number:string | null;
+  order:number
 };
 
 type AttriubtesFacility = {

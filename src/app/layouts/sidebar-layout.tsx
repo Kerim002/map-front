@@ -14,14 +14,8 @@ export const SidebarLayout = () => {
       <AppSidebar />
       <div className="flex flex-col w-full h-screen overflow-hidden bg-background">
         <header className={`" ${pathname === "/map" ? "h-16 flex": ""} shrink-0 items-center justify-between border-b px-6 bg-card transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"`}>
-          <div className="flex items-center gap-2 font-medium">
-            {/* Breadcrumb or secondary navigation could go here */}
-            <span className="text-sm text-muted-foreground uppercase tracking-wider font-semibold">
-              {/* {t("markets-map")} */}
 
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4  w-full">
             {pathname === "/map" ? <MapFilters/> : null}
           </div>
         </header>

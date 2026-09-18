@@ -3,6 +3,7 @@ import type { Region } from "./region";
 
 import { RegionActionCell } from "@/features/region/ui/region-action-cell";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 
 export const regionColumn: ColumnDef<Region>[] = [
@@ -34,10 +35,16 @@ export const regionColumn: ColumnDef<Region>[] = [
       const currentLang = (i18n.language || "ru") as keyof Pick<Region, "en" | "ru" | "tk">;
 
       const displayValue = row.original[currentLang] || row.original.ru;
+      const navigate = useNavigate();
 
       return (
         <div>
-          <p className="font-medium">{displayValue}</p>
+          <p
+            onClick={() => navigate(`/locations/region/${row.original.id}/1`)}
+            className="font-medium cursor-pointer hover:text-primary hover:underline"
+          >
+            {displayValue}
+          </p>
         </div>
       );
     },

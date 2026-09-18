@@ -5,6 +5,7 @@ import { Input } from "@/shared/ui/input"
 import { useDebounce } from "@/shared/hooks/use-debouncer"
 import { useClickOutside } from "@/shared/hooks/use-click-outside"
 import { useMapFilterStore } from "@/entities/store/use-map-filters-store"
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/shared/ui/tooltip"
 import { useInView } from "react-intersection-observer"
 
 type Props<T> = {
@@ -114,26 +115,33 @@ export function SearchFilterSelect<T>({
   }
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-w-[200px]">
+    <div ref={wrapperRef} className="relative w-full flex-1">
       {/* Trigger input */}
-      <div className="relative">
-        <Input
-          ref={inputRef}
-          value={inputDisplayValue}
-          placeholder={placeholder}
-          onFocus={handleFocus}
-          onChange={handleChange}
-        />
-        {value && (
-          <button
-            onMouseDown={handleClear}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            type="button"
-          >
-            <X size={14} />
-          </button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="relative">
+            <Input
+              ref={inputRef}
+              value={inputDisplayValue}
+              placeholder={placeholder}
+              onFocus={handleFocus}
+              onChange={handleChange}
+            />
+            {value && (
+              <button
+                onMouseDown={handleClear}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                type="button"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+        </TooltipTrigger>
+        {selectedLabel && (
+          <TooltipContent>{selectedLabel}</TooltipContent>
         )}
-      </div>
+      </Tooltip>
 
       {/* Popover — wider than the input, smart-aligned to avoid viewport overflow */}
       {isOpen && (
@@ -164,26 +172,30 @@ export function SearchFilterSelect<T>({
                     // onMouseDown fires before onBlur so the dropdown stays open
                     onMouseDown={() => handleSelect(item)}
                     className={[
-                      "text-left px-3 py-2 rounded-lg text-sm transition-colors truncate",
+                      "text-left px-3 py-2 rounded-lg text-sm transition-colors w-full",
                       isSelected
                         ? "bg-primary text-primary-foreground font-medium"
                         : "hover:bg-accent hover:text-accent-foreground text-foreground",
                     ].join(" ")}
                     title={getLabel(item)}
                   >
+                    <p>
+
                     {getLabel(item)}
+                    </p>
                   </button>
                 )
               })}
+
+              {/* Infinite scroll sentinel — must live inside the scroll
+                  container so scrolling toggles inView and triggers each page. */}
+              <div ref={loadMoreRef} className="col-span-2 h-8 flex items-center justify-center">
+                {isFetchingNextPage && (
+                  <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                )}
+              </div>
             </div>
           )}
-
-          {/* Infinite scroll sentinel */}
-          <div ref={loadMoreRef} className="h-8 flex items-center justify-center">
-            {isFetchingNextPage && (
-              <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
-            )}
-          </div>
         </div>
       )}
     </div>

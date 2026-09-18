@@ -39,16 +39,20 @@ export const MapMarker = React.memo(
     const markerRef = useRef<L.Marker>(null);
     const [isOpen, setIsOpen] = useState(false);
 
-    const { pendingPopupId, setPendingPopupId, isEditMap } = useMapStore();
+    // Narrow selectors so a marker only re-renders on state it actually cares
+    // about — not on every unrelated store change (markerPos, selectedFacility…).
+    const isPending = useMapStore((s) => s.pendingPopupId === item.id);
+    const setPendingPopupId = useMapStore((s) => s.setPendingPopupId);
+    const isEditMap = useMapStore((s) => s.isEditMap);
     const zoom = useMapStore((s) => s.viewZoom);
     const scale = useMemo(() => getIconScale(zoom), [zoom]);
 
     useEffect(() => {
-      if (pendingPopupId === item.id && markerRef.current) {
+      if (isPending && markerRef.current) {
         markerRef.current.openPopup();
         setPendingPopupId(null);
       }
-    }, [pendingPopupId, item.id, setPendingPopupId]);
+    }, [isPending, setPendingPopupId]);
 
     // Create the icon dynamically or fall back to static image icons
     const markerIcon = useMemo(() => {

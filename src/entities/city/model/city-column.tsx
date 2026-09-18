@@ -3,6 +3,7 @@ import type { City } from "./city";
 import { useTranslation } from "react-i18next";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 import { CityActionCell } from "@/features/city/ui/city-action-cell";
+import { useNavigate } from "react-router-dom";
 
 export const cityColumn: ColumnDef<City>[] = [
   {
@@ -33,10 +34,16 @@ export const cityColumn: ColumnDef<City>[] = [
       const currentLang = (i18n.language || "ru") as keyof Pick<City, "en" | "ru" | "tk">;
 
       const displayValue = row.original[currentLang] || row.original.ru;
+      const navigate = useNavigate();
 
       return (
         <div>
-          <p className="font-medium">{displayValue}</p>
+          <p
+            onClick={() => navigate(`/locations/city/${row.original.id}/1`)}
+            className="font-medium cursor-pointer hover:text-primary hover:underline"
+          >
+            {displayValue}
+          </p>
         </div>
       );
     },

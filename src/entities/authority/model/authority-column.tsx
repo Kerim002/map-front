@@ -3,6 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { Authority } from "./authority";
 import { AuthorityActionCell } from "@/features/authority/ui/authority-action-cell";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 
 export const authorityColumn: ColumnDef<Authority>[] = [
@@ -34,10 +35,16 @@ export const authorityColumn: ColumnDef<Authority>[] = [
       const currentLang = (i18n.language || "ru") as keyof Pick<Authority, "en" | "ru" | "tk">;
 
       const displayValue = row.original[currentLang] || row.original.ru;
+      const navigate = useNavigate();
 
       return (
         <div>
-          <p className="font-medium">{displayValue}</p>
+          <p
+            onClick={() => navigate(`/locations/authority/${row.original.id}/1`)}
+            className="font-medium cursor-pointer hover:text-primary hover:underline"
+          >
+            {displayValue}
+          </p>
         </div>
       );
     },

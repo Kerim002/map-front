@@ -52,7 +52,7 @@ export const FacilityDetails = ({ filter }: { filter?: "main" | "extra" }) => {
 
 
     const handleDelete = () => {
-        mutate(facilityId ?? "", {
+        mutate(facilityChildId ? facilityChildId : facilityId ?? "", {
             onSuccess: () => {
                 navigate("/map");
             },

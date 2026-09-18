@@ -31,7 +31,8 @@ export type FacilityDto = {
   created_at: string;
   updated_at: null | string;
   color:string | null;
-  number:string | null
+  number:string | null;
+  order:number
 };
 
 

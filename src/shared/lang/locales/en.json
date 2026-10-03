@@ -7,6 +7,7 @@
   "company": "Company",
   "map": "Map",
   "authority": "Authority",
+  "minister": "Minister",
   "building": "Building",
   "ownership": "Ownership",
   "performance": "Object type",

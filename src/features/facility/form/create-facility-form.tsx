@@ -24,6 +24,7 @@ import { TextFormField } from "@/features/employee/form/text-from-field";
 import { PerformanceFormField } from "./performance-from-field";
 import { CityFormField } from "./city-form-field";
 import { DistrictFormField } from "./district-form-field";
+import { MinisterFormField } from "./minister-form-field";
 export const CreateFacilityForm = () => {
 
 
@@ -102,10 +103,12 @@ export const CreateFacilityForm = () => {
               
               {/* <OwnershipFormField form={form} label={t("ownership")} name="ownership" /> */}
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <PerformanceFormField form={form} label={t("performance")} name="performance" />
 
               <SpecFormField form={form} label={t("specialization")} name="specialization" />
+
+              <MinisterFormField form={form} label={t("minister")} name="minister" />
             </div>
             <div className="grid grid-cols-2 gap-3">
 

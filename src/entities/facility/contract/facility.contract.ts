@@ -30,6 +30,10 @@ export const createFacilityContract = (isInChild: boolean) =>
       type: z.string(),
       id: z.string(),
     }).optional(),
+    minister: z.object({
+      type: z.string(),
+      id: z.string(),
+    }).optional(),
     cadaster: isInChild
       ? z.string().nullable().optional()
       : z.string().min(1, "Cadaster is required"),

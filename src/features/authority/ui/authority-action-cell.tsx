@@ -27,7 +27,7 @@ export const AuthorityActionCell = ({ id }: Props) => {
         <List className="size-4" />
       </Button>
       <Button
-        variant="secondary"
+        variant="outline"
         onClick={() => setQuery([{ key: "id", value: id }])}
         size="sm"
       >

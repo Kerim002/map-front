@@ -25,6 +25,7 @@ import { PerformanceFormField } from "./performance-from-field";
 import { CityFormField } from "./city-form-field";
 import { DistrictFormField } from "./district-form-field";
 import { ColorFormField } from "@/shared/ui/color-picker";
+import { MinisterFormField } from "./minister-form-field";
 
 
 
@@ -68,6 +69,7 @@ export const UpdateFacilityForm = () => {
         performance: data.performance,
         parking: data.parking,
         specialization: data.specialization,
+        minister: data.minister,
         licenseExpiredAt: data.licenseExpiredAt || "",
         visibility: data.visibility,
         city: data.city,
@@ -129,10 +131,12 @@ export const UpdateFacilityForm = () => {
               <NumberFormField label={"Lng"} form={form} name="lng" />
               {/* <OwnershipFormField form={form} label={t("ownership")} name="ownership" /> */}
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <PerformanceFormField form={form} label={t("performance")} name="performance" />
 
               <SpecFormField form={form} label={t("specialization")} name="specialization" />
+
+              <MinisterFormField form={form} label={t("minister")} name="minister" />
             </div>
             <div className="grid grid-cols-3 gap-3">
               <BuildingpFormField form={form} label={t("building")} name="building" />

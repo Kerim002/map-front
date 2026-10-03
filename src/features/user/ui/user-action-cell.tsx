@@ -21,7 +21,7 @@ export const UserActionCell = ({ id, userRole }: Props) => {
     return (
       <div>
         <Button
-          variant="secondary"
+          variant="outline"
           onClick={() => setQuery([{ key: "id", value: id }])}
           size="sm"
         >
@@ -42,7 +42,7 @@ export const UserActionCell = ({ id, userRole }: Props) => {
 
       <div>
         <Button
-          variant="secondary"
+          variant="outline"
           onClick={() => setQuery([{ key: "id", value: id }])}
           size="sm"
         >

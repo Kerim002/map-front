@@ -24,6 +24,7 @@ export type CreateBody = {
   parking?: number,
   parent_id?: string
   specialization_id?: string
+  minister_id?: string
   license_expired_at?: string
   visibility?: boolean,
   rental?:boolean
@@ -43,6 +44,7 @@ export const createFacility = async (
   const address = payload.address;
   const region_id = payload.region?.id;
   const specializationId = payload.specialization?.id
+  const ministerId = payload.minister?.id
   const licesnceExpiredAt = payload.licenseExpiredAt ? new Date(payload.licenseExpiredAt).toISOString() : undefined;
 
   const json: CreateBody = {
@@ -70,6 +72,7 @@ export const createFacility = async (
     ...(performanceId && { performance_id: performanceId }),
     ...(city_id && { city_id: city_id }),
     ...(district_id && { district_id: district_id }),
+    ...(ministerId && { minister_id: ministerId }),
 
 
 

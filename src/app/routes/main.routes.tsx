@@ -5,6 +5,7 @@ import { Region } from "@/pages/region";
 import { Home } from "@/pages/home";
 import { TestPage } from "@/pages/test/ui/test-page";
 import { Authority } from "@/pages/authority";
+import { MinisterPage } from "@/pages/minister";
 import { Performance } from "@/pages/performance";
 import { Ownership } from "@/pages/ownership";
 import { Building } from "@/pages/building";
@@ -68,6 +69,20 @@ const mainRoutes = createBrowserRouter([
                 element: (
                   <Suspense>
                     <Authority />
+                  </Suspense>
+                ),
+              },
+            ],
+          },
+          {
+            path: "minister",
+            element: <ProtectedLayout allowedRoles={["admin", "superadmin", "moderator"]} />,
+            children: [
+              {
+                path: ":currentPage",
+                element: (
+                  <Suspense>
+                    <MinisterPage />
                   </Suspense>
                 ),
               },

@@ -23,6 +23,7 @@ export type FacilitySearchQuery = {
   performance_id?:string
   ownership_id?:string
   specialization_id?:string
+  minister_id?:string
 }
 
 

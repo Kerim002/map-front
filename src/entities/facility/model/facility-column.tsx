@@ -192,7 +192,7 @@ export const facilityColumn = ({ withOrder = true, absoluteDetail = false }: { w
           </Popover>
           )}
           <Button
-            variant="secondary"
+            variant="outline"
             onClick={() => setQuery([{ key: "location-id", value: row.original.id }])}
             size="sm"
           >

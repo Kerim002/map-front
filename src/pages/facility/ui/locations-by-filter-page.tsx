@@ -13,6 +13,7 @@ import { districtApi } from "@/entities/district/api/district.api"
 import { performanceApi } from "@/entities/performance/api/performance.api"
 import { ownershipApi } from "@/entities/ownership/api/ownership.api"
 import { specApi } from "@/entities/specialization/api/spec.api"
+import { ministerApi } from "@/entities/minister/api/minister.api"
 
 // Maps the route's :filterKey to the matching /location query param, so one
 // page + one route serves the location list for every entity type.
@@ -25,6 +26,7 @@ const FILTER_PARAM: Record<string, keyof FacilitySearchQuery> = {
   performance: "performance_id",
   ownership: "ownership_id",
   specialization: "specialization_id",
+  minister: "minister_id",
 }
 
 // Each entity's detail query, used to label the breadcrumb with the item's name.
@@ -37,6 +39,7 @@ const DETAIL_API: Record<string, (id: string) => any> = {
   performance: (id) => performanceApi.detail(id),
   ownership: (id) => ownershipApi.detail(id),
   specialization: (id) => specApi.detail(id),
+  minister: (id) => ministerApi.detail(id),
 }
 
 export const LocationsByFilterPage = () => {

@@ -14,6 +14,7 @@ export type Facility = {
   authority: AttriubtesFacility
   // ownership: AttriubtesFacility
   specialization: AttriubtesFacility,
+  minister: AttriubtesFacility,
   building: AttriubtesFacility,
   region: AttriubtesFacility,
   city:AttriubtesFacility,

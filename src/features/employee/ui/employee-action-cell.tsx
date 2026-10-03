@@ -78,7 +78,7 @@ export const EmployeeActionCell = ({ id, location_id, currentOrder = 0 }: Props)
 
       {/* Edit Button */}
       <Button
-        variant="secondary"
+        variant="outline"
         onClick={() => setQuery([{ key: "id", value: id }])}
         size="sm"
       >

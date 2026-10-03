@@ -7,6 +7,7 @@ type ACTION_TYPE =
     | "district"
     | "employee"
     | "facility"
+    | "minister"
     | "ownership"
     | "performance"
     | "region"
@@ -67,6 +68,13 @@ export const FACILITY_CRUD: ACTIONS[] = [
     "delete:facility",
 ];
 
+export const MINISTER_CRUD: ACTIONS[] = [
+    "view:minister",
+    "create:minister",
+    "edit:minister",
+    "delete:minister",
+];
+
 export const OWNERSHIP_CRUD: ACTIONS[] = [
     "view:ownership",
     "create:ownership",
@@ -123,6 +131,7 @@ export const PERMISSIONS: PERMISSIONS_TYPE = {
         ...DISTRICT_CRUD,
         ...EMPLOYEE_CRUD,
         ...FACILITY_CRUD,
+        ...MINISTER_CRUD,
         ...OWNERSHIP_CRUD,
         ...PERFORMANCE_CRUD,
         ...REGION_CRUD,
@@ -139,6 +148,7 @@ export const PERMISSIONS: PERMISSIONS_TYPE = {
         ...DISTRICT_CRUD,
         ...EMPLOYEE_CRUD,
         ...FACILITY_CRUD,
+        ...MINISTER_CRUD,
         ...OWNERSHIP_CRUD,
         ...PERFORMANCE_CRUD,
         ...REGION_CRUD,
@@ -170,7 +180,11 @@ export const PERMISSIONS: PERMISSIONS_TYPE = {
         "edit:facility",
         "view:facility",
 
-        
+        "create:minister",
+        "edit:minister",
+        "view:minister",
+
+
         "create:ownership",
         "edit:ownership",
         "view:ownership",

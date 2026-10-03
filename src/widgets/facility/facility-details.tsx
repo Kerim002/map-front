@@ -24,6 +24,7 @@ import {
     BarChart3,
     Fingerprint,
     Briefcase,
+    Landmark,
     FileWarning,
     Eye,
     Key,
@@ -155,6 +156,7 @@ export const FacilityDetails = ({ filter }: { filter?: "main" | "extra" }) => {
                         {renderItem(<ShieldCheck className="h-4 w-4" />, "authority", data?.authority?.type, "bg-amber-500/10 text-amber-500")}
                         {/* {renderItem(<Landmark className="h-4 w-4" />, "ownership", data?.ownership?.type, "bg-rose-500/10 text-rose-500")} */}
                         {renderItem(<BarChart3 className="h-4 w-4" />, "performance", data?.performance?.type, "bg-cyan-500/10 text-cyan-500")}
+                        {renderItem(<Landmark className="h-4 w-4" />, "minister", data?.minister?.type, "bg-violet-500/10 text-violet-500")}
                         {!filter && renderItem(<Fingerprint className="h-4 w-4" />, "id", data?.cadaster, "bg-primary/10 text-primary")}
                         {renderItem(<FireExtinguisherIcon className="h-4 w-4" />, "fire-inspection-at", formatDate(data?.fireInspectionAt), "bg-orange-500/10 text-orange-500")}
                         {renderItem(<FileWarning className="h-4 w-4" />, "license-expired-at", formatDate(data?.licenseExpiredAt), "bg-red-500/10 text-red-500")}

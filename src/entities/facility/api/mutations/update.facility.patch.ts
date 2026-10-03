@@ -20,6 +20,7 @@ export const updateFacilityPatch = async ({ body, id, lat, lng, parent_id, renta
         // ownership_id: body?.ownership?.id,
         parking: body?.parking,
         specialization_id: body?.specialization?.id,
+        minister_id: body?.minister?.id,
         license_expired_at: body?.licenseExpiredAt ? new Date(body?.licenseExpiredAt).toISOString() : undefined,
         visibility: body?.visibility,
         rental: rental,

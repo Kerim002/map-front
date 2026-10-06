@@ -3,6 +3,7 @@ import { districtColumn } from "@/entities/district/model/district-column";
 import { CreateDistrictDialog } from "@/features/district/dialog/create-region-dialog";
 import { EditDistrictDialog } from "@/features/district/dialog/edit-region-dialog";
 
+import { useSortParam } from "@/shared/hooks/use-sort-param";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
@@ -11,7 +12,8 @@ import { useParams } from "react-router-dom";
 
 export const DistrictTable = () => {
   const { currentPage } = useParams()
-  const { data, isFetching } = useQuery(districtApi.list({ limit: 12, page: Number(currentPage) ?? 1 }));
+  const { sortParams } = useSortParam();
+  const { data, isFetching } = useQuery(districtApi.list({ limit: 12, page: Number(currentPage) ?? 1, ...sortParams }));
 
   const { table } = useTable({
     list: data?.list ?? [],

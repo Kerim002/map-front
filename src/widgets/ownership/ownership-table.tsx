@@ -2,6 +2,7 @@ import { ownershipApi } from "@/entities/ownership/api/ownership.api";
 import { ownershipColumn } from "@/entities/ownership/model/ownership-column";
 import { CreateOwnershipDialog } from "@/features/ownership/dialog/create-ownership-dialog";
 import { EditOwnershipDialog } from "@/features/ownership/dialog/edit-ownership-dialog";
+import { useSortParam } from "@/shared/hooks/use-sort-param";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
@@ -10,8 +11,9 @@ import { useParams } from "react-router-dom";
 
 export const OwnershipTable = () => {
   const { currentPage } = useParams()
+  const { sortParams } = useSortParam();
   const { data, isFetching } = useQuery(
-    ownershipApi.list({ limit: 12, page: Number(currentPage) ?? 1 })
+    ownershipApi.list({ limit: 12, page: Number(currentPage) ?? 1, ...sortParams })
   );
 
   const { table } = useTable({

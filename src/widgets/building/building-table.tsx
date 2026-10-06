@@ -2,6 +2,7 @@ import { buildingApi } from "@/entities/building/api/building.api";
 import { buildingColumn } from "@/entities/building/model/building-column";
 import { CreateBuildingDialog } from "@/features/building/dialog/create-building-dialog";
 import { EditBuildingDialog } from "@/features/building/dialog/edit-building-dialog";
+import { useSortParam } from "@/shared/hooks/use-sort-param";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
@@ -10,8 +11,9 @@ import { useParams } from "react-router-dom";
 
 export const BuildingTable = () => {
   const { currentPage } = useParams()
+  const { sortParams } = useSortParam();
   const { data, isFetching } = useQuery(
-    buildingApi.list({ limit: 12, page: Number(currentPage) ?? 1 })
+    buildingApi.list({ limit: 12, page: Number(currentPage) ?? 1, ...sortParams })
   );
 
   const { table } = useTable({

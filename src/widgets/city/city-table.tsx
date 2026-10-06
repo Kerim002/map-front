@@ -2,6 +2,7 @@ import { cityApi } from "@/entities/city";
 import { cityColumn } from "@/entities/city/model/city-column";
 import { CreateCityDialog } from "@/features/city/dialog/create-city-dialog";
 import { EditCityDialog } from "@/features/city/dialog/edit-city-dialog";
+import { useSortParam } from "@/shared/hooks/use-sort-param";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
@@ -10,7 +11,8 @@ import { useParams } from "react-router-dom";
 
 export const CityTable = () => {
   const { currentPage } = useParams()
-  const { data, isFetching } = useQuery(cityApi.list({ limit: 12, page: Number(currentPage) ?? 1 }));
+  const { sortParams } = useSortParam();
+  const { data, isFetching } = useQuery(cityApi.list({ limit: 12, page: Number(currentPage) ?? 1, ...sortParams }));
 
   const { table } = useTable({
     list: data?.list ?? [],

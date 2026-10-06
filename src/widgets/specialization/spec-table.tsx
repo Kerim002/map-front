@@ -3,6 +3,7 @@ import { specApi } from "@/entities/specialization/api";
 import { specColumn } from "@/entities/specialization/model/spec-column";
 import { CreateSpecDialog } from "@/features/specialization/dialog/create-spec-dialog";
 import { EditSpecDialog } from "@/features/specialization/dialog/edit-spec-dialog";
+import { useSortParam } from "@/shared/hooks/use-sort-param";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
@@ -11,7 +12,8 @@ import { useParams } from "react-router-dom";
 
 export const SpecTable = () => {
   const { currentPage } = useParams()
-  const { data, isFetching } = useQuery(specApi.list({ limit: 12, page: Number(currentPage) ?? 1 }));
+  const { sortParams } = useSortParam();
+  const { data, isFetching } = useQuery(specApi.list({ limit: 12, page: Number(currentPage) ?? 1, ...sortParams }));
 
   const { table } = useTable({
     list: data?.list ?? [],

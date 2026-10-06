@@ -5,6 +5,7 @@ import { PerformanceActionCell } from "@/features/performance/ui/performance-act
 import { useTranslation } from "react-i18next";
 import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 import { useNavigate } from "react-router-dom";
+import { SortableHeader } from "@/shared/ui/sortable-header";
 
 export const performanceColumn: ColumnDef<Performance>[] = [
   {
@@ -25,8 +26,9 @@ export const performanceColumn: ColumnDef<Performance>[] = [
   {
     accessorKey: "type", // You can keep this or use an ID
     header: () => {
-      const { t } = useTranslation();
-      return <p>{t("type")}</p>;
+      const { t, i18n } = useTranslation();
+      const lang = (i18n.language || "ru") as "en" | "ru" | "tk";
+      return <SortableHeader label={t("type")} sortKey={`type_${lang}`} />;
     },
     cell: ({ row }) => {
       const { i18n } = useTranslation();
@@ -52,7 +54,7 @@ export const performanceColumn: ColumnDef<Performance>[] = [
     accessorKey: "createdAt",
     header: () => {
       const { t } = useTranslation();
-      return <p>{t("created-at")}</p>;
+      return <SortableHeader label={t("created-at")} sortKey="created_at" />;
     },
     cell: ({ row }) => {
       return (
@@ -66,7 +68,7 @@ export const performanceColumn: ColumnDef<Performance>[] = [
     accessorKey: "updatedAt",
     header: () => {
       const { t } = useTranslation();
-      return <p>{t("updated-at")}</p>;
+      return <SortableHeader label={t("updated-at")} sortKey="updated_at" />;
     },
     cell: ({ row }) => {
       const {t} = useTranslation()

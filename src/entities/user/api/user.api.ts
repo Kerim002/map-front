@@ -8,7 +8,7 @@ export const userApi = {
     all: ["users"],
     list:(params:GetUsersQuery) => {
         return queryOptions({
-            queryKey:[...userApi.all, params.page, params.role, params.search],
+            queryKey:[...userApi.all, params],
             queryFn:() => getUsers(params),
             placeholderData:keepPreviousData
         })

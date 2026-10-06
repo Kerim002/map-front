@@ -5,6 +5,7 @@ import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 import type { Spec } from "./spec";
 import { SpecActionCell } from "@/features/specialization/ui/spec-action-cell";
 import { useNavigate } from "react-router-dom";
+import { SortableHeader } from "@/shared/ui/sortable-header";
 
 export const specColumn: ColumnDef<Spec>[] = [
   {
@@ -26,8 +27,9 @@ export const specColumn: ColumnDef<Spec>[] = [
   {
     accessorKey: "en", // You can keep this or use an ID
     header: () => {
-      const { t } = useTranslation();
-      return <p>{t("type")}</p>;
+      const { t, i18n } = useTranslation();
+      const lang = (i18n.language || "ru") as "en" | "ru" | "tk";
+      return <SortableHeader label={t("type")} sortKey={`type_${lang}`} />;
     },
     cell: ({ row }) => {
       const { i18n } = useTranslation();
@@ -53,7 +55,7 @@ export const specColumn: ColumnDef<Spec>[] = [
     accessorKey: "createdAt",
     header: () => {
       const { t } = useTranslation();
-      return <p>{t("created-at")}</p>;
+      return <SortableHeader label={t("created-at")} sortKey="created_at" />;
     },
     cell: ({ row }) => {
       return (
@@ -67,7 +69,7 @@ export const specColumn: ColumnDef<Spec>[] = [
     accessorKey: "updatedAt",
     header: () => {
       const { t } = useTranslation();
-      return <p>{t("updated-at")}</p>;
+      return <SortableHeader label={t("updated-at")} sortKey="updated_at" />;
     },
     cell: ({ row }) => {
       const {t} = useTranslation()

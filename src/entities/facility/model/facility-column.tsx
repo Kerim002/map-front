@@ -15,6 +15,7 @@ import { Label } from "@/shared/ui/label";
 import { Input } from "@/shared/ui/input";
 import { useUpdateFacilityOrder } from "@/features/facility/hook/use-update-facility-order";
 import { useState } from "react";
+import { SortableHeader } from "@/shared/ui/sortable-header";
 
 // Factory so callers can drop the order column + reorder button where ordering
 // doesn't apply (e.g. the filtered locations view).
@@ -38,7 +39,7 @@ export const facilityColumn = ({ withOrder = true, absoluteDetail = false }: { w
     accessorKey: "name",
     header: () => {
       const { t } = useTranslation();
-      return <p>{t("facility_name")}</p>;
+      return <SortableHeader label={t("facility_name")} sortKey="name" />;
     },
     cell: ({ row }) => {
       const navgate = useNavigate()
@@ -68,7 +69,7 @@ export const facilityColumn = ({ withOrder = true, absoluteDetail = false }: { w
     accessorKey: "area",
     header: () => {
       const { t } = useTranslation();
-      return <p>{t("area")}</p>;
+      return <SortableHeader label={t("area")} sortKey="area" />;
     },
     cell: ({ row }) => <p>{row.original.area} m²</p>,
   },
@@ -76,7 +77,7 @@ export const facilityColumn = ({ withOrder = true, absoluteDetail = false }: { w
     accessorKey: "fireInspectionAt",
     header: () => {
       const { t } = useTranslation();
-      return <p>{t("fire_inspection")}</p>;
+      return <SortableHeader label={t("fire_inspection")} sortKey="fire_inspection_at" />;
     },
     cell: ({ row }) => (
       <p>
@@ -90,7 +91,7 @@ export const facilityColumn = ({ withOrder = true, absoluteDetail = false }: { w
     accessorKey: "createdAt",
     header: () => {
       const { t } = useTranslation();
-      return <p>{t("created-at")}</p>;
+      return <SortableHeader label={t("created-at")} sortKey="created_at" />;
     },
     cell: ({ row }) => <p>{formatToDDMMYYYY(row.original.createdAt)}</p>,
   },
@@ -98,7 +99,7 @@ export const facilityColumn = ({ withOrder = true, absoluteDetail = false }: { w
     accessorKey: "updatedAt",
     header: () => {
       const { t } = useTranslation();
-      return <p>{t("updated-at")}</p>;
+      return <SortableHeader label={t("updated-at")} sortKey="updated_at" />;
     },
     cell: ({ row }) => {
       const { t } = useTranslation();
@@ -116,7 +117,7 @@ export const facilityColumn = ({ withOrder = true, absoluteDetail = false }: { w
         accessorKey: "order",
         header: () => {
           const { t } = useTranslation();
-          return <p>{t("order")}</p>;
+          return <SortableHeader label={t("order")} sortKey="order" />;
         },
         cell: ({ row }) => {
           return (

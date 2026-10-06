@@ -2,6 +2,7 @@ import { performanceApi } from "@/entities/performance/api/performance.api";
 import { performanceColumn } from "@/entities/performance/model/performance-column";
 import { CreatePerformanceDialog } from "@/features/performance/dialog/create-performance-dialog";
 import { EditPerformanceDialog } from "@/features/performance/dialog/edit-performance-dialog";
+import { useSortParam } from "@/shared/hooks/use-sort-param";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
@@ -10,8 +11,9 @@ import { useParams } from "react-router-dom";
 
 export const PerformanceTable = () => {
   const { currentPage } = useParams()
+  const { sortParams } = useSortParam();
   const { data, isFetching } = useQuery(
-    performanceApi.list({ limit: 12, page: Number(currentPage) ?? 1})
+    performanceApi.list({ limit: 12, page: Number(currentPage) ?? 1, ...sortParams })
   );
 
   const { table } = useTable({

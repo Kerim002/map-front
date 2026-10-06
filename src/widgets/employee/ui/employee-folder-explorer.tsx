@@ -7,8 +7,11 @@ import { Button } from "@/shared/ui/button";
 import {
     FolderOpen, File, LayoutGrid, List,
     ChevronLeft, Download, FileText,
-    Image as ImageIcon, Archive, Upload, Eye, Trash
+    Image as ImageIcon, Archive, Upload, Eye, Trash,
+    ArrowUp, ArrowDown
 } from "lucide-react";
+import { useSortParam } from "@/shared/hooks/use-sort-param";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/shared/lib/utils";
 import { storageUrlCreate } from "@/shared/lib/storage-url-create";
@@ -36,6 +39,7 @@ export const EmployeeFolderExplorer = ({ employee }: { employee: Employee }) => 
     const closeRef = useRef<HTMLButtonElement>(null);
     const { mutate } = useDeleteFile();
     const limit = 12;
+    const { orderBy, sortDir, sortParams, setOrderBy, setSortDir } = useSortParam();
 
     const { data, isLoading } = useQuery(
         folderApi.folders({
@@ -43,6 +47,7 @@ export const EmployeeFolderExplorer = ({ employee }: { employee: Employee }) => 
             path,
             page,
             limit,
+            ...sortParams,
         })
     );
 
@@ -113,6 +118,29 @@ export const EmployeeFolderExplorer = ({ employee }: { employee: Employee }) => 
                 </div>
 
                 <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <Select value={orderBy ?? "none"} onValueChange={(v) => setOrderBy(v === "none" ? undefined : v)}>
+                        <SelectTrigger className="w-40">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="none">{t("default-order")}</SelectItem>
+                            <SelectItem value="name">{t("name")}</SelectItem>
+                            <SelectItem value="size">{t("size")}</SelectItem>
+                            <SelectItem value="mime_type">{t("file-type")}</SelectItem>
+                            <SelectItem value="created_at">{t("created-at")}</SelectItem>
+                            <SelectItem value="updated_at">{t("updated-at")}</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    {orderBy && (
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-9 w-9 rounded-xl"
+                            onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
+                        >
+                            {sortDir === "desc" ? <ArrowDown className="h-4 w-4" /> : <ArrowUp className="h-4 w-4" />}
+                        </Button>
+                    )}
                     <div className="flex bg-muted/30 p-1.5 rounded-2xl border border-border/50 shadow-sm">
                         <Button
                             variant="ghost"

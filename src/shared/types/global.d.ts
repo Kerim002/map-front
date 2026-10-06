@@ -18,6 +18,8 @@ interface PageBaseQuery {
   limit: number;
   page: number;
   search?: string;
+  order_by?: string;
+  sort_by?: "asc" | "desc";
 }
 
 interface Geom {

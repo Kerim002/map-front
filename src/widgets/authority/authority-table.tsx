@@ -2,6 +2,7 @@ import { authorityApi } from "@/entities/authority/api/authority.api";
 import { authorityColumn } from "@/entities/authority/model/authority-column";
 import { CreateAuthorityDialog } from "@/features/authority/dialog/create-authority-dialog";
 import { EditAuthorityDialog } from "@/features/authority/dialog/edit-authority-dialog";
+import { useSortParam } from "@/shared/hooks/use-sort-param";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
@@ -10,8 +11,9 @@ import { useParams } from "react-router-dom";
 
 export const AuthorityTable = () => {
     const { currentPage } = useParams()
+  const { sortParams } = useSortParam();
   const { data, isFetching } = useQuery(
-    authorityApi.list({ limit: 12, page: Number(currentPage) ?? 1 })
+    authorityApi.list({ limit: 12, page: Number(currentPage) ?? 1, ...sortParams })
   );
 
   const { table } = useTable({

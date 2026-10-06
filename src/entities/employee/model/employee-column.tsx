@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { storageUrlCreate } from "@/shared/lib/storage-url-create";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/shared/ui/tooltip";
 import { Link } from "react-router-dom";
+import { SortableHeader } from "@/shared/ui/sortable-header";
 
 export const employeeColumn: ColumnDef<Employee>[] = [
     {
@@ -68,7 +69,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
         accessorKey: "firstName",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("name-surname")}</p>;
+            return <SortableHeader label={t("name-surname")} sortKey="first_name" />;
         },
         cell: ({ row }) => {
             const employeeId = row.original.id;
@@ -88,7 +89,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
         accessorKey: "phone",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("phone")}</p>;
+            return <SortableHeader label={t("phone")} sortKey="phone" />;
         },
         cell: ({ row }) => {
             return (
@@ -102,7 +103,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
         accessorKey: "position",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("position")}</p>;
+            return <SortableHeader label={t("position")} sortKey="position" />;
         },
         cell: ({ row }) => {
             const position = row.original.position ?? "";
@@ -131,7 +132,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
         accessorKey: "order",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("order")}</p>;
+            return <SortableHeader label={t("order")} sortKey="order" />;
         },
         cell: ({ row }) => {
             return (
@@ -145,7 +146,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
         accessorKey: "createdAt",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("created-at")}</p>;
+            return <SortableHeader label={t("created-at")} sortKey="created_at" />;
         },
         cell: ({ row }) => {
             return (
@@ -163,7 +164,7 @@ export const employeeColumn: ColumnDef<Employee>[] = [
         accessorKey: "updatedAt",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("updated-at")}</p>;
+            return <SortableHeader label={t("updated-at")} sortKey="updated_at" />;
         },
         cell: ({ row }) => {
             const { t } = useTranslation()

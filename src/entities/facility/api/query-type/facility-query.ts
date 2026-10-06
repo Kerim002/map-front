@@ -23,6 +23,8 @@ export type FacilitySearchQuery = {
   performance_id?:string
   ownership_id?:string
   specialization_id?:string
+  order_by?: string
+  sort_by?: "asc" | "desc"
 }
 
 

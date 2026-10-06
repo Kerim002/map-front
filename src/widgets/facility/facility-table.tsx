@@ -3,6 +3,7 @@ import type { FacilitySearchQuery } from "@/entities/facility/api/query-type/fac
 import { facilityColumn } from "@/entities/facility/model/facility-column";
 import { CreateFacilitySheet } from "@/features/facility/sheet/create-facility-sheet"
 import { UpdateFacilitySheet } from "@/features/facility/sheet/update-facility-sheet";
+import { useSortParam } from "@/shared/hooks/use-sort-param";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
@@ -23,7 +24,8 @@ export const FacilityTable = ({ filters, hideCreate, hideOrder, absoluteDetail }
     // Route-driven rental filter only applies to the plain list; the filtered
     // (by-category) view shouldn't send a rental param at all.
     const isInRental = filters ? undefined : pathname.includes("/rentals")
-    const { data, isFetching } = useQuery(facilityApi.facilityList({ limit: 12, enabled: true, page: Number(currentPage) ?? 1, parent_id: facilityId, rental: isInRental, ...filters }))
+    const { sortParams } = useSortParam();
+    const { data, isFetching } = useQuery(facilityApi.facilityList({ limit: 12, enabled: true, page: Number(currentPage) ?? 1, parent_id: facilityId, rental: isInRental, ...sortParams, ...filters }))
     const columns = useMemo(() => facilityColumn({ withOrder: !hideOrder, absoluteDetail }), [hideOrder, absoluteDetail])
     const { table } = useTable({
         list: data?.data ?? [],

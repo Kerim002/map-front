@@ -5,6 +5,7 @@ import { formatToDDMMYYYY } from "@/shared/lib/formatToDDMMYYYY";
 import type { User } from "../model/user";
 import { Badge } from "@/shared/ui/badge";
 import { UserActionCell } from "@/features/user/ui/user-action-cell";
+import { SortableHeader } from "@/shared/ui/sortable-header";
 
 export const userColumn: ColumnDef<User>[] = [
     {
@@ -27,7 +28,7 @@ export const userColumn: ColumnDef<User>[] = [
         accessorKey: "username", // You can keep this or use an ID
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("username")}</p>;
+            return <SortableHeader label={t("username")} sortKey="username" />;
         },
         cell: ({ row }) => {
             return (
@@ -41,7 +42,7 @@ export const userColumn: ColumnDef<User>[] = [
         accessorKey: "name",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("name-surname")}</p>;
+            return <SortableHeader label={t("name-surname")} sortKey="name" />;
         },
         cell: ({ row }) => {
             return (
@@ -56,7 +57,7 @@ export const userColumn: ColumnDef<User>[] = [
         accessorKey: "phone",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("phone")}</p>;
+            return <SortableHeader label={t("phone")} sortKey="phone" />;
         },
         cell: ({ row }) => {
             return (
@@ -70,7 +71,7 @@ export const userColumn: ColumnDef<User>[] = [
         accessorKey: "role",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("role")}</p>;
+            return <SortableHeader label={t("role")} sortKey="role" />;
         },
         cell: ({ row }) => {
             return (
@@ -87,7 +88,7 @@ export const userColumn: ColumnDef<User>[] = [
         accessorKey: "createdAt",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("created-at")}</p>;
+            return <SortableHeader label={t("created-at")} sortKey="created_at" />;
         },
         cell: ({ row }) => {
             return (
@@ -101,7 +102,7 @@ export const userColumn: ColumnDef<User>[] = [
         accessorKey: "updatedAt",
         header: () => {
             const { t } = useTranslation();
-            return <p>{t("updated-at")}</p>;
+            return <SortableHeader label={t("updated-at")} sortKey="updated_at" />;
         },
         cell: ({ row }) => {
             const { t } = useTranslation()

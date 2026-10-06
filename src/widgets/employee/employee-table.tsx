@@ -2,6 +2,7 @@ import { employeeApi } from "@/entities/employee/api/employee.api";
 import { employeeColumn } from "@/entities/employee/model/employee-column";
 import { CreateEmployeeDialog } from "@/features/employee/dialog/create-employee-dialog";
 import { UpdateEmployeeDialog } from "@/features/employee/dialog/update-employee-dialog";
+import { useSortParam } from "@/shared/hooks/use-sort-param";
 import { useTable } from "@/shared/hooks/use-table";
 import { DataTable } from "@/shared/ui/data-table";
 import { TablePagination } from "@/shared/ui/table-pagination";
@@ -13,8 +14,9 @@ export const EmployeeTable = () => {
   const { currentPage } = useParams()
 
   const { facilityId,facilityChildId } = useParams()
+  const { sortParams } = useSortParam();
   const { data, isFetching } = useQuery(
-    employeeApi.list({ limit: 12, page: Number(currentPage) ?? 1, location_id:facilityChildId ? facilityChildId : facilityId ?? "" })
+    employeeApi.list({ limit: 12, page: Number(currentPage) ?? 1, location_id:facilityChildId ? facilityChildId : facilityId ?? "", ...sortParams })
   );
 
   const { table } = useTable({

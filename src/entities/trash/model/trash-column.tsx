@@ -61,6 +61,21 @@ export const trashColumn: ColumnDef<Trash>[] = [
         },
     },
     {
+        accessorKey: "deletedBy",
+        header: () => {
+            const { t } = useTranslation();
+            return <p>{t("deleted-by")}</p>;
+        },
+        cell: ({ row }) => {
+            const { t } = useTranslation()
+            return (
+                <div>
+                    <p>{t(row.original.deletedBy ? row.original.deletedBy?.name : "None")}</p>
+                </div>
+            );
+        },
+    },
+    {
         accessorKey: "deletedAt",
         header: () => {
             const { t } = useTranslation();

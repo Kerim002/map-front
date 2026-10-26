@@ -144,7 +144,9 @@ export const PERMISSIONS: PERMISSIONS_TYPE = {
         ...REGION_CRUD,
         ...SPEC_CRUD,
         ...USER_CRUD,
-        ...FILES_CRUD
+        ...FILES_CRUD,
+        "delete:employee-files",
+        "edit:trash"
     ],
 
     moderator: [
@@ -165,27 +167,27 @@ export const PERMISSIONS: PERMISSIONS_TYPE = {
         "edit:employee",
         "view:employee",
 
-        
+
         "create:facility",
         "edit:facility",
         "view:facility",
 
-        
+
         "create:ownership",
         "edit:ownership",
         "view:ownership",
 
-        
+
         "create:performance",
         "edit:performance",
         "view:performance",
 
-        
+
         "create:region",
         "edit:region",
         "view:region",
 
-        
+
         "create:spec",
         "edit:spec",
         "view:spec",

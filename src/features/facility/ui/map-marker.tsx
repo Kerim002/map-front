@@ -43,7 +43,7 @@ export const MapMarker = React.memo(
     // about — not on every unrelated store change (markerPos, selectedFacility…).
     const isPending = useMapStore((s) => s.pendingPopupId === item.id);
     const setPendingPopupId = useMapStore((s) => s.setPendingPopupId);
-    const isEditMap = useMapStore((s) => s.isEditMap);
+    // const isEditMap = useMapStore((s) => s.isEditMap);
     const zoom = useMapStore((s) => s.viewZoom);
     const scale = useMemo(() => getIconScale(zoom), [zoom]);
 
@@ -97,7 +97,6 @@ export const MapMarker = React.memo(
     return (
       <Marker
         icon={markerIcon}
-        draggable={isEditMap}
         ref={markerRef}
         zIndexOffset={item.hasChildren ? 1000 : 0}
         position={[item.geom.lat, item.geom.lng]}

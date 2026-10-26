@@ -16,6 +16,7 @@ import { ImageIcon, Loader2, Upload } from "lucide-react";
 import { ImageOrderDialog } from "./image-order-dialog";
 import { storageUrlCreate } from "@/shared/lib/storage-url-create";
 import { useCreateFacilityImage } from "../hook/use-create-facility-image";
+import { ZoomableImage } from "@/shared/ui/zoomable-image";
 
 export const FacilityImageCarusel = () => {
   const { facilityId, facilityChildId } = useParams();
@@ -148,9 +149,9 @@ export const FacilityImageCarusel = () => {
               <CarouselContent>
                 {data.map((item) => (
                   <CarouselItem key={item.id} className="flex items-center w-full justify-center h-[85vh]">
-                    <img
+                    <ZoomableImage
                       src={storageUrlCreate("image", item.url, "md")}
-                      className="max-h-full w-full h-full max-w-full object-contain"
+                      alt="Facility"
                     />
                   </CarouselItem>
                 ))}

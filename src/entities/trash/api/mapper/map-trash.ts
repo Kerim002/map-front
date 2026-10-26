@@ -9,6 +9,7 @@ export const mapTrash = (dto:TrashDto):Trash => {
         id:dto.id,
         label:dto.label,
         restorable:dto.restorable,
-        previewUrl:dto.preview_url
+        previewUrl:dto.preview_url,
+        deletedBy:dto.deleted_by
     }
 }

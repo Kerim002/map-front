@@ -1,3 +1,5 @@
+import type { UserRoles } from "@/shared/types/user"
+
 export type TrashDto = {
     entity: string,
     id: string,
@@ -5,5 +7,12 @@ export type TrashDto = {
     deleted_at: string,
     expires_at: string,
     restorable: boolean
-    preview_url?:string
+    preview_url?: string
+    deleted_by?: {
+        id: string,
+        name: string,
+        role: UserRoles
+    }
+
+    | null
 }

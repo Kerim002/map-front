@@ -196,5 +196,6 @@
   "users": "Users",
   "trash": "Trash",
   "color": "Color",
-  "facility_name":"Location name"
+  "facility_name": "Location name",
+  "deleted-by": "Deleted by"
 }

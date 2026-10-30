@@ -107,9 +107,30 @@ npm run build
 
 ## 🗺️ Environment Configuration
 
-Refer to `.env.example` for required environment variables.
-- `.env.development`: API proxying is configured in `vite.config.ts`.
-- `.env.production`: Used for production builds.
+All variables are Vite client-side vars, so they **must** be prefixed with `VITE_` to be exposed to the app. Copy `.env.example` to the file matching your build mode and fill in the values.
+
+### Variables
+
+| Variable | Required | What it does | Used in |
+| --- | --- | --- | --- |
+| `VITE_API_URL` | ✅ | Base URL of the backend REST API. In development it's set to `/api` so Vite's dev-server proxy can forward requests to the backend (see `vite.config.ts`); in other modes it's the absolute API origin. Consumed by the single fetch wrapper `apiInstance`. | `src/shared/config/url.ts` |
+| `VITE_API_VERSION` | ✅ | API version path segment appended after `VITE_API_URL` (e.g. `/v0`). | `src/shared/config/url.ts` |
+| `VITE_MAP_URL` | ✅ | Tile-server URL for the Leaflet map layer. | `src/entities/facility/ui/map-view.tsx` |
+| `VITE_MINIO_URL` | ✅ | Base URL of the MinIO / S3 object store; used to build public URLs for uploaded images and files. | `src/shared/lib/storage-url-create.ts` |
+
+### Build modes & their env files
+
+Each build script loads one env file by Vite `--mode`:
+
+| File | Loaded by | Purpose |
+| --- | --- | --- |
+| `.env.development` | `npm run dev` | Local dev. `VITE_API_URL=/api` routes through the `vite.config.ts` proxy (currently targeting `https://api.tmsoft12.cloud`), avoiding CORS. |
+| `.env.staging` | `npm run build:dev` (`--mode staging`) | Staging build; points at the staging API host. |
+| `.env.production` | `npm run build:prod` (`--mode production`) | Production build; points at the production API host. |
+| `.env.inside` | `npm run build:inside` (`--mode inside`) | Internal / on-prem (LAN) build; all URLs point at private `192.168.x.x` hosts. |
+| `.env.example` | — | Template listing the required keys. Not loaded by any build; copy it to create the files above. |
+
+> **Note:** `.env.development`'s `VITE_API_URL` is a relative path (`/api`) on purpose — the dev proxy rewrites it. All other modes use absolute URLs. If you change the dev backend target, edit the `proxy` block in `vite.config.ts`.
 
 ---
 Development Team
